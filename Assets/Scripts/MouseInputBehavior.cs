@@ -22,20 +22,21 @@ public class MouseInputBehavior : MonoBehaviour
     private void OnEnable()
     {
         _input.Enable();
+        _input.Mouse.Mouseposition.performed += MousePositionChanged;
     }
 
     private void OnDisable()
     {
         _input.Disable();
+        _input.Mouse.Mouseposition.performed -= MousePositionChanged;
     }
 
     void Start()
     {
         _tilemap = FindObjectOfType<Tilemap>();
-        _input.Mouse.Mouseposition.performed += _ => MousePositionChanged();
     }
 
-    private void MousePositionChanged()
+    private void MousePositionChanged(InputAction.CallbackContext callbackContext)
     {
         Vector3Int mousePosition = GetMousePositionRelativeToTilemap();
         if (_tilemap.HasTile(mousePosition))
