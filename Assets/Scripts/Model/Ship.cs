@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -43,6 +44,11 @@ public class Ship : MonoBehaviour
     
     //kind of meta
     public int tier = 1;
+
+    public static Ship[] getAllShips()
+    {
+        return GameObject.Find("Ship Models").GetComponentsInChildren<Ship>();
+    }
 
 }
 
