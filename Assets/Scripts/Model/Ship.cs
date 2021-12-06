@@ -14,6 +14,7 @@ public class Ship : MonoBehaviour
     };
     
     public Vector3Int gridPosition = new Vector3Int(0,0,0);
+    public int rotation;
     public String displayName = _defaultNames[new System.Random().Next(_defaultNames.Length)];
     public Affiliation affiliation = Affiliation.Player;
     
