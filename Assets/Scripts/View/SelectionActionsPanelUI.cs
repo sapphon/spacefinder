@@ -11,6 +11,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
     private PhaseManager _phaseManager;
     private Slider _phaseFinishedSignal;
     private Text _phaseFinishedText;
+    private Color _cautionOrange;
 
     void Awake()
     {
@@ -20,6 +21,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
         this._phaseFinishedSignal = transform.Find("EndPhaseOKSlider").GetComponent<Slider>();
         this._phaseFinishedSignal.onValueChanged.AddListener(ToggleDone);
         this._phaseFinishedText = transform.Find("EndPhaseOKReadout").GetComponent<Text>();
+        this._cautionOrange = new Color(.886f,.435f,.02f);
     }
 
     void ToggleDone(float dontCare)
@@ -48,18 +50,20 @@ public class SelectionActionsPanelUI : MonoBehaviour
             _actionsText.text = _phaseManager.GetCurrentPhase().ToString() + " Actions";
             if (_phaseManager.isShipDone(selectedShip))
             {
-                Color cautionOrange = new Color(226,111,5);
                 _phaseFinishedText.text = "!!! DONE WITH PHASE !!!";
-                _phaseFinishedText.color = cautionOrange;
-                ColorBlock colorBlock = new ColorBlock();
-                colorBlock.normalColor = cautionOrange;
+                _phaseFinishedText.color = _cautionOrange;
+                ColorBlock colorBlock = ColorBlock.defaultColorBlock;
+                colorBlock.normalColor = _cautionOrange;
+                colorBlock.selectedColor = _cautionOrange;
                 _phaseFinishedSignal.colors = colorBlock;
+                _phaseFinishedSignal.SetValueWithoutNotify(1);
             }
             else
             {
                 _phaseFinishedText.text = "Done w/ Phase?";
                 _phaseFinishedText.color = new Color(50,50,50);
                 _phaseFinishedSignal.colors = ColorBlock.defaultColorBlock;
+                _phaseFinishedSignal.SetValueWithoutNotify(0);
             }
 
             GrowPanel();
