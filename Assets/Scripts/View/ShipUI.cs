@@ -7,13 +7,13 @@ public class ShipUI : MonoBehaviour
 {
 
     public Ship shipToTrack;
-    protected SpriteRenderer renderer;
+    protected SpriteRenderer spriteRenderer;
     protected Tilemap shipMap;
 
     void Awake()
     {
         this.shipMap = FindObjectOfType<Tilemap>();
-        this.renderer = GetComponent<SpriteRenderer>();
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -21,6 +21,6 @@ public class ShipUI : MonoBehaviour
         Transform transform = this.transform;
         transform.position = shipMap.CellToWorld(shipToTrack.gridPosition);
         transform.rotation = Quaternion.AngleAxis(shipToTrack.rotation, Vector3.forward);
-        renderer.color = shipToTrack.affiliation == Affiliation.Player ? Color.green : Color.red;
+        spriteRenderer.color = shipToTrack.affiliation == Affiliation.Player ? Color.green : Color.red;
     }
 }
