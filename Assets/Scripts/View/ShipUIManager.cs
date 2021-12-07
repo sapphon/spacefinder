@@ -44,7 +44,13 @@ public class ShipUIManager : MonoBehaviour
             return true;
         }
 
+        DeselectShip();
         return false;
+    }
+
+    protected void DeselectShip()
+    {
+        this.selectedShip = null;
     }
 
     protected void SelectShip(Ship ship)

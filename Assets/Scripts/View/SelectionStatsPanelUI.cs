@@ -20,7 +20,12 @@ public class SelectionStatsPanelUI : MonoBehaviour
         Ship selectedShip = _shipsUiManager.GetSelectedShip();
         if (selectedShip != null)
         {
+            GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 175f);
             _shipNameText.text = selectedShip.displayName;
+        }
+        else
+        {
+            GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
         }
     }
 }
