@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class SelectionActionsPanelUI : MonoBehaviour
 {
     private Text _actionsText;
-    private Button _firstActionButton;
     private ShipUIManager _shipsUiManager;
     private PhaseManager _phaseManager;
     private Slider _phaseFinishedSignal;
     private Text _phaseFinishedText;
     private Color _cautionOrange;
+    private Button[] _actionButtons;
+    private HelmPhaseController _helmPhaseController;
 
     void Awake()
     {
@@ -21,7 +22,25 @@ public class SelectionActionsPanelUI : MonoBehaviour
         this._phaseFinishedSignal = transform.Find("EndPhaseOKSlider").GetComponent<Slider>();
         this._phaseFinishedSignal.onValueChanged.AddListener(ToggleDone);
         this._phaseFinishedText = transform.Find("EndPhaseOKReadout").GetComponent<Text>();
-        this._cautionOrange = new Color(.886f,.435f,.02f);
+        this._cautionOrange = new Color(.886f, .435f, .02f);
+        this._helmPhaseController = FindObjectOfType<HelmPhaseController>();
+        initializeActionButtons();
+    }
+
+    private void initializeActionButtons()
+    {
+        _actionButtons = new Button[1];
+        List<string> possibleActions = _helmPhaseController.GetPossibleActionNamesForPhase();
+        for (int n = 0; n < possibleActions.Count; n++)
+        {
+            string actionName = possibleActions[n];
+            _actionButtons[n] = transform.Find("ActionButton" + (n + 1)).GetComponent<Button>();
+            _actionButtons[n].GetComponentInChildren<Text>().text = actionName;
+            _actionButtons[n].onClick.AddListener(() =>
+                {
+                    _helmPhaseController.ToggleShipAction(getSelectedShip(), actionName);
+                });
+        }
     }
 
     void ToggleDone(float dontCare)
@@ -60,8 +79,9 @@ public class SelectionActionsPanelUI : MonoBehaviour
             }
             else
             {
+                updateActionButtons(selectedShip);
                 _phaseFinishedText.text = "Done w/ Phase?";
-                _phaseFinishedText.color = new Color(50,50,50);
+                _phaseFinishedText.color = new Color(50, 50, 50);
                 _phaseFinishedSignal.colors = ColorBlock.defaultColorBlock;
                 _phaseFinishedSignal.SetValueWithoutNotify(0);
             }
@@ -74,12 +94,38 @@ public class SelectionActionsPanelUI : MonoBehaviour
         }
     }
 
+    private void updateActionButtons(Ship actor)
+    {
+        List<string> possibleActions = _helmPhaseController.GetPossibleActionNamesForPhase();
+        for (int n = 0; n < possibleActions.Count; n++)
+        {
+            colorButtonByActivity(actor, possibleActions[n], _actionButtons[n]);
+        }
+    }
+
+    private void colorButtonByActivity(Ship actor, string buttonActionName, Button button)
+    {
+        CrewAction shipAction = _helmPhaseController.getShipAction(actor);
+        ColorBlock block = ColorBlock.defaultColorBlock;
+
+        if (shipAction != null && shipAction.name.Equals(buttonActionName))
+        {
+            block.normalColor = Color.cyan;
+            block.highlightedColor = Color.cyan;
+            block.selectedColor = Color.cyan;
+        }
+
+        button.colors = block;
+    }
+
     private void GrowPanel()
     {
         GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 175f);
         _actionsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 160f);
-        _phaseFinishedSignal.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 45f);
-        _phaseFinishedSignal.gameObject.transform.Find("Handle Slide Area/Handle").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 20f);
+        _phaseFinishedSignal.GetComponent<RectTransform>()
+            .SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 45f);
+        _phaseFinishedSignal.gameObject.transform.Find("Handle Slide Area/Handle").GetComponent<RectTransform>()
+            .SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 20f);
     }
 
     protected void ShrinkPanel()
@@ -87,6 +133,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
         GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
         _actionsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
         _phaseFinishedSignal.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
-        _phaseFinishedSignal.gameObject.transform.Find("Handle Slide Area/Handle").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
+        _phaseFinishedSignal.gameObject.transform.Find("Handle Slide Area/Handle").GetComponent<RectTransform>()
+            .SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
     }
 }
