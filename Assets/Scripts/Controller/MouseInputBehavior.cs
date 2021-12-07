@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
@@ -63,10 +64,13 @@ public class MouseInputBehavior : MonoBehaviour
     
     private void MouseClicked(InputAction.CallbackContext callbackContext)
     {
-        Vector3Int tileCoordinates = GetMousePositionRelativeToTilemap();
-        if (_tilemap.HasTile(tileCoordinates))
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            _shipsUI.TrySelectShip(tileCoordinates);
+            Vector3Int tileCoordinates = GetMousePositionRelativeToTilemap();
+            if (_tilemap.HasTile(tileCoordinates))
+            {
+                _shipsUI.TrySelectShip(tileCoordinates);
+            }
         }
     }
 
