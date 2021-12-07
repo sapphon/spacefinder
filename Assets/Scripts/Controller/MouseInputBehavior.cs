@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -60,10 +61,15 @@ public class MouseInputBehavior : MonoBehaviour
     private void MouseClicked(InputAction.CallbackContext callbackContext)
     {
         Vector3Int tileCoordinates = GetMousePositionRelativeToTilemap();
-        if (_tilemap.HasTile(tileCoordinates))
+        if (_tilemap.HasTile(tileCoordinates) && IsShipPresentAt(tileCoordinates))
         {
             SelectTile(tileCoordinates);
         }
+    }
+
+    private bool IsShipPresentAt(Vector3Int tileCoordinates)
+    {
+        return FindObjectsOfType<Ship>().Any(ship => ship.gridPosition.Equals(tileCoordinates));
     }
 
     private void SelectTile(Vector3Int tileCoordinates)
