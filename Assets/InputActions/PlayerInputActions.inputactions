@@ -1,12 +1,12 @@
 {
-    "name": "Mouse",
+    "name": "PlayerInputActions",
     "maps": [
         {
             "name": "Mouse",
             "id": "c8eb1a29-2d86-414c-a686-42cafc6a5b92",
             "actions": [
                 {
-                    "name": "Mouse position",
+                    "name": "Mouse Position",
                     "type": "Value",
                     "id": "55bde72a-ad32-4e85-92ec-9b41cfcad71e",
                     "expectedControlType": "Vector2",
@@ -22,7 +22,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Mouse position",
+                    "action": "Mouse Position",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

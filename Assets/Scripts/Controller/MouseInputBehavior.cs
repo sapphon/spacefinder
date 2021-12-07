@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 
 public class MouseInputBehavior : MonoBehaviour
 {
-    private MouseInput _input;
+    private PlayerInput _input;
     private Tilemap _tilemap;
     public TileBase highlightedSpaceTile;
 
@@ -16,24 +16,28 @@ public class MouseInputBehavior : MonoBehaviour
 
     void Awake()
     {
-        _input = new MouseInput();
+        _input = GetComponent<PlayerInput>();
     }
 
     private void OnEnable()
     {
-        _input.Enable();
-        _input.Mouse.Mouseposition.performed += MousePositionChanged;
+        getMouseMoveAction().performed += MousePositionChanged;
+    }
+
+    private InputAction getMouseMoveAction()
+    {
+        return _input.actions["Mouse Position"];
     }
 
     private void OnDisable()
     {
-        _input.Disable();
-        _input.Mouse.Mouseposition.performed -= MousePositionChanged;
+        getMouseMoveAction().performed -= MousePositionChanged;
     }
 
     void Start()
     {
         _tilemap = FindObjectOfType<Tilemap>();
+        
     }
 
     private void MousePositionChanged(InputAction.CallbackContext callbackContext)
@@ -63,6 +67,6 @@ public class MouseInputBehavior : MonoBehaviour
 
     Vector3Int GetMousePositionRelativeToTilemap()
     {
-        return _tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(_input.Mouse.Mouseposition.ReadValue<Vector2>()));
+        return _tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(getMouseMoveAction().ReadValue<Vector2>()));
     }
 }

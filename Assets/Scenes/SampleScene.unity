@@ -55873,6 +55873,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1630927592}
   - component: {fileID: 1630927590}
+  - component: {fileID: 1630927591}
   m_Layer: 0
   m_Name: PlayerInput
   m_TagString: Untagged
@@ -55893,6 +55894,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightedSpaceTile: {fileID: 11400000, guid: 6743bf5fab4abe247bd9d3fa1c697246, type: 2}
+--- !u!114 &1630927591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630927589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 772875e10b0289b4c9a20acee5be2ff8, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 55bde72a-ad32-4e85-92ec-9b41cfcad71e
+    m_ActionName: Mouse/Mouse position[/Mouse/position]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Mouse
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!4 &1630927592
 Transform:
   m_ObjectHideFlags: 0
