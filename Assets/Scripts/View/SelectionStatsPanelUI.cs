@@ -12,7 +12,6 @@ public class SelectionStatsPanelUI : MonoBehaviour
     {
         this._shipsUiManager = FindObjectOfType<ShipUIManager>();
         this._shipNameText = transform.Find("ShipNameReadout").GetComponent<Text>();
-        //this.transform.Find("AdvancePhaseButton").GetComponent<Button>().onClick.AddListener(TryAdvancePhase);
     }
 
     void Update()
@@ -20,12 +19,24 @@ public class SelectionStatsPanelUI : MonoBehaviour
         Ship selectedShip = _shipsUiManager.GetSelectedShip();
         if (selectedShip != null)
         {
-            GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 175f);
             _shipNameText.text = selectedShip.displayName;
+            GrowPanel();
         }
         else
         {
-            GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
+            ShrinkPanel();
         }
+    }
+
+    private void GrowPanel()
+    {
+        GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 175f);
+        _shipNameText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 160f);
+    }
+
+    protected void ShrinkPanel()
+    {
+        GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
+        _shipNameText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
     }
 }
