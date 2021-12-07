@@ -10,14 +10,17 @@ public class MouseInputBehavior : MonoBehaviour
 {
     private PlayerInput _input;
     private Tilemap _tilemap;
+    private ShipUIManager _shipsUI;
     public TileBase highlightedSpaceTile;
 
     private TileBase _prevTile;
     private Vector3Int _prevPosition;
+   
 
     void Awake()
     {
         _input = GetComponent<PlayerInput>();
+        _shipsUI = FindObjectOfType<ShipUIManager>();
     }
 
     private void OnEnable()
@@ -61,21 +64,10 @@ public class MouseInputBehavior : MonoBehaviour
     private void MouseClicked(InputAction.CallbackContext callbackContext)
     {
         Vector3Int tileCoordinates = GetMousePositionRelativeToTilemap();
-        if (_tilemap.HasTile(tileCoordinates) && IsShipPresentAt(tileCoordinates))
+        if (_tilemap.HasTile(tileCoordinates))
         {
-            SelectTile(tileCoordinates);
+            _shipsUI.TrySelectShip(tileCoordinates);
         }
-    }
-
-    private bool IsShipPresentAt(Vector3Int tileCoordinates)
-    {
-        return FindObjectsOfType<Ship>().Any(ship => ship.gridPosition.Equals(tileCoordinates));
-    }
-
-    private void SelectTile(Vector3Int tileCoordinates)
-    {
-        Vector3 worldCenterOfCell = _tilemap.CellToWorld(tileCoordinates);
-        Camera.main.transform.position = new Vector3(worldCenterOfCell.x, worldCenterOfCell.y, Camera.main.transform.position.z);
     }
 
     private void setHighlight(Vector3Int mousePosition)
