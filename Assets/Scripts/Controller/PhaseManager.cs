@@ -33,8 +33,25 @@ public class PhaseManager : MonoBehaviour
 
     protected void EndPhase()
     {
-        this.currentPhase = (Phase)(((int)this.currentPhase + 1) % Enum.GetNames(typeof(Phase)).Length);
+        this.currentPhase = (Phase) (((int) this.currentPhase + 1) % Enum.GetNames(typeof(Phase)).Length);
+        this.shipsSignalingComplete.Clear();
     }
+
+    public void SignalComplete(Ship ship)
+    {
+        shipsSignalingComplete.Add(ship);
+    }
+
+    public void SignalStillWorking(Ship ship)
+    {
+        shipsSignalingComplete.Remove(ship);
+    }
+
+    public bool isShipDone(Ship ship)
+    {
+        return shipsSignalingComplete.Contains(ship);
+    }
+
 }
 
 public enum Phase
