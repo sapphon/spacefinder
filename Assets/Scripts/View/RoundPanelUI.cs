@@ -12,7 +12,6 @@ public class RoundPanelUI : MonoBehaviour
     {
         this._roundManager = FindObjectOfType<RoundManager>();
         this._readoutText = transform.Find("CurrentRoundReadout").GetComponent<Text>();
-        this.transform.Find("AdvanceRoundButton").GetComponent<Button>().onClick.AddListener(TryAdvanceRound);
     }
 
     void Update()
@@ -20,12 +19,4 @@ public class RoundPanelUI : MonoBehaviour
         _readoutText.text = _roundManager.GetCurrentRound().ToString();
     }
 
-    public void TryAdvanceRound()
-    {
-        bool roundAdvanced = _roundManager.TryAdvanceRound();
-        if (!roundAdvanced)
-        {
-            Debug.Log("Round not advanced; not all ships ready");
-        }
-    }
 }

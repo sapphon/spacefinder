@@ -22,10 +22,9 @@ public class PhaseManager : MonoBehaviour
         }
 
         return mayAdvance;
-
     }
 
-    protected bool CanPhaseEnd()
+    public bool CanPhaseEnd()
     {
         Ship[] allShips = Ship.getAllShips();
         return allShips.Length == shipsSignalingComplete.Count && new HashSet<Ship>(allShips).SetEquals(allShips);
@@ -33,7 +32,15 @@ public class PhaseManager : MonoBehaviour
 
     protected void EndPhase()
     {
-        this.currentPhase = (Phase) (((int) this.currentPhase + 1) % Enum.GetNames(typeof(Phase)).Length);
+        if (FindObjectOfType<RoundManager>().TryAdvanceRound(this))
+        {
+            this.currentPhase = 0;
+        }
+        else
+        {
+            this.currentPhase++;
+        }
+
         this.shipsSignalingComplete.Clear();
     }
 
@@ -52,9 +59,15 @@ public class PhaseManager : MonoBehaviour
         return shipsSignalingComplete.Contains(ship);
     }
 
+    public bool IsLastPhase()
+    {
+        return Convert.ToInt32(this.currentPhase).Equals(Enum.GetValues(typeof(Phase)).Length - 1);
+    }
 }
 
 public enum Phase
 {
-    Engineering=0, Helm=1, Gunnery=2
+    Engineering = 0,
+    Helm = 1,
+    Gunnery = 2
 }

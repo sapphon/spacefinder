@@ -7,22 +7,15 @@ using UnityEngine;
 public class RoundManager : MonoBehaviour
 {
     protected int currentRound = 1;
-    protected List<Ship> shipsSignalingComplete = new List<Ship>();
-
-    protected bool CanRoundEnd()
-    {
-        Ship[] allShips = Ship.getAllShips();
-        return allShips.Length == shipsSignalingComplete.Count && new HashSet<Ship>(allShips).SetEquals(allShips);
-    }
 
     public int GetCurrentRound()
     {
         return currentRound;
     }
 
-    public bool TryAdvanceRound()
+    public bool TryAdvanceRound(PhaseManager phaseManager)
     {
-        bool mayAdvance = CanRoundEnd();
+        bool mayAdvance = phaseManager.CanPhaseEnd() && phaseManager.IsLastPhase();
         if (mayAdvance)
         {
             EndRound();
