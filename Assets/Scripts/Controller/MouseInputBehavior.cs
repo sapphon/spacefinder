@@ -22,16 +22,23 @@ public class MouseInputBehavior : MonoBehaviour
     private void OnEnable()
     {
         getMouseMoveAction().performed += MousePositionChanged;
+        getMouseClickAction().performed += MouseClicked;
     }
 
     private InputAction getMouseMoveAction()
     {
         return _input.actions["Mouse Position"];
     }
+    
+    private InputAction getMouseClickAction()
+    {
+        return _input.actions["Mouse Click"];
+    }
 
     private void OnDisable()
     {
         getMouseMoveAction().performed -= MousePositionChanged;
+        getMouseClickAction().performed -= MouseClicked;
     }
 
     void Start()
@@ -48,6 +55,21 @@ public class MouseInputBehavior : MonoBehaviour
             undoPreviousHighlight();
             setHighlight(mousePosition);
         }
+    }
+    
+    private void MouseClicked(InputAction.CallbackContext callbackContext)
+    {
+        Vector3Int tileCoordinates = GetMousePositionRelativeToTilemap();
+        if (_tilemap.HasTile(tileCoordinates))
+        {
+            SelectTile(tileCoordinates);
+        }
+    }
+
+    private void SelectTile(Vector3Int tileCoordinates)
+    {
+        Vector3 worldCenterOfCell = _tilemap.CellToWorld(tileCoordinates);
+        Camera.main.transform.position = new Vector3(worldCenterOfCell.x, worldCenterOfCell.y, Camera.main.transform.position.z);
     }
 
     private void setHighlight(Vector3Int mousePosition)
