@@ -55845,7 +55845,7 @@ MonoBehaviour:
   displayName: "Alg\xE9siras"
   affiliation: 0
   speed: 6
-  maneuverability: 1
+  maneuverability: 0
   armorClass: 12
   targetLock: 12
   hitPoints: 100
@@ -55876,7 +55876,7 @@ MonoBehaviour:
   displayName: "Intr\xE9pide"
   affiliation: 1
   speed: 6
-  maneuverability: 1
+  maneuverability: 3
   armorClass: 12
   targetLock: 12
   hitPoints: 100

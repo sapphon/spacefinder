@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Model;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,7 +21,7 @@ public class HelmPhaseController : MonoBehaviour
         _turnsSoFar = new List<Vector3Int>();
         _destinationsSoFar = new List<Vector3Int>();
     }
-    
+
 
     public bool IsShipCurrentlyActing(Ship ship)
     {
@@ -69,11 +70,10 @@ public class HelmPhaseController : MonoBehaviour
     {
         if (MayTurn(ship))
         {
-
-        this._turnsSoFar.Add(ship.gridPosition);
-        ship.TurnToPort();
-        return true;
-    }
+            this._turnsSoFar.Add(ship.gridPosition);
+            ship.TurnToPort();
+            return true;
+        }
 
         return false;
     }
@@ -98,19 +98,29 @@ public class HelmPhaseController : MonoBehaviour
 
     public bool MayTurn(Ship shipToTrack)
     {
-        return this._turnsSoFar.Count == 0 || !this._turnsSoFar[this._turnsSoFar.Count - 1].Equals(shipToTrack.gridPosition);
+        Maneuverability maneuverability = shipToTrack.maneuverability;
+        if (maneuverability == Maneuverability.Perfect)
+        {
+            return _turnsSoFar.Count < 2 ||
+                   _turnsSoFar[_turnsSoFar.Count - 2] != shipToTrack.gridPosition ||
+                   _turnsSoFar[_turnsSoFar.Count - 1] != shipToTrack.gridPosition;
+        }
+        else
+        {
+            return
+                   _destinationsSoFar.Count >= (int)maneuverability * (this._turnsSoFar.Count + 1);
+        }
     }
 }
 
 public class CrewAction
 {
-    public string name {  get; }
-    public Phase phase {  get; }
+    public string name { get; }
+    public Phase phase { get; }
 
     public CrewAction(string name, Phase phase = Phase.Helm)
     {
         this.name = name;
         this.phase = phase;
     }
-
 }

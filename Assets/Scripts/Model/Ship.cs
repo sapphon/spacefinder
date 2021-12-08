@@ -20,7 +20,7 @@ public class Ship : MonoBehaviour
     
     //maneuvering
     public int speed = 6;
-    public ManeuverabilityClass maneuverability = ManeuverabilityClass.Good;
+    public Maneuverability maneuverability = Maneuverability.Good;
     
 
     //defenses
@@ -96,7 +96,7 @@ public enum Affiliation
     Player,Gm
 }
 
-public enum ManeuverabilityClass
+public enum Maneuverability
 {
     Perfect=0, Good=1, Average=2, Poor=3, Clumsy=4
 }
