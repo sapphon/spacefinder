@@ -46,7 +46,7 @@ public class KeyboardInputBehavior : MonoBehaviour
     {
         if (ShouldMovementControlsEnable())
         {
-            _shipsUI.GetSelectedShip().TurnToStarboard();
+            _helmPhaseController.TryStarboardTurn(_shipsUI.GetSelectedShip());
         }
     }
 
@@ -54,7 +54,7 @@ public class KeyboardInputBehavior : MonoBehaviour
     {
         if (ShouldMovementControlsEnable())
         {
-            _shipsUI.GetSelectedShip().TurnToPort();
+            _helmPhaseController.TryPortTurn(_shipsUI.GetSelectedShip());
         }
     }
 
@@ -62,7 +62,7 @@ public class KeyboardInputBehavior : MonoBehaviour
     {
         if (ShouldMovementControlsEnable())
         {
-            _shipsUI.GetSelectedShip().Advance();
+            _helmPhaseController.TryAdvance(_shipsUI.GetSelectedShip());
         }
     }
 
