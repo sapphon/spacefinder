@@ -14,7 +14,7 @@ public class Ship : MonoBehaviour
     };
     
     public Vector3Int gridPosition = new Vector3Int(0,0,0);
-    public int rotation;
+    public Facing facing = Facing.N;
     public String displayName = _defaultNames[new System.Random().Next(_defaultNames.Length)];
     public Affiliation affiliation = Affiliation.Player;
     
@@ -51,6 +51,44 @@ public class Ship : MonoBehaviour
         return GameObject.Find("Ship Models").GetComponentsInChildren<Ship>();
     }
 
+    public void TurnToStarboard()
+    {
+
+        facing = (Facing) (((int) facing + 300) % 360);
+    }
+    
+    public void TurnToPort()
+    {
+        facing = (Facing) (((int) facing + 60) % 360);
+    }
+
+    public void Advance()
+    {
+        if (facing == Facing.N)
+        {
+            gridPosition = new Vector3Int(gridPosition.x + 1, gridPosition.y, gridPosition.z);
+        }
+        else if (facing == Facing.NW)
+        {
+            gridPosition = new Vector3Int(gridPosition.x + (gridPosition.y % 2 == 0 ? 0 : 1), gridPosition.y - 1, gridPosition.z);
+        }
+        else if (facing == Facing.SW)
+        {
+            gridPosition = new Vector3Int(gridPosition.x - (gridPosition.y % 2 == 0 ? 1 : 0), gridPosition.y - 1, gridPosition.z);
+        }
+        else if (facing == Facing.S)
+        {
+            gridPosition = new Vector3Int(gridPosition.x - 1, gridPosition.y, gridPosition.z);
+        }
+        else if (facing == Facing.SE)
+        {
+            gridPosition = new Vector3Int(gridPosition.x - (gridPosition.y % 2 == 0 ? 1 : 0), gridPosition.y + 1, gridPosition.z);
+        }
+        else if (facing == Facing.NE)
+        {
+            gridPosition = new Vector3Int(gridPosition.x + (gridPosition.y % 2 == 0 ? 0 : 1), gridPosition.y + 1, gridPosition.z);
+        }
+    }
 }
 
 public enum Affiliation
@@ -61,4 +99,9 @@ public enum Affiliation
 public enum ManeuverabilityClass
 {
     Perfect=0, Good=1, Average=2, Poor=3, Clumsy=4
+}
+
+public enum Facing
+{
+    N=0,NE=300,SE=240,S=180,SW=120,NW=60
 }

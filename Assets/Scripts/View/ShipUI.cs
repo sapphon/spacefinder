@@ -20,7 +20,7 @@ public class ShipUI : MonoBehaviour
     {
         Transform transform = this.transform;
         transform.position = shipMap.CellToWorld(shipToTrack.gridPosition);
-        transform.rotation = Quaternion.AngleAxis(shipToTrack.rotation, Vector3.forward);
+        transform.rotation = Quaternion.AngleAxis((int)shipToTrack.facing, Vector3.forward);
         spriteRenderer.color = shipToTrack.affiliation == Affiliation.Player ? Color.green : Color.red;
     }
 }

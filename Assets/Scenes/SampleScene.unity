@@ -55841,7 +55841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 1, y: 5, z: 0}
-  rotation: 0
+  facing: 0
   displayName: "Alg\xE9siras"
   affiliation: 0
   speed: 6
@@ -55872,7 +55872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 5, y: 5, z: 0}
-  rotation: 180
+  facing: 0
   displayName: "Intr\xE9pide"
   affiliation: 1
   speed: 6
@@ -56072,10 +56072,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 2560, y: 1440}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -56419,6 +56419,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1630927592}
   - component: {fileID: 1630927590}
+  - component: {fileID: 1630927593}
   - component: {fileID: 1630927591}
   m_Layer: 0
   m_Name: PlayerInput
@@ -56473,6 +56474,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c66051e2-4a34-486f-a1eb-3d8fbdbeb2fb
     m_ActionName: Mouse/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6ce9644d-eccb-469f-a6b3-ba1a30d94d23
+    m_ActionName: Mouse/Advance[/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dd37202e-2c51-4ec3-8a04-8c649302af4a
+    m_ActionName: Mouse/Port Turn[/Keyboard/leftArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3c695bf8-f345-4678-a772-08138ff517db
+    m_ActionName: Mouse/Starboard turn[/Keyboard/rightArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Mouse
@@ -56492,6 +56505,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1630927593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630927589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e807cd45bbabc3347b3f1631996eac42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1776869013
 GameObject:
   m_ObjectHideFlags: 0

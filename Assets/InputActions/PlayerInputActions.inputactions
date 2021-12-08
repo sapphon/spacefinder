@@ -20,6 +20,30 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Advance",
+                    "type": "Button",
+                    "id": "6ce9644d-eccb-469f-a6b3-ba1a30d94d23",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Port Turn",
+                    "type": "Button",
+                    "id": "dd37202e-2c51-4ec3-8a04-8c649302af4a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Starboard turn",
+                    "type": "Button",
+                    "id": "3c695bf8-f345-4678-a772-08138ff517db",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -42,6 +66,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Mouse Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "50462a92-2441-48a8-8621-f5559b56a8e9",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Advance",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7263507-5776-455a-bace-11171c67eb0f",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Port Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f1afbae-1911-469e-a374-dce04cb3842e",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Starboard turn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
