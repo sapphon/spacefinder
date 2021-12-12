@@ -48,7 +48,8 @@ public class MouseInputBehavior : MonoBehaviour
 
     void Start()
     {
-        _tilemap = FindObjectOfType<Tilemap>();
+        this._tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+
         
     }
 

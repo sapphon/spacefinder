@@ -28,6 +28,7 @@ public class KeyboardInputBehavior : MonoBehaviour
         getStarboardTurnAction().performed += TryStarboardTurn;
         getToggleArcsAction().performed += ToggleArcs;
         getResetActionAction().performed += ResetAction;
+        getToggleBandsAction().performed += ToggleRangeBands;
 
     }
 
@@ -73,6 +74,11 @@ public class KeyboardInputBehavior : MonoBehaviour
     {
         _shipsUI.SetShowingArcs(!_shipsUI.GetShowingArcs());
     }
+    
+    private void ToggleRangeBands(InputAction.CallbackContext obj)
+    {
+        _shipsUI.SetShowingRange(_shipsUI.GetShowingRange() > 0 ? 0 : 5);
+    }
 
     private void ResetAction(InputAction.CallbackContext obj)
     {
@@ -101,6 +107,11 @@ public class KeyboardInputBehavior : MonoBehaviour
     private InputAction getToggleArcsAction()
     {
         return _input.actions["Toggle Firing Arcs"];
+    }
+    
+    private InputAction getToggleBandsAction()
+    {
+        return _input.actions["Toggle Range Bands"];
     }
     
     private InputAction getResetActionAction()

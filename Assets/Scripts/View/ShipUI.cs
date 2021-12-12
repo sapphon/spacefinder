@@ -19,7 +19,7 @@ public class ShipUI : MonoBehaviour
 
     void Awake()
     {
-        this.shipMap = FindObjectOfType<Tilemap>();
+        this.shipMap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.maneuverUI = this.transform.Find("ManeuverUI").gameObject;
         this.advanceIndicator = this.transform.Find("ManeuverUI").transform.Find("AdvanceIndicator").GetComponent<SpriteRenderer>();
@@ -57,7 +57,7 @@ public class ShipUI : MonoBehaviour
 
     private void FiringArcs()
     {
-        if (isSelected() && shipUiManager.ShowFiringArcs())
+        if (isSelected() && shipUiManager.GetShowingArcs())
         {
             this._firingArcUI.SetActive(true);
         }

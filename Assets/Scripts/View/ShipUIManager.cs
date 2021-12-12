@@ -8,15 +8,18 @@ using UnityEngine.Tilemaps;
 public class ShipUIManager : MonoBehaviour
 {
     public GameObject shipUIPrefab;
-    protected Tilemap tilemap;
+    protected Tilemap shipMap;
     protected Ship selectedShip;
     protected bool showingArcs;
+    private int showingRange;
 
     void Awake()
     {
-        this.tilemap = FindObjectOfType<Tilemap>();
+        this.shipMap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+
         this.selectedShip = null;
         this.showingArcs = false;
+        this.showingRange = 0;
     }
 
     void Start()
@@ -58,7 +61,7 @@ public class ShipUIManager : MonoBehaviour
     protected void SelectShip(Ship ship)
     {
         
-            Vector3 worldCenterOfCell = tilemap.CellToWorld(ship.gridPosition);
+            Vector3 worldCenterOfCell = shipMap.CellToWorld(ship.gridPosition);
             Camera.main.transform.position = new Vector3(worldCenterOfCell.x, worldCenterOfCell.y, Camera.main.transform.position.z);
             this.selectedShip = ship;
     }
@@ -73,7 +76,7 @@ public class ShipUIManager : MonoBehaviour
         return this.selectedShip;
     }
 
-    public bool ShowFiringArcs()
+    public bool GetShowingArcs()
     {
         return this.showingArcs;
     }
@@ -82,9 +85,14 @@ public class ShipUIManager : MonoBehaviour
     {
         this.showingArcs = toSet;
     }
-
-    public bool GetShowingArcs()
+    
+    public int GetShowingRange()
     {
-        return this.showingArcs;
+        return this.showingRange;
+    }
+
+    public void SetShowingRange(int toSet)
+    {
+        this.showingRange = toSet;
     }
 }
