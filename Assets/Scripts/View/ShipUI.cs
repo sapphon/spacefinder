@@ -15,6 +15,7 @@ public class ShipUI : MonoBehaviour
     protected GameObject maneuverUI;
     private SpriteRenderer starboardTurnIndicator;
     private SpriteRenderer portTurnIndicator;
+    private GameObject _firingArcUI;
 
     void Awake()
     {
@@ -26,6 +27,7 @@ public class ShipUI : MonoBehaviour
         this.portTurnIndicator = this.transform.Find("ManeuverUI").transform.Find("PortTurnIndicator").GetComponent<SpriteRenderer>();
         this.shipUiManager = FindObjectOfType<ShipUIManager>();
         this.helmPhaseController = FindObjectOfType<HelmPhaseController>();
+        this._firingArcUI = this.transform.Find("FiringArcUI").gameObject;
     }
 
     void Update()
@@ -35,6 +37,7 @@ public class ShipUI : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis((int)shipToTrack.facing, Vector3.forward);
         spriteRenderer.color = shipToTrack.affiliation == Affiliation.Player ? Color.green : Color.red;
         EnableManeuverUIIfManeuvering();
+        FiringArcs();
     }
 
     private void EnableManeuverUIIfManeuvering()
@@ -52,6 +55,18 @@ public class ShipUI : MonoBehaviour
         }
     }
 
+    private void FiringArcs()
+    {
+        if (isSelected() && shipUiManager.ShowFiringArcs())
+        {
+            this._firingArcUI.SetActive(true);
+        }
+        else
+        {
+            this._firingArcUI.SetActive(false);
+        }
+    }
+
     private void SetAdvanceUIColor()
     {
         this.advanceIndicator.color = helmPhaseController.MayAdvance(shipToTrack) ? Color.green : Color.red;
@@ -63,5 +78,10 @@ public class ShipUI : MonoBehaviour
         this.portTurnIndicator.color = turnColor;
         this.starboardTurnIndicator.color = turnColor;
     }
-    
+
+    private bool isSelected()
+    {
+        return shipUiManager.GetSelectedShip() == this.shipToTrack;
+    }
+
 }

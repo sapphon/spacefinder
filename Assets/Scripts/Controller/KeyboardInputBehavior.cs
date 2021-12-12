@@ -26,6 +26,8 @@ public class KeyboardInputBehavior : MonoBehaviour
         getAdvanceAction().performed += TryAdvance;
         getPortTurnAction().performed += TryPortTurn;
         getStarboardTurnAction().performed += TryStarboardTurn;
+        getToggleArcsAction().performed += ToggleArcs;
+
     }
 
     private bool ShouldMovementControlsEnable()
@@ -66,6 +68,11 @@ public class KeyboardInputBehavior : MonoBehaviour
         }
     }
 
+    private void ToggleArcs(InputAction.CallbackContext obj)
+    {
+        _shipsUI.SetShowingArcs(!_shipsUI.GetShowingArcs());
+    }
+
     private InputAction getAdvanceAction()
     {
         return _input.actions["Advance"];
@@ -79,6 +86,11 @@ public class KeyboardInputBehavior : MonoBehaviour
     private InputAction getStarboardTurnAction()
     {
         return _input.actions["Starboard Turn"];
+    }
+    
+    private InputAction getToggleArcsAction()
+    {
+        return _input.actions["Toggle Firing Arcs"];
     }
 
     private void OnDisable()

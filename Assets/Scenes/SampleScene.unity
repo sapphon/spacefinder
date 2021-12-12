@@ -55322,7 +55322,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 11
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -55807,6 +55807,9 @@ GameObject:
   - component: {fileID: 828615845}
   - component: {fileID: 828615846}
   - component: {fileID: 828615847}
+  - component: {fileID: 828615850}
+  - component: {fileID: 828615849}
+  - component: {fileID: 828615848}
   m_Layer: 0
   m_Name: Ship Models
   m_TagString: Untagged
@@ -55871,12 +55874,105 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 5, y: 5, z: 0}
+  gridPosition: {x: 7, y: 5, z: 0}
   facing: 0
-  displayName: "Intr\xE9pide"
+  displayName: Drone
   affiliation: 1
   speed: 6
   maneuverability: 3
+  armorClass: 12
+  targetLock: 12
+  hitPoints: 100
+  damageThreshold: 0
+  shieldCapacity: 60
+  shieldForeCurrent: 15
+  shieldAftCurrent: 15
+  shieldPortCurrent: 15
+  shieldStarboardCurrent: 15
+  powerCoreCapacity: 130
+  computerBonusMagnitude: 3
+  computerNodeCount: 2
+  tier: 1
+--- !u!114 &828615848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828615844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: -10, y: 5, z: 0}
+  facing: 0
+  displayName: Voidrunner
+  affiliation: 1
+  speed: 12
+  maneuverability: 0
+  armorClass: 12
+  targetLock: 12
+  hitPoints: 100
+  damageThreshold: 0
+  shieldCapacity: 60
+  shieldForeCurrent: 15
+  shieldAftCurrent: 15
+  shieldPortCurrent: 15
+  shieldStarboardCurrent: 15
+  powerCoreCapacity: 130
+  computerBonusMagnitude: 3
+  computerNodeCount: 2
+  tier: 1
+--- !u!114 &828615849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828615844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: 1, y: 0, z: 0}
+  facing: 240
+  displayName: Wanderer2
+  affiliation: 1
+  speed: 6
+  maneuverability: 0
+  armorClass: 12
+  targetLock: 12
+  hitPoints: 100
+  damageThreshold: 0
+  shieldCapacity: 60
+  shieldForeCurrent: 15
+  shieldAftCurrent: 15
+  shieldPortCurrent: 15
+  shieldStarboardCurrent: 15
+  powerCoreCapacity: 130
+  computerBonusMagnitude: 3
+  computerNodeCount: 2
+  tier: 1
+--- !u!114 &828615850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828615844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: 1, y: 10, z: 0}
+  facing: 120
+  displayName: Wanderer1
+  affiliation: 1
+  speed: 6
+  maneuverability: 0
   armorClass: 12
   targetLock: 12
   hitPoints: 100
@@ -56486,6 +56582,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 3c695bf8-f345-4678-a772-08138ff517db
     m_ActionName: Mouse/Starboard turn[/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 274e22e8-6bc2-41b1-9f69-efa0f1fb88bd
+    m_ActionName: Mouse/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Mouse

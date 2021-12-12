@@ -10,11 +10,13 @@ public class ShipUIManager : MonoBehaviour
     public GameObject shipUIPrefab;
     protected Tilemap tilemap;
     protected Ship selectedShip;
+    protected bool showingArcs;
 
     void Awake()
     {
         this.tilemap = FindObjectOfType<Tilemap>();
         this.selectedShip = null;
+        this.showingArcs = false;
     }
 
     void Start()
@@ -69,5 +71,20 @@ public class ShipUIManager : MonoBehaviour
     public Ship GetSelectedShip()
     {
         return this.selectedShip;
+    }
+
+    public bool ShowFiringArcs()
+    {
+        return this.showingArcs;
+    }
+
+    public void SetShowingArcs(bool toSet)
+    {
+        this.showingArcs = toSet;
+    }
+
+    public bool GetShowingArcs()
+    {
+        return this.showingArcs;
     }
 }
