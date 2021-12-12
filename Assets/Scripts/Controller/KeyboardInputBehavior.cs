@@ -27,6 +27,7 @@ public class KeyboardInputBehavior : MonoBehaviour
         getPortTurnAction().performed += TryPortTurn;
         getStarboardTurnAction().performed += TryStarboardTurn;
         getToggleArcsAction().performed += ToggleArcs;
+        getResetActionAction().performed += ResetAction;
 
     }
 
@@ -73,6 +74,15 @@ public class KeyboardInputBehavior : MonoBehaviour
         _shipsUI.SetShowingArcs(!_shipsUI.GetShowingArcs());
     }
 
+    private void ResetAction(InputAction.CallbackContext obj)
+    {
+        if (_shipsUI.GetSelectedShip() != null &&
+            _helmPhaseController.IsShipCurrentlyActing(_shipsUI.GetSelectedShip()))
+        {
+            _helmPhaseController.ResetAction(_shipsUI.GetSelectedShip());
+        }
+    }
+
     private InputAction getAdvanceAction()
     {
         return _input.actions["Advance"];
@@ -92,11 +102,18 @@ public class KeyboardInputBehavior : MonoBehaviour
     {
         return _input.actions["Toggle Firing Arcs"];
     }
+    
+    private InputAction getResetActionAction()
+    {
+        return _input.actions["Reset Action"];
+    }
 
     private void OnDisable()
     {
         getAdvanceAction().performed -= TryAdvance;
         getPortTurnAction().performed -= TryPortTurn;
         getStarboardTurnAction().performed -= TryStarboardTurn;
+        getToggleArcsAction().performed -= ToggleArcs;
+        getResetActionAction().performed -= ResetAction;
     }
 }

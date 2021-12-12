@@ -90,6 +90,15 @@ public class HelmPhaseController : MonoBehaviour
         return false;
     }
 
+    public void ResetAction(Ship ship)
+    {
+        actionsThisPhase.Remove(ship);
+        _turnsSoFar.Clear();
+        _destinationsSoFar.Clear();
+        ship.gridPosition = _initialPosition;
+        ship.facing = _initialFacing;
+    }
+
     public bool MayAdvance(Ship ship)
     {
         return this._destinationsSoFar.Count < ship.speed;
