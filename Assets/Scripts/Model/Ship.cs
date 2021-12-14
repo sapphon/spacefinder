@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using Random = UnityEngine.Random;
 
 public class Ship : MonoBehaviour
@@ -58,6 +59,37 @@ public class Ship : MonoBehaviour
     public SystemCondition foreWeapons = 0;
     public SystemCondition aftWeapons = 0;
 
+    [Header("Weapon1")] 
+    public string weapon1Name;
+    public WeaponFiringArc weapon1Arc;
+    public Die weapon1DamageDieType;
+    public int weapon1DamageDieCount;
+    public Range weapon1Range;
+    public int weapon1Speed;
+    
+    [Header("Weapon2")] 
+    public string weapon2Name;
+    public WeaponFiringArc weapon2Arc;
+    public Die weapon2DamageDieType;
+    public int weapon2DamageDieCount;
+    public Range weapon2Range;
+    public int weapon2Speed;
+    
+    [Header("Weapon3")] 
+    public string weapon3Name;
+    public WeaponFiringArc weapon3Arc;
+    public Die weapon3DamageDieType;
+    public int weapon3DamageDieCount;
+    public Range weapon3Range;
+    public int weapon3Speed;
+    
+    [Header("Weapon4")] 
+    public string weapon4Name;
+    public WeaponFiringArc weapon4Arc;
+    public Die weapon4DamageDieType;
+    public int weapon4DamageDieCount;
+    public Range weapon4Range;
+    public int weapon4Speed;
 
     public static Ship[] getAllShips()
     {
@@ -119,7 +151,22 @@ public enum Facing
     N=0,NE=300,SE=240,S=180,SW=120,NW=60
 }
 
+public enum Range
+{
+    Short=5, Medium=10, Long=20
+}
+
 public enum SystemCondition
 {
     Perfect=0,Glitching=1,Malfunctioning=2,Wrecked=3
+}
+
+public enum Die
+{
+    D2=2,D3=3,D4=4,D6=6,D8=8,D10=10,D12=12,D20=20,D100=100
+}
+
+public enum WeaponFiringArc
+{
+    Fore,Aft,Starboard,Port,Turret
 }
