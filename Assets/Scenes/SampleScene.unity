@@ -55862,6 +55862,14 @@ MonoBehaviour:
   computerBonusMagnitude: 3
   computerNodeCount: 2
   tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
 --- !u!114 &828615847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55893,6 +55901,14 @@ MonoBehaviour:
   computerBonusMagnitude: 3
   computerNodeCount: 2
   tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
 --- !u!114 &828615848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55924,6 +55940,14 @@ MonoBehaviour:
   computerBonusMagnitude: 3
   computerNodeCount: 2
   tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
 --- !u!114 &828615849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55955,6 +55979,14 @@ MonoBehaviour:
   computerBonusMagnitude: 3
   computerNodeCount: 2
   tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
 --- !u!114 &828615850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55986,6 +56018,14 @@ MonoBehaviour:
   computerBonusMagnitude: 3
   computerNodeCount: 2
   tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
 --- !u!1 &835481841
 GameObject:
   m_ObjectHideFlags: 0

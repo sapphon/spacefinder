@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Ship : MonoBehaviour
 {
+
     private static string[] _defaultNames =
     {
         "Scipion", "Formidable", "Duguay Trouin", "Mont Blanc", "Héros", "Bucentaure", "Neptune", "Redoubtable", "Indomptable", "Fougueux", "Intrépide", "Pluton", "Aigle", "Algésiras", "Swiftsure" 
@@ -45,6 +46,18 @@ public class Ship : MonoBehaviour
     
     //kind of meta
     public int tier = 1;
+    
+    //system status
+    [Header("System Statuses")]
+    public SystemCondition lifeSupport =  0;
+    public SystemCondition sensors = 0; 
+    public SystemCondition engines = 0;
+    public SystemCondition powerCore = 0;
+    public SystemCondition portWeapons = 0; 
+    public SystemCondition starboardWeapons = 0;
+    public SystemCondition foreWeapons = 0;
+    public SystemCondition aftWeapons = 0;
+
 
     public static Ship[] getAllShips()
     {
@@ -104,4 +117,9 @@ public enum Maneuverability
 public enum Facing
 {
     N=0,NE=300,SE=240,S=180,SW=120,NW=60
+}
+
+public enum SystemCondition
+{
+    Perfect=0,Glitching=1,Malfunctioning=2,Wrecked=3
 }

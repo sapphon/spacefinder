@@ -10,14 +10,12 @@ public class RangeBandUI : MonoBehaviour
     private ShipUIManager _shipsUI;
     private Tilemap _overlayMap;
 
-    // Start is called before the first frame update
     void Awake()
     {
         _shipsUI = FindObjectOfType<ShipUIManager>();
         _overlayMap = GetComponent<Tilemap>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_shipsUI.GetSelectedShip() != null && _shipsUI.GetShowingRange() > 0)
@@ -32,11 +30,10 @@ public class RangeBandUI : MonoBehaviour
                 {
                     Vector3Int currentTilePosition = new Vector3Int(i, j, 0);
                     if(!_overlayMap.HasTile(currentTilePosition)) Debug.Log("tile coordinate error");
-                    Debug.Log("Distance " + getDistance(shipPosition, currentTilePosition));
                     _overlayMap.SetColor(currentTilePosition, getColorForDistance(getDistance(shipPosition, currentTilePosition)));
-                    Debug.Log("Set color to " + getColorForDistance(getDistance(shipPosition, currentTilePosition)));
                 }
             }
+            Debug.Log(_overlayMap.color);    //255,255,255,51 as expected.  When does it go full alpha?
         }
         else
         {
