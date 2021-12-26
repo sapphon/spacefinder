@@ -59,7 +59,7 @@ public class ShipUI : MonoBehaviour
         {
             this.maneuverUI.SetActive(false);
         }
-    }
+    } 
 
     private void SetMovesUntilTurn()
     {

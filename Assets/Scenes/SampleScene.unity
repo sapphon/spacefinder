@@ -289,6 +289,288 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipUIPrefab: {fileID: 6106779997511757525, guid: 6f9a4b3b122bc6c42b884339dbbda823, type: 3}
+--- !u!1 &84911729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 84911730}
+  - component: {fileID: 84911731}
+  m_Layer: 0
+  m_Name: ShipModel (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &84911730
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84911729}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 828615845}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &84911731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84911729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: 1, y: 10, z: 0}
+  facing: 120
+  displayName: Wanderer1
+  affiliation: 1
+  speed: 6
+  maneuverability: 0
+  armorClass: 12
+  targetLock: 12
+  hitPoints: 100
+  damageThreshold: 0
+  shieldCapacity: 60
+  shieldForeCurrent: 15
+  shieldAftCurrent: 15
+  shieldPortCurrent: 15
+  shieldStarboardCurrent: 15
+  powerCoreCapacity: 130
+  computerBonusMagnitude: 3
+  computerNodeCount: 2
+  tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
+  weapon1Name: 
+  weapon1Arc: 0
+  weapon1DamageDieType: 0
+  weapon1DamageDieCount: 0
+  weapon1Range: 0
+  weapon1Speed: 0
+  weapon2Name: 
+  weapon2Arc: 0
+  weapon2DamageDieType: 0
+  weapon2DamageDieCount: 0
+  weapon2Range: 0
+  weapon2Speed: 0
+  weapon3Name: 
+  weapon3Arc: 0
+  weapon3DamageDieType: 0
+  weapon3DamageDieCount: 0
+  weapon3Range: 0
+  weapon3Speed: 0
+  weapon4Name: 
+  weapon4Arc: 0
+  weapon4DamageDieType: 0
+  weapon4DamageDieCount: 0
+  weapon4Range: 0
+  weapon4Speed: 0
+--- !u!1 &150275693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 150275694}
+  - component: {fileID: 150275695}
+  m_Layer: 0
+  m_Name: ShipModel (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &150275694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150275693}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 828615845}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &150275695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150275693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: -10, y: 5, z: 0}
+  facing: 0
+  displayName: Voidrunner
+  affiliation: 1
+  speed: 12
+  maneuverability: 0
+  armorClass: 12
+  targetLock: 12
+  hitPoints: 100
+  damageThreshold: 0
+  shieldCapacity: 60
+  shieldForeCurrent: 15
+  shieldAftCurrent: 15
+  shieldPortCurrent: 15
+  shieldStarboardCurrent: 15
+  powerCoreCapacity: 130
+  computerBonusMagnitude: 3
+  computerNodeCount: 2
+  tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
+  weapon1Name: Gyrolaser
+  weapon1Arc: 0
+  weapon1DamageDieType: 8
+  weapon1DamageDieCount: 1
+  weapon1Range: 5
+  weapon1Speed: 0
+  weapon2Name: 
+  weapon2Arc: 0
+  weapon2DamageDieType: 0
+  weapon2DamageDieCount: 0
+  weapon2Range: 0
+  weapon2Speed: 0
+  weapon3Name: 
+  weapon3Arc: 0
+  weapon3DamageDieType: 0
+  weapon3DamageDieCount: 0
+  weapon3Range: 0
+  weapon3Speed: 0
+  weapon4Name: 
+  weapon4Arc: 0
+  weapon4DamageDieType: 0
+  weapon4DamageDieCount: 0
+  weapon4Range: 0
+  weapon4Speed: 0
+--- !u!1 &241814994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 241814995}
+  - component: {fileID: 241814996}
+  m_Layer: 0
+  m_Name: ShipModel (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &241814995
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241814994}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 828615845}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &241814996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241814994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: 7, y: 5, z: 0}
+  facing: 0
+  displayName: Drone
+  affiliation: 1
+  speed: 6
+  maneuverability: 3
+  armorClass: 12
+  targetLock: 12
+  hitPoints: 100
+  damageThreshold: 0
+  shieldCapacity: 60
+  shieldForeCurrent: 15
+  shieldAftCurrent: 15
+  shieldPortCurrent: 15
+  shieldStarboardCurrent: 15
+  powerCoreCapacity: 130
+  computerBonusMagnitude: 3
+  computerNodeCount: 2
+  tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
+  weapon1Name: 
+  weapon1Arc: 0
+  weapon1DamageDieType: 0
+  weapon1DamageDieCount: 0
+  weapon1Range: 0
+  weapon1Speed: 0
+  weapon2Name: 
+  weapon2Arc: 0
+  weapon2DamageDieType: 0
+  weapon2DamageDieCount: 0
+  weapon2Range: 0
+  weapon2Speed: 0
+  weapon3Name: 
+  weapon3Arc: 0
+  weapon3DamageDieType: 0
+  weapon3DamageDieCount: 0
+  weapon3Range: 0
+  weapon3Speed: 0
+  weapon4Name: 
+  weapon4Arc: 0
+  weapon4DamageDieType: 0
+  weapon4DamageDieCount: 0
+  weapon4Range: 0
+  weapon4Speed: 0
 --- !u!1 &250884531
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +769,100 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436449053}
   m_CullTransparentMesh: 0
+--- !u!1 &461348634
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 461348635}
+  - component: {fileID: 461348636}
+  m_Layer: 0
+  m_Name: ShipModel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &461348635
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461348634}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 828615845}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &461348636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461348634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: 1, y: 5, z: 0}
+  facing: 0
+  displayName: Temeraire
+  affiliation: 0
+  speed: 6
+  maneuverability: 0
+  armorClass: 12
+  targetLock: 12
+  hitPoints: 100
+  damageThreshold: 0
+  shieldCapacity: 60
+  shieldForeCurrent: 15
+  shieldAftCurrent: 15
+  shieldPortCurrent: 15
+  shieldStarboardCurrent: 15
+  powerCoreCapacity: 130
+  computerBonusMagnitude: 3
+  computerNodeCount: 2
+  tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
+  weapon1Name: 
+  weapon1Arc: 0
+  weapon1DamageDieType: 0
+  weapon1DamageDieCount: 0
+  weapon1Range: 0
+  weapon1Speed: 0
+  weapon2Name: 
+  weapon2Arc: 0
+  weapon2DamageDieType: 0
+  weapon2DamageDieCount: 0
+  weapon2Range: 0
+  weapon2Speed: 0
+  weapon3Name: 
+  weapon3Arc: 0
+  weapon3DamageDieType: 0
+  weapon3DamageDieCount: 0
+  weapon3Range: 0
+  weapon3Speed: 0
+  weapon4Name: 
+  weapon4Arc: 0
+  weapon4DamageDieType: 0
+  weapon4DamageDieCount: 0
+  weapon4Range: 0
+  weapon4Speed: 0
 --- !u!1 &478862199
 GameObject:
   m_ObjectHideFlags: 0
@@ -55722,6 +56098,100 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779234831}
   m_CullTransparentMesh: 0
+--- !u!1 &783246779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 783246780}
+  - component: {fileID: 783246781}
+  m_Layer: 0
+  m_Name: ShipModel (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &783246780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783246779}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 828615845}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &783246781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783246779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: 1, y: 0, z: 0}
+  facing: 240
+  displayName: Wanderer2
+  affiliation: 1
+  speed: 6
+  maneuverability: 0
+  armorClass: 12
+  targetLock: 12
+  hitPoints: 100
+  damageThreshold: 0
+  shieldCapacity: 60
+  shieldForeCurrent: 15
+  shieldAftCurrent: 15
+  shieldPortCurrent: 15
+  shieldStarboardCurrent: 15
+  powerCoreCapacity: 130
+  computerBonusMagnitude: 3
+  computerNodeCount: 2
+  tier: 1
+  lifeSupport: 0
+  sensors: 0
+  engines: 0
+  powerCore: 0
+  portWeapons: 0
+  starboardWeapons: 0
+  foreWeapons: 0
+  aftWeapons: 0
+  weapon1Name: 
+  weapon1Arc: 0
+  weapon1DamageDieType: 0
+  weapon1DamageDieCount: 0
+  weapon1Range: 0
+  weapon1Speed: 0
+  weapon2Name: 
+  weapon2Arc: 0
+  weapon2DamageDieType: 0
+  weapon2DamageDieCount: 0
+  weapon2Range: 0
+  weapon2Speed: 0
+  weapon3Name: 
+  weapon3Arc: 0
+  weapon3DamageDieType: 0
+  weapon3DamageDieCount: 0
+  weapon3Range: 0
+  weapon3Speed: 0
+  weapon4Name: 
+  weapon4Arc: 0
+  weapon4DamageDieType: 0
+  weapon4DamageDieCount: 0
+  weapon4Range: 0
+  weapon4Speed: 0
 --- !u!1 &808027698
 GameObject:
   m_ObjectHideFlags: 0
@@ -55805,11 +56275,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 828615845}
-  - component: {fileID: 828615846}
-  - component: {fileID: 828615847}
-  - component: {fileID: 828615850}
-  - component: {fileID: 828615849}
-  - component: {fileID: 828615848}
   m_Layer: 0
   m_Name: Ship Models
   m_TagString: Untagged
@@ -55827,325 +56292,15 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.1210126, y: 0.4322572, z: -35.176807}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 461348635}
+  - {fileID: 241814995}
+  - {fileID: 84911730}
+  - {fileID: 783246780}
+  - {fileID: 150275694}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &828615846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828615844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPosition: {x: 1, y: 5, z: 0}
-  facing: 0
-  displayName: "Alg\xE9siras"
-  affiliation: 0
-  speed: 6
-  maneuverability: 0
-  armorClass: 12
-  targetLock: 12
-  hitPoints: 100
-  damageThreshold: 0
-  shieldCapacity: 60
-  shieldForeCurrent: 15
-  shieldAftCurrent: 15
-  shieldPortCurrent: 15
-  shieldStarboardCurrent: 15
-  powerCoreCapacity: 130
-  computerBonusMagnitude: 3
-  computerNodeCount: 2
-  tier: 1
-  lifeSupport: 0
-  sensors: 0
-  engines: 0
-  powerCore: 0
-  portWeapons: 0
-  starboardWeapons: 0
-  foreWeapons: 0
-  aftWeapons: 0
-  weapon1Name: 
-  weapon1Arc: 0
-  weapon1DamageDieType: 0
-  weapon1DamageDieCount: 0
-  weapon1Range: 0
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
---- !u!114 &828615847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828615844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPosition: {x: 7, y: 5, z: 0}
-  facing: 0
-  displayName: Drone
-  affiliation: 1
-  speed: 6
-  maneuverability: 3
-  armorClass: 12
-  targetLock: 12
-  hitPoints: 100
-  damageThreshold: 0
-  shieldCapacity: 60
-  shieldForeCurrent: 15
-  shieldAftCurrent: 15
-  shieldPortCurrent: 15
-  shieldStarboardCurrent: 15
-  powerCoreCapacity: 130
-  computerBonusMagnitude: 3
-  computerNodeCount: 2
-  tier: 1
-  lifeSupport: 0
-  sensors: 0
-  engines: 0
-  powerCore: 0
-  portWeapons: 0
-  starboardWeapons: 0
-  foreWeapons: 0
-  aftWeapons: 0
-  weapon1Name: 
-  weapon1Arc: 0
-  weapon1DamageDieType: 0
-  weapon1DamageDieCount: 0
-  weapon1Range: 0
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
---- !u!114 &828615848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828615844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPosition: {x: -10, y: 5, z: 0}
-  facing: 0
-  displayName: Voidrunner
-  affiliation: 1
-  speed: 12
-  maneuverability: 0
-  armorClass: 12
-  targetLock: 12
-  hitPoints: 100
-  damageThreshold: 0
-  shieldCapacity: 60
-  shieldForeCurrent: 15
-  shieldAftCurrent: 15
-  shieldPortCurrent: 15
-  shieldStarboardCurrent: 15
-  powerCoreCapacity: 130
-  computerBonusMagnitude: 3
-  computerNodeCount: 2
-  tier: 1
-  lifeSupport: 0
-  sensors: 0
-  engines: 0
-  powerCore: 0
-  portWeapons: 0
-  starboardWeapons: 0
-  foreWeapons: 0
-  aftWeapons: 0
-  weapon1Name: Gyrolaser
-  weapon1Arc: 0
-  weapon1DamageDieType: 8
-  weapon1DamageDieCount: 1
-  weapon1Range: 5
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
---- !u!114 &828615849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828615844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPosition: {x: 1, y: 0, z: 0}
-  facing: 240
-  displayName: Wanderer2
-  affiliation: 1
-  speed: 6
-  maneuverability: 0
-  armorClass: 12
-  targetLock: 12
-  hitPoints: 100
-  damageThreshold: 0
-  shieldCapacity: 60
-  shieldForeCurrent: 15
-  shieldAftCurrent: 15
-  shieldPortCurrent: 15
-  shieldStarboardCurrent: 15
-  powerCoreCapacity: 130
-  computerBonusMagnitude: 3
-  computerNodeCount: 2
-  tier: 1
-  lifeSupport: 0
-  sensors: 0
-  engines: 0
-  powerCore: 0
-  portWeapons: 0
-  starboardWeapons: 0
-  foreWeapons: 0
-  aftWeapons: 0
-  weapon1Name: 
-  weapon1Arc: 0
-  weapon1DamageDieType: 0
-  weapon1DamageDieCount: 0
-  weapon1Range: 0
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
---- !u!114 &828615850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828615844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPosition: {x: 1, y: 10, z: 0}
-  facing: 120
-  displayName: Wanderer1
-  affiliation: 1
-  speed: 6
-  maneuverability: 0
-  armorClass: 12
-  targetLock: 12
-  hitPoints: 100
-  damageThreshold: 0
-  shieldCapacity: 60
-  shieldForeCurrent: 15
-  shieldAftCurrent: 15
-  shieldPortCurrent: 15
-  shieldStarboardCurrent: 15
-  powerCoreCapacity: 130
-  computerBonusMagnitude: 3
-  computerNodeCount: 2
-  tier: 1
-  lifeSupport: 0
-  sensors: 0
-  engines: 0
-  powerCore: 0
-  portWeapons: 0
-  starboardWeapons: 0
-  foreWeapons: 0
-  aftWeapons: 0
-  weapon1Name: 
-  weapon1Arc: 0
-  weapon1DamageDieType: 0
-  weapon1DamageDieCount: 0
-  weapon1Range: 0
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
 --- !u!1 &835481841
 GameObject:
   m_ObjectHideFlags: 0
