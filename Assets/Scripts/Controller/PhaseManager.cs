@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Model;
 using UnityEngine;
 
 public class PhaseManager : MonoBehaviour
@@ -11,6 +12,21 @@ public class PhaseManager : MonoBehaviour
     public Phase GetCurrentPhase()
     {
         return this.currentPhase;
+    }
+
+    public List<Crew.Role> GetActivePhaseRoles()
+    {
+        switch (this.currentPhase)
+        {
+            case Phase.Engineering:
+                return new List<Crew.Role>(){Crew.Role.Engineer, Crew.Role.Captain};
+            case Phase.Helm:
+                return new List<Crew.Role>() {Crew.Role.Pilot, Crew.Role.Scientist, Crew.Role.Captain};
+            case Phase.Gunnery:
+                return new List<Crew.Role>() {Crew.Role.Gunner, Crew.Role.Captain};
+            default:
+                return new List<Crew.Role>(); 
+        }
     }
 
     public bool TryAdvancePhase()
