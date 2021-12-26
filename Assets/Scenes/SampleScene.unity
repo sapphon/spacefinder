@@ -359,31 +359,22 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
-  crew: []
-  weapon1Name: 
-  weapon1Arc: 0
-  weapon1DamageDieType: 0
-  weapon1DamageDieCount: 0
-  weapon1Range: 0
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
+  crew:
+  - role: 1
+    name: Engi NPC
+  - role: 4
+    name: Gunny NPC
+  - role: 3
+    name: Pilot NPC
+  - role: 2
+    name: Science NPC
+  weapons:
+  - name: LLC
+    arc: 0
+    damageDieType: 4
+    damageDieCount: 2
+    range: 5
+    speed: 0
 --- !u!1 &150275693
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,30 +446,13 @@ MonoBehaviour:
   foreWeapons: 0
   aftWeapons: 0
   crew: []
-  weapon1Name: Gyrolaser
-  weapon1Arc: 0
-  weapon1DamageDieType: 8
-  weapon1DamageDieCount: 1
-  weapon1Range: 5
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
+  weapons:
+  - name: Gyrolaser
+    arc: 0
+    damageDieType: 8
+    damageDieCount: 1
+    range: 5
+    speed: 0
 --- !u!1 &241814994
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,30 +524,25 @@ MonoBehaviour:
   foreWeapons: 0
   aftWeapons: 0
   crew: []
-  weapon1Name: 
-  weapon1Arc: 0
-  weapon1DamageDieType: 0
-  weapon1DamageDieCount: 0
-  weapon1Range: 0
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
+  weapons:
+  - name: Gyrolaser (Linked)
+    arc: 0
+    damageDieType: 8
+    damageDieCount: 2
+    range: 5
+    speed: 0
+  - name: Light Torpedo Launcher
+    arc: 3
+    damageDieType: 8
+    damageDieCount: 2
+    range: 20
+    speed: 16
+  - name: Light Torpedo Launcher
+    arc: 2
+    damageDieType: 8
+    damageDieCount: 2
+    range: 20
+    speed: 16
 --- !u!1 &250884531
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,30 +822,31 @@ MonoBehaviour:
     name: NPC1
   - role: 4
     name: NPC2
-  weapon1Name: 
-  weapon1Arc: 0
-  weapon1DamageDieType: 0
-  weapon1DamageDieCount: 0
-  weapon1Range: 0
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
+  weapons:
+  - name: LLC
+    arc: 0
+    damageDieType: 4
+    damageDieCount: 2
+    range: 5
+    speed: 0
+  - name: LLC
+    arc: 3
+    damageDieType: 4
+    damageDieCount: 2
+    range: 5
+    speed: 0
+  - name: LLC
+    arc: 2
+    damageDieType: 4
+    damageDieCount: 2
+    range: 5
+    speed: 0
+  - name: Coilgun
+    arc: 4
+    damageDieType: 4
+    damageDieCount: 4
+    range: 20
+    speed: 0
 --- !u!1 &478862199
 GameObject:
   m_ObjectHideFlags: 0
@@ -56182,31 +56152,22 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
-  crew: []
-  weapon1Name: 
-  weapon1Arc: 0
-  weapon1DamageDieType: 0
-  weapon1DamageDieCount: 0
-  weapon1Range: 0
-  weapon1Speed: 0
-  weapon2Name: 
-  weapon2Arc: 0
-  weapon2DamageDieType: 0
-  weapon2DamageDieCount: 0
-  weapon2Range: 0
-  weapon2Speed: 0
-  weapon3Name: 
-  weapon3Arc: 0
-  weapon3DamageDieType: 0
-  weapon3DamageDieCount: 0
-  weapon3Range: 0
-  weapon3Speed: 0
-  weapon4Name: 
-  weapon4Arc: 0
-  weapon4DamageDieType: 0
-  weapon4DamageDieCount: 0
-  weapon4Range: 0
-  weapon4Speed: 0
+  crew:
+  - role: 1
+    name: Engi NPC
+  - role: 4
+    name: Gunny NPC
+  - role: 3
+    name: Pilot NPC
+  - role: 2
+    name: Science NPC
+  weapons:
+  - name: LLC
+    arc: 0
+    damageDieType: 4
+    damageDieCount: 2
+    range: 5
+    speed: 0
 --- !u!1 &808027698
 GameObject:
   m_ObjectHideFlags: 0

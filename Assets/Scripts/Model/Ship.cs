@@ -63,37 +63,9 @@ public class Ship : MonoBehaviour
     [Header("Crew")] 
     public List<CrewMember> crew;
 
-    [Header("Weapon1")] 
-    public string weapon1Name;
-    public WeaponFiringArc weapon1Arc;
-    public Die weapon1DamageDieType;
-    public int weapon1DamageDieCount;
-    public Range weapon1Range;
-    public int weapon1Speed;
-    
-    [Header("Weapon2")] 
-    public string weapon2Name;
-    public WeaponFiringArc weapon2Arc;
-    public Die weapon2DamageDieType;
-    public int weapon2DamageDieCount;
-    public Range weapon2Range;
-    public int weapon2Speed;
-    
-    [Header("Weapon3")] 
-    public string weapon3Name;
-    public WeaponFiringArc weapon3Arc;
-    public Die weapon3DamageDieType;
-    public int weapon3DamageDieCount;
-    public Range weapon3Range;
-    public int weapon3Speed;
-    
-    [Header("Weapon4")] 
-    public string weapon4Name;
-    public WeaponFiringArc weapon4Arc;
-    public Die weapon4DamageDieType;
-    public int weapon4DamageDieCount;
-    public Range weapon4Range;
-    public int weapon4Speed;
+    [Header("Weaponry")] 
+    public List<Weapon> weapons;
+
 
     public static Ship[] getAllShips()
     {
