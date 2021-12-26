@@ -16,15 +16,19 @@ public class ShipUI : MonoBehaviour
     private SpriteRenderer starboardTurnIndicator;
     private SpriteRenderer portTurnIndicator;
     private GameObject _firingArcUI;
+    private TextMesh movesUntilTurnReadout;
+    private TextMesh movesLeftReadout;
 
     void Awake()
     {
         this.shipMap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.maneuverUI = this.transform.Find("ManeuverUI").gameObject;
-        this.advanceIndicator = this.transform.Find("ManeuverUI").transform.Find("AdvanceIndicator").GetComponent<SpriteRenderer>();
-        this.starboardTurnIndicator = this.transform.Find("ManeuverUI").transform.Find("StarboardTurnIndicator").GetComponent<SpriteRenderer>();
-        this.portTurnIndicator = this.transform.Find("ManeuverUI").transform.Find("PortTurnIndicator").GetComponent<SpriteRenderer>();
+        this.advanceIndicator = this.maneuverUI.transform.Find("AdvanceIndicator").GetComponent<SpriteRenderer>();
+        this.starboardTurnIndicator = this.maneuverUI.transform.Find("StarboardTurnIndicator").GetComponent<SpriteRenderer>();
+        this.portTurnIndicator = this.maneuverUI.transform.Find("PortTurnIndicator").GetComponent<SpriteRenderer>();
+        this.movesUntilTurnReadout = this.maneuverUI.transform.Find("MovesUntilTurnReadout").GetComponent<TextMesh>();
+        this.movesLeftReadout = this.maneuverUI.transform.Find("MovesRemainingReadout").GetComponent<TextMesh>();
         this.shipUiManager = FindObjectOfType<ShipUIManager>();
         this.helmPhaseController = FindObjectOfType<HelmPhaseController>();
         this._firingArcUI = this.transform.Find("FiringArcUI").gameObject;
@@ -48,11 +52,27 @@ public class ShipUI : MonoBehaviour
             this.maneuverUI.SetActive(true);
             SetAdvanceUIColor();
             SetTurnUIColor();
+            SetMovesRemaining();
+            SetMovesUntilTurn();
         }
         else
         {
             this.maneuverUI.SetActive(false);
         }
+    }
+
+    private void SetMovesUntilTurn()
+    {
+        int movesUntilNextTurn = helmPhaseController.MovesUntilNextTurn(shipToTrack);
+        this.movesUntilTurnReadout.text = movesUntilNextTurn + " Mv B4 Turn";
+        this.movesUntilTurnReadout.color = movesUntilNextTurn == 0 ? Color.green : Color.red;
+    }
+
+    private void SetMovesRemaining()
+    {
+        int movesRemaining = helmPhaseController.MovesRemaining(shipToTrack);
+        this.movesLeftReadout.text = movesRemaining + "Mv Left";
+        this.movesLeftReadout.color = movesRemaining > 0 ? Color.green : Color.red;
     }
 
     private void FiringArcs()

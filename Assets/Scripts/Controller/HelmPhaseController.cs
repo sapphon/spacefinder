@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Model;
 using NUnit.Framework.Constraints;
@@ -101,24 +102,32 @@ public class HelmPhaseController : MonoBehaviour
 
     public bool MayAdvance(Ship ship)
     {
-        return this._destinationsSoFar.Count < ship.speed;
+        return MovesRemaining(ship) > 0;
     }
 
-
-    public bool MayTurn(Ship shipToTrack)
+    public int MovesRemaining(Ship ship)
     {
-        Maneuverability maneuverability = shipToTrack.maneuverability;
+        return Math.Max(0, ship.speed - this._destinationsSoFar.Count);
+    }
+
+    public int MovesUntilNextTurn(Ship ship)
+    {
+        Maneuverability maneuverability = ship.maneuverability;
         if (maneuverability == Maneuverability.Perfect)
         {
             return _turnsSoFar.Count < 2 ||
-                   _turnsSoFar[_turnsSoFar.Count - 2] != shipToTrack.gridPosition ||
-                   _turnsSoFar[_turnsSoFar.Count - 1] != shipToTrack.gridPosition;
+                   _turnsSoFar[_turnsSoFar.Count - 2] != ship.gridPosition ||
+                   _turnsSoFar[_turnsSoFar.Count - 1] != ship.gridPosition ? 0 : 1;
         }
         else
         {
-            return
-                   _destinationsSoFar.Count >= (int)maneuverability * (this._turnsSoFar.Count + 1);
+            return Math.Max(0, (_turnsSoFar.Count + 1) * (int) maneuverability - _destinationsSoFar.Count);
         }
+    }
+
+    public bool MayTurn(Ship ship)
+    {
+        return MovesUntilNextTurn(ship) == 0;
     }
 }
 
