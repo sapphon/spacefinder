@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class PhaseManager : MonoBehaviour
 {
-    protected Phase currentPhase = Phase.Helm;
+    protected Phase currentPhase = Phase.Engineering;
     protected List<Ship> shipsSignalingComplete = new List<Ship>();
+    private HelmPhaseController _helmPhaseController;
+
+    void Awake()
+    {
+        _helmPhaseController = FindObjectOfType<HelmPhaseController>();
+    }
 
     public Phase GetCurrentPhase()
     {
@@ -48,6 +54,17 @@ public class PhaseManager : MonoBehaviour
 
     protected void EndPhase()
     {
+        DoEndPhase();
+        if (this.currentPhase == Phase.Helm)
+        {
+            _helmPhaseController.OnPhaseBegin();
+        }
+
+        this.shipsSignalingComplete.Clear();
+    }
+
+    private void DoEndPhase()
+    {
         if (FindObjectOfType<RoundManager>().TryAdvanceRound(this))
         {
             this.currentPhase = 0;
@@ -56,8 +73,6 @@ public class PhaseManager : MonoBehaviour
         {
             this.currentPhase++;
         }
-
-        this.shipsSignalingComplete.Clear();
     }
 
     public void SignalComplete(Ship ship)

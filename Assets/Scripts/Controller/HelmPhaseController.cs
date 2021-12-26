@@ -14,15 +14,27 @@ public class HelmPhaseController : MonoBehaviour
     private List<Vector3Int> _destinationsSoFar;
     private Vector3Int _initialPosition;
     private Facing _initialFacing;
+    private InitiativeController _initiativeController;
 
     void Awake()
     {
+        _initiativeController = FindObjectOfType<InitiativeController>();
         _shipUiManager = FindObjectOfType<ShipUIManager>();
         actionsThisPhase = new Dictionary<Ship, CrewAction>();
         _turnsSoFar = new List<Vector3Int>();
         _destinationsSoFar = new List<Vector3Int>();
     }
 
+
+    public void OnPhaseBegin()
+    {
+        this._initiativeController.GatherInitiatives();
+    }
+
+    public void SetInitiatives()
+    {
+        //guess we'll see here
+    }
 
     public bool IsShipCurrentlyActing(Ship ship)
     {
