@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Model;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using Random = UnityEngine.Random;
@@ -17,7 +18,7 @@ public class Ship : MonoBehaviour
     
     public Vector3Int gridPosition = new Vector3Int(0,0,0);
     public Facing facing = Facing.N;
-    public String displayName = _defaultNames[new System.Random().Next(_defaultNames.Length)];
+    public String displayName = Util.chooseRandom(_defaultNames);
     public Affiliation affiliation = Affiliation.Player;
     
     //maneuvering
@@ -58,6 +59,9 @@ public class Ship : MonoBehaviour
     public SystemCondition starboardWeapons = 0;
     public SystemCondition foreWeapons = 0;
     public SystemCondition aftWeapons = 0;
+
+    [Header("Crew")] 
+    public List<CrewMember> crew;
 
     [Header("Weapon1")] 
     public string weapon1Name;

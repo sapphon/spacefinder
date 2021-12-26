@@ -359,6 +359,7 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
+  crew: []
   weapon1Name: 
   weapon1Arc: 0
   weapon1DamageDieType: 0
@@ -453,6 +454,7 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
+  crew: []
   weapon1Name: Gyrolaser
   weapon1Arc: 0
   weapon1DamageDieType: 8
@@ -547,6 +549,7 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
+  crew: []
   weapon1Name: 
   weapon1Arc: 0
   weapon1DamageDieType: 0
@@ -839,6 +842,17 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
+  crew:
+  - role: 1
+    name: Skrich
+  - role: 2
+    name: Finder
+  - role: 3
+    name: Skiz
+  - role: 4
+    name: NPC1
+  - role: 4
+    name: NPC2
   weapon1Name: 
   weapon1Arc: 0
   weapon1DamageDieType: 0
@@ -56168,6 +56182,7 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
+  crew: []
   weapon1Name: 
   weapon1Arc: 0
   weapon1DamageDieType: 0

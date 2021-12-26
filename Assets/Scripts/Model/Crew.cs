@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace Model
 {
-    public class Crew
+    public class Crew : MonoBehaviour
     {
         public enum Role
         {
