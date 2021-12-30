@@ -12,6 +12,7 @@ public class KeyboardInputBehavior : MonoBehaviour
     private PlayerInput _input;
     private ShipUIManager _shipsUI;
     private HelmPhaseController _helmPhaseController;
+    private PhaseManager _phaseManager;
 
 
     void Awake()
@@ -19,6 +20,7 @@ public class KeyboardInputBehavior : MonoBehaviour
         _helmPhaseController = FindObjectOfType<HelmPhaseController>();
         _input = GetComponent<PlayerInput>();
         _shipsUI = FindObjectOfType<ShipUIManager>();
+        _phaseManager = FindObjectOfType<PhaseManager>();
     }
 
     private void OnEnable()
@@ -29,6 +31,7 @@ public class KeyboardInputBehavior : MonoBehaviour
         getToggleArcsAction().performed += ToggleArcs;
         getResetActionAction().performed += ResetAction;
         getToggleBandsAction().performed += ToggleRangeBands;
+        getEndShipPhaseAction().performed += EndShipPhase;
 
     }
 
@@ -89,6 +92,15 @@ public class KeyboardInputBehavior : MonoBehaviour
         }
     }
 
+    private void EndShipPhase(InputAction.CallbackContext obj)
+    {
+        Ship selectedShip = _shipsUI.GetSelectedShip();
+        if (selectedShip != null)
+        {
+            _phaseManager.SignalComplete(selectedShip);
+        }
+    }
+
     private InputAction getAdvanceAction()
     {
         return _input.actions["Advance"];
@@ -109,6 +121,11 @@ public class KeyboardInputBehavior : MonoBehaviour
         return _input.actions["Toggle Firing Arcs"];
     }
     
+    private InputAction getEndShipPhaseAction()
+    {
+        return _input.actions["End Phase for Ship"];
+    }
+    
     private InputAction getToggleBandsAction()
     {
         return _input.actions["Toggle Range Bands"];
@@ -126,5 +143,6 @@ public class KeyboardInputBehavior : MonoBehaviour
         getStarboardTurnAction().performed -= TryStarboardTurn;
         getToggleArcsAction().performed -= ToggleArcs;
         getResetActionAction().performed -= ResetAction;
+        getEndShipPhaseAction().performed -= EndShipPhase;
     }
 }

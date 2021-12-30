@@ -68,6 +68,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "End Phase for Ship",
+                    "type": "Button",
+                    "id": "16bd8ffe-a21b-466c-ab8d-1b9d46258a1d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -156,6 +164,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Toggle Range Bands",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "84329b61-8c74-4c45-b78f-f1dca2bc5903",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "End Phase for Ship",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
