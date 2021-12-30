@@ -77,7 +77,15 @@ public class PhaseManager : MonoBehaviour
 
     public void SignalComplete(Ship ship)
     {
+        EndActionIfInProgress(ship);
         shipsSignalingComplete.Add(ship);
+    }
+
+    private void EndActionIfInProgress(Ship ship)
+    {
+        if(this.currentPhase == Phase.Helm && _helmPhaseController.IsShipCurrentlyActing(ship)){
+            _helmPhaseController.EndActionInProgressForShip(ship);
+        }
     }
 
     public void SignalStillWorking(Ship ship)

@@ -50,7 +50,7 @@ public class HelmPhaseController : MonoBehaviour
     {
         if (IsShipCurrentlyActing(actor) && actionsThisPhase[actor].name == actionName)
         {
-            actionsThisPhase.Remove(actor);
+            EndActionInProgressForShip(actor);
         }
         else
         {
@@ -60,6 +60,11 @@ public class HelmPhaseController : MonoBehaviour
             _turnsSoFar.Clear();
             actionsThisPhase.Add(actor, new CrewAction(actionName));
         }
+    }
+
+    public void EndActionInProgressForShip(Ship actor)
+    {
+        actionsThisPhase.Remove(actor);
     }
 
     public CrewAction getShipAction(Ship ship)

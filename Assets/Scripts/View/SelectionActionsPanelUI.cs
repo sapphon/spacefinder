@@ -37,9 +37,9 @@ public class SelectionActionsPanelUI : MonoBehaviour
             _actionButtons[n] = transform.Find("ActionButton" + (n + 1)).GetComponent<Button>();
             _actionButtons[n].GetComponentInChildren<Text>().text = actionName;
             _actionButtons[n].onClick.AddListener(() =>
-                {
-                    _helmPhaseController.ToggleShipAction(getSelectedShip(), actionName);
-                });
+            {
+                _helmPhaseController.ToggleShipAction(getSelectedShip(), actionName);
+            });
         }
     }
 
@@ -79,12 +79,13 @@ public class SelectionActionsPanelUI : MonoBehaviour
             }
             else
             {
-                updateActionButtons(selectedShip);
                 _phaseFinishedText.text = "Done w/ Phase?";
                 _phaseFinishedText.color = new Color(50, 50, 50);
                 _phaseFinishedSignal.colors = ColorBlock.defaultColorBlock;
                 _phaseFinishedSignal.SetValueWithoutNotify(0);
             }
+
+            updateActionButtons(selectedShip);
 
             GrowPanel();
         }
