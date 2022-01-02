@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -12,11 +13,13 @@ public class ShipUIManager : MonoBehaviour
     protected Ship selectedShip;
     protected bool showingArcs;
     private int showingRange;
+    protected CameraController cameraControlller;
 
     void Awake()
     {
         this.shipMap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
-
+        this.cameraControlller = GameObject.FindObjectOfType<CameraController>();
+        
         this.selectedShip = null;
         this.showingArcs = false;
         this.showingRange = 0;
@@ -62,7 +65,7 @@ public class ShipUIManager : MonoBehaviour
     {
         
             Vector3 worldCenterOfCell = shipMap.CellToWorld(ship.gridPosition);
-            Camera.main.transform.position = new Vector3(worldCenterOfCell.x, worldCenterOfCell.y, Camera.main.transform.position.z);
+            cameraControlller.SetAimPoint(new Vector3(worldCenterOfCell.x, worldCenterOfCell.y));
             this.selectedShip = ship;
     }
 

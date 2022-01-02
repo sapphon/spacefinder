@@ -112250,6 +112250,7 @@ GameObject:
   - component: {fileID: 1455774268}
   - component: {fileID: 1455774269}
   - component: {fileID: 1455774270}
+  - component: {fileID: 1455774271}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: Untagged
@@ -112320,6 +112321,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputRowPrefab: {fileID: 6403663938863619942, guid: 746b724ec95fde147adc1c941b1310d5, type: 3}
+--- !u!114 &1455774271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455774265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e12180d9c64e0e42829453754944d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  durationOfPan: 1
 --- !u!1 &1630927589
 GameObject:
   m_ObjectHideFlags: 0
