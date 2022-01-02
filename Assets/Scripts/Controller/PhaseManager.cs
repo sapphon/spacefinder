@@ -134,6 +134,7 @@ public class PhaseManager : MonoBehaviour
     public void SetShipInitiativeOrder(Queue<Ship> shipsByInitiativeAscending)
     {
         this._shipsYetToActInOrder = shipsByInitiativeAscending;
+        selectNextShipOrNone();
     }
 
     public Ship GetShipWithInitiative()
