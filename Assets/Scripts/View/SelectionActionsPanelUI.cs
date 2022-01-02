@@ -64,7 +64,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
     void Update()
     {
         Ship selectedShip = getSelectedShip();
-        if (selectedShip != null)
+        if (selectedShip != null) 
         {
             _actionsText.text = _phaseManager.GetCurrentPhase().ToString() + " Actions";
             if (_phaseManager.isShipDone(selectedShip))

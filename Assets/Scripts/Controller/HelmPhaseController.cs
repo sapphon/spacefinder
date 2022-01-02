@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Model;
 using NUnit.Framework.Constraints;
 using UnityEngine;
@@ -14,11 +15,11 @@ public class HelmPhaseController : MonoBehaviour
     private List<Vector3Int> _destinationsSoFar;
     private Vector3Int _initialPosition;
     private Facing _initialFacing;
-    private InitiativeController _initiativeController;
+    private InitiativeController _initiativeUIController;
 
     void Awake()
     {
-        _initiativeController = FindObjectOfType<InitiativeController>();
+        _initiativeUIController = FindObjectOfType<InitiativeController>();
         _shipUiManager = FindObjectOfType<ShipUIManager>();
         actionsThisPhase = new Dictionary<Ship, CrewAction>();
         _turnsSoFar = new List<Vector3Int>();
@@ -28,15 +29,10 @@ public class HelmPhaseController : MonoBehaviour
 
     public void OnPhaseBegin()
     {
-        this._initiativeController.GatherInitiatives();
+        this._initiativeUIController.GatherInitiatives();
     }
 
-    public void SetInitiatives()
-    {
-        //guess we'll see here
-    }
-
-    public bool IsShipCurrentlyActing(Ship ship)
+    public bool HasShipChosenActionThisPhase(Ship ship)
     {
         return actionsThisPhase.ContainsKey(ship);
     }
@@ -48,7 +44,7 @@ public class HelmPhaseController : MonoBehaviour
 
     public void ToggleShipAction(Ship actor, string actionName)
     {
-        if (IsShipCurrentlyActing(actor) && actionsThisPhase[actor].name == actionName)
+        if (HasShipChosenActionThisPhase(actor) && actionsThisPhase[actor].name == actionName)
         {
             EndActionInProgressForShip(actor);
         }
@@ -146,6 +142,8 @@ public class HelmPhaseController : MonoBehaviour
     {
         return MovesUntilNextTurn(ship) == 0;
     }
+
+
 }
 
 public class CrewAction

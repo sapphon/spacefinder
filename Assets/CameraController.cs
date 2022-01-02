@@ -23,7 +23,6 @@ public class CameraController : MonoBehaviour
         }
         this._aimPoint = newAimPoint;
         _currentCameraMovement = LerpPosition(_aimPoint, durationOfPan);
-        Debug.Log("starting coroutine");
         StartCoroutine(_currentCameraMovement);
     }
    

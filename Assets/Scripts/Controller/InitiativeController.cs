@@ -57,6 +57,11 @@ public class InitiativeController : MonoBehaviour
         return toReturn;
     }
 
+    private Queue<Ship> createInitiativeQueue(Dictionary<Ship, short> initiatives)
+    {
+        return new Queue<Ship>(from entry in initiatives orderby entry.Value ascending select entry.Key);
+    }
+
     public void OnSubmit()
     {
         Dictionary<string, short> inputs = ReadInputs();
@@ -65,6 +70,7 @@ public class InitiativeController : MonoBehaviour
             _initiativesThisRound[ship] = inputs[ship.displayName];
         }
         this._initiativePanel.SetActive(false);
+        GameObject.FindObjectOfType<PhaseManager>().SetShipInitiativeOrder(createInitiativeQueue(this._initiativesThisRound));
     }
 
     public Dictionary<Ship, short> GetInitiativesThisRound()

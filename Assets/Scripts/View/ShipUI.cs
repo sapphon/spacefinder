@@ -46,7 +46,7 @@ public class ShipUI : MonoBehaviour
 
     private void EnableManeuverUIIfManeuvering()
     {
-        if (helmPhaseController.IsShipCurrentlyActing(shipToTrack) &&
+        if (helmPhaseController.HasShipChosenActionThisPhase(shipToTrack) &&
             helmPhaseController.getShipAction(shipToTrack).name == "Maneuver")
         {
             this.maneuverUI.SetActive(true);

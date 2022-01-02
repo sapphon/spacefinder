@@ -86,7 +86,7 @@ public class KeyboardInputBehavior : MonoBehaviour
     private void ResetAction(InputAction.CallbackContext obj)
     {
         if (_shipsUI.GetSelectedShip() != null &&
-            _helmPhaseController.IsShipCurrentlyActing(_shipsUI.GetSelectedShip()))
+            _helmPhaseController.HasShipChosenActionThisPhase(_shipsUI.GetSelectedShip()))
         {
             _helmPhaseController.ResetAction(_shipsUI.GetSelectedShip());
         }

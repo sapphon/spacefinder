@@ -9,6 +9,7 @@ public class PhaseManager : MonoBehaviour
     protected Phase currentPhase = Phase.Engineering;
     protected List<Ship> shipsSignalingComplete = new List<Ship>();
     private HelmPhaseController _helmPhaseController;
+    private Queue<Ship> _shipsYetToActInOrder = new Queue<Ship>();
 
     void Awake()
     {
@@ -77,13 +78,24 @@ public class PhaseManager : MonoBehaviour
 
     public void SignalComplete(Ship ship)
     {
-        EndActionIfInProgress(ship);
-        shipsSignalingComplete.Add(ship);
+        if (currentPhase == Phase.Engineering)
+        {
+            EndActionIfInProgress(ship);
+            shipsSignalingComplete.Add(ship);
+        }
+        else if(ShipHasInitiative(ship))
+        {
+            EndActionIfInProgress(ship);
+            _shipsYetToActInOrder.Dequeue();
+            shipsSignalingComplete.Add(ship);
+        }
+
+        
     }
 
     private void EndActionIfInProgress(Ship ship)
     {
-        if(this.currentPhase == Phase.Helm && _helmPhaseController.IsShipCurrentlyActing(ship)){
+        if (this.currentPhase == Phase.Helm && _helmPhaseController.HasShipChosenActionThisPhase(ship)){
             _helmPhaseController.EndActionInProgressForShip(ship);
         }
     }
@@ -101,6 +113,21 @@ public class PhaseManager : MonoBehaviour
     public bool IsLastPhase()
     {
         return Convert.ToInt32(this.currentPhase).Equals(Enum.GetValues(typeof(Phase)).Length - 1);
+    }
+    
+    public void SetShipInitiativeOrder(Queue<Ship> shipsByInitiativeAscending)
+    {
+        this._shipsYetToActInOrder = shipsByInitiativeAscending;
+    }
+
+    public Ship GetShipWithInitiative()
+    {
+        return this._shipsYetToActInOrder.Count < 1 ? null : this._shipsYetToActInOrder.Peek();
+    }
+
+    public bool ShipHasInitiative(Ship ship)
+    {
+        return GetShipWithInitiative() == ship;
     }
 }
 
