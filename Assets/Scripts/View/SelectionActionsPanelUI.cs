@@ -12,6 +12,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
     private Text _phaseFinishedText;
     private Color _cautionOrange;
     private Button[] _actionButtons;
+    private Text _notYourTurnText;
     private HelmPhaseController _helmPhaseController;
 
     void Awake()
@@ -24,6 +25,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
         this._phaseFinishedText = transform.Find("EndPhaseOKReadout").GetComponent<Text>();
         this._cautionOrange = new Color(.886f, .435f, .02f);
         this._helmPhaseController = FindObjectOfType<HelmPhaseController>();
+        this._notYourTurnText = transform.Find("NotYourTurnText").GetComponent<Text>();
         initializeActionButtons();
     }
 
@@ -85,13 +87,30 @@ public class SelectionActionsPanelUI : MonoBehaviour
                 _phaseFinishedSignal.SetValueWithoutNotify(0);
             }
 
-            updateActionButtons(selectedShip);
+            if (_phaseManager.GetCurrentPhase() == Phase.Engineering || _phaseManager.ShipHasInitiative(selectedShip))
+            {
+                updateActionButtons(selectedShip);
+                _notYourTurnText.gameObject.SetActive(false);
+            }
+            else
+            {
+                hideActionButtons();
+                _notYourTurnText.gameObject.SetActive(true);
+            }
 
             GrowPanel();
         }
         else
         {
             ShrinkPanel();
+        }
+    }
+
+    private void hideActionButtons()
+    {
+        foreach (var button in _actionButtons)
+        {
+            button.gameObject.SetActive(false);
         }
     }
 
@@ -104,7 +123,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
         }
     }
 
-    private void colorButtonByActivity(Ship actor, string buttonActionName, Button button)
+    private void colorButtonByActivity(Ship actor, string buttonActionName, Button button, bool buttonEnabled = true)
     {
         CrewAction shipAction = _helmPhaseController.getShipAction(actor);
         ColorBlock block = ColorBlock.defaultColorBlock;
@@ -116,6 +135,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
             block.selectedColor = Color.cyan;
         }
 
+        button.gameObject.SetActive(true);
         button.colors = block;
     }
 
