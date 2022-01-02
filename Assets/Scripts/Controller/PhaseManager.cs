@@ -10,10 +10,12 @@ public class PhaseManager : MonoBehaviour
     protected List<Ship> shipsSignalingComplete = new List<Ship>();
     private HelmPhaseController _helmPhaseController;
     private Queue<Ship> _shipsYetToActInOrder = new Queue<Ship>();
+    private ShipUIManager _shipsUI;
 
     void Awake()
     {
         _helmPhaseController = FindObjectOfType<HelmPhaseController>();
+        _shipsUI = FindObjectOfType<ShipUIManager>();
     }
 
     public Phase GetCurrentPhase()
@@ -88,9 +90,23 @@ public class PhaseManager : MonoBehaviour
             EndActionIfInProgress(ship);
             _shipsYetToActInOrder.Dequeue();
             shipsSignalingComplete.Add(ship);
+            selectNextShipOrNone();
         }
 
         
+    }
+
+    private void selectNextShipOrNone()
+    {
+        if (_shipsYetToActInOrder.Count > 0)
+        {
+            _shipsUI.TrySelectShip(_shipsYetToActInOrder.Peek().gridPosition);
+        }
+        else
+        {
+            _shipsUI.DeselectShip();
+        }
+
     }
 
     private void EndActionIfInProgress(Ship ship)
