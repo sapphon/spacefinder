@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,6 @@ public class SelectionActionsPanelUI : MonoBehaviour
     private Color _cautionOrange;
     private Button[] _actionButtons;
     private Text _notYourTurnText;
-    private HelmPhaseController _helmPhaseController;
 
     void Awake()
     {
@@ -24,7 +24,6 @@ public class SelectionActionsPanelUI : MonoBehaviour
         this._phaseFinishedSignal.onValueChanged.AddListener(ToggleDone);
         this._phaseFinishedText = transform.Find("EndPhaseOKReadout").GetComponent<Text>();
         this._cautionOrange = new Color(.886f, .435f, .02f);
-        this._helmPhaseController = FindObjectOfType<HelmPhaseController>();
         this._notYourTurnText = transform.Find("NotYourTurnText").GetComponent<Text>();
         initializeActionButtons();
     }
@@ -32,17 +31,22 @@ public class SelectionActionsPanelUI : MonoBehaviour
     private void initializeActionButtons()
     {
         _actionButtons = new Button[1];
-        List<string> possibleActions = _helmPhaseController.GetPossibleActionNamesForPhase();
+        List<string> possibleActions = _phaseManager.GetPossibleActionNamesForPhase();
         for (int n = 0; n < possibleActions.Count; n++)
         {
-            string actionName = possibleActions[n];
             _actionButtons[n] = transform.Find("ActionButton" + (n + 1)).GetComponent<Button>();
-            _actionButtons[n].GetComponentInChildren<Text>().text = actionName;
-            _actionButtons[n].onClick.AddListener(() =>
-            {
-                _helmPhaseController.ToggleShipAction(getSelectedShip(), actionName);
-            });
+            updateActionButton(_actionButtons[n], possibleActions[n]);
         }
+    }
+
+    private void updateActionButton(Button button, String actionName)
+    {
+        button.GetComponentInChildren<Text>().text = actionName;
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(() =>
+        {
+            _phaseManager.ToggleShipAction(getSelectedShip(), actionName);
+        });
     }
 
     void ToggleDone(float dontCare)
@@ -87,7 +91,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
                 _phaseFinishedSignal.SetValueWithoutNotify(0);
             }
 
-            if (_phaseManager.GetCurrentPhase() == Phase.Engineering || _phaseManager.ShipHasInitiative(selectedShip))
+            if (!_phaseManager.DoesCurrentPhaseUseInitiative() || _phaseManager.ShipHasInitiative(selectedShip))
             {
                 updateActionButtons(selectedShip);
                 _notYourTurnText.gameObject.SetActive(false);
@@ -110,22 +114,23 @@ public class SelectionActionsPanelUI : MonoBehaviour
     {
         foreach (var button in _actionButtons)
         {
-            button.gameObject.SetActive(false);
+             button.gameObject.SetActive(false);
         }
     }
 
     private void updateActionButtons(Ship actor)
     {
-        List<string> possibleActions = _helmPhaseController.GetPossibleActionNamesForPhase();
+        List<string> possibleActions = _phaseManager.GetPossibleActionNamesForPhase();
         for (int n = 0; n < possibleActions.Count; n++)
         {
+            updateActionButton(_actionButtons[n], possibleActions[n]);
             colorButtonByActivity(actor, possibleActions[n], _actionButtons[n]);
         }
     }
 
     private void colorButtonByActivity(Ship actor, string buttonActionName, Button button, bool buttonEnabled = true)
     {
-        CrewAction shipAction = _helmPhaseController.getShipAction(actor);
+        CrewAction shipAction = _phaseManager.getShipAction(actor);
         ColorBlock block = ColorBlock.defaultColorBlock;
 
         if (shipAction != null && shipAction.name.Equals(buttonActionName))

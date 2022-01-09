@@ -11,11 +11,14 @@ public class PhaseManager : MonoBehaviour
     private HelmPhaseController _helmPhaseController;
     private Queue<Ship> _shipsYetToActInOrder = new Queue<Ship>();
     private ShipUIManager _shipsUI;
+    private Dictionary<Ship, CrewAction> actionsThisPhase;
+
 
     void Awake()
     {
         _helmPhaseController = FindObjectOfType<HelmPhaseController>();
         _shipsUI = FindObjectOfType<ShipUIManager>();
+        actionsThisPhase = new Dictionary<Ship, CrewAction>();
     }
 
     public Phase GetCurrentPhase()
@@ -35,6 +38,19 @@ public class PhaseManager : MonoBehaviour
                 return new List<Crew.Role>() {Crew.Role.Gunner, Crew.Role.Captain};
             default:
                 return new List<Crew.Role>(); 
+        }
+    }
+    
+    public List<string> GetPossibleActionNamesForPhase()
+    {
+        switch (currentPhase)
+        {
+            case Phase.Helm:
+                return new List<string>() {"Maneuver"};
+            case Phase.Gunnery:
+                return new List<string>() {"Shoot"};
+            default:
+                return new List<string>(){"Hold It Together"};
         }
     }
 
@@ -80,7 +96,7 @@ public class PhaseManager : MonoBehaviour
 
     public void SignalComplete(Ship ship)
     {
-        if (currentPhase == Phase.Engineering)
+        if (!DoesCurrentPhaseUseInitiative())
         {
             EndActionIfInProgress(ship);
             shipsSignalingComplete.Add(ship);
@@ -92,8 +108,6 @@ public class PhaseManager : MonoBehaviour
             shipsSignalingComplete.Add(ship);
             selectNextShipOrNone();
         }
-
-        
     }
 
     private void selectNextShipOrNone()
@@ -111,8 +125,8 @@ public class PhaseManager : MonoBehaviour
 
     private void EndActionIfInProgress(Ship ship)
     {
-        if (this.currentPhase == Phase.Helm && _helmPhaseController.HasShipChosenActionThisPhase(ship)){
-            _helmPhaseController.EndActionInProgressForShip(ship);
+        if (this.HasShipChosenActionThisPhase(ship)){
+            this.EndActionInProgressForShip(ship);
         }
     }
 
@@ -146,6 +160,60 @@ public class PhaseManager : MonoBehaviour
     {
         return GetShipWithInitiative() == ship;
     }
+
+    public bool DoesCurrentPhaseUseInitiative()
+    {
+        return DoesPhaseUseInitiative(currentPhase);
+    }
+
+    public bool DoesPhaseUseInitiative(Phase phase)
+    {
+        return phase == Phase.Helm || currentPhase == Phase.Gunnery;
+    }
+    
+    public bool HasShipChosenActionThisPhase(Ship ship)
+    {
+        return actionsThisPhase.ContainsKey(ship);
+    }
+
+    public void ToggleShipAction(Ship actor, string actionName)
+    {
+        if (HasShipChosenActionThisPhase(actor) && actionsThisPhase[actor].name == actionName)
+        {
+            EndActionInProgressForShip(actor);
+        }
+        else
+        {
+            actionsThisPhase.Add(actor, new CrewAction(actionName));
+            if (this.currentPhase == Phase.Helm)
+            {
+                _helmPhaseController.OnActionBegin(this.actionsThisPhase[actor], actor);
+            }
+        }
+    }
+
+    public void EndActionInProgressForShip(Ship actor)
+    {
+        if (this.currentPhase == Phase.Helm)
+        {
+            _helmPhaseController.OnActionEnd(this.actionsThisPhase[actor], actor);
+        }
+        actionsThisPhase.Remove(actor);
+    }
+
+    public CrewAction getShipAction(Ship ship)
+    {
+        return this.actionsThisPhase.ContainsKey(ship) ? this.actionsThisPhase[ship] : null;
+    }
+    public void ResetAction(Ship ship)
+    {
+        if (this.currentPhase == Phase.Helm)
+        {
+            _helmPhaseController.OnActionCancel(this.actionsThisPhase[ship], ship);
+        }
+
+        actionsThisPhase.Remove(ship);
+    }
 }
 
 public enum Phase
@@ -153,4 +221,16 @@ public enum Phase
     Engineering = 0,
     Helm = 1,
     Gunnery = 2
+}
+
+public class CrewAction
+{
+    public string name { get; }
+    public Phase phase { get; }
+
+    public CrewAction(string name, Phase phase = Phase.Helm)
+    {
+        this.name = name;
+        this.phase = phase;
+    }
 }

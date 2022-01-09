@@ -40,7 +40,7 @@ public class KeyboardInputBehavior : MonoBehaviour
         Ship selectedShip = _shipsUI.GetSelectedShip();
         if (selectedShip != null)
         {
-            CrewAction currentAction = _helmPhaseController.getShipAction(selectedShip);
+            CrewAction currentAction = _phaseManager.getShipAction(selectedShip);
             if (currentAction != null && currentAction.name == "Maneuver")
             {
                 return true;
@@ -86,9 +86,9 @@ public class KeyboardInputBehavior : MonoBehaviour
     private void ResetAction(InputAction.CallbackContext obj)
     {
         if (_shipsUI.GetSelectedShip() != null &&
-            _helmPhaseController.HasShipChosenActionThisPhase(_shipsUI.GetSelectedShip()))
+            _phaseManager.HasShipChosenActionThisPhase(_shipsUI.GetSelectedShip()))
         {
-            _helmPhaseController.ResetAction(_shipsUI.GetSelectedShip());
+            _phaseManager.ResetAction(_shipsUI.GetSelectedShip());
         }
     }
 

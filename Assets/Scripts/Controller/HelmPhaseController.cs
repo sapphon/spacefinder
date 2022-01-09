@@ -7,9 +7,8 @@ using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HelmPhaseController : MonoBehaviour
+public class HelmPhaseController : MonoBehaviour, IPhaseController
 {
-    private Dictionary<Ship, CrewAction> actionsThisPhase;
     private ShipUIManager _shipUiManager;
     private List<Vector3Int> _turnsSoFar;
     private List<Vector3Int> _destinationsSoFar;
@@ -21,7 +20,6 @@ public class HelmPhaseController : MonoBehaviour
     {
         _initiativeUIController = FindObjectOfType<InitiativeController>();
         _shipUiManager = FindObjectOfType<ShipUIManager>();
-        actionsThisPhase = new Dictionary<Ship, CrewAction>();
         _turnsSoFar = new List<Vector3Int>();
         _destinationsSoFar = new List<Vector3Int>();
     }
@@ -32,40 +30,31 @@ public class HelmPhaseController : MonoBehaviour
         this._initiativeUIController.GatherInitiatives();
     }
 
-    public bool HasShipChosenActionThisPhase(Ship ship)
+    public void OnActionBegin(CrewAction action, Ship ship)
     {
-        return actionsThisPhase.ContainsKey(ship);
-    }
-
-    public List<string> GetPossibleActionNamesForPhase()
-    {
-        return new List<string>() {"Maneuver"};
-    }
-
-    public void ToggleShipAction(Ship actor, string actionName)
-    {
-        if (HasShipChosenActionThisPhase(actor) && actionsThisPhase[actor].name == actionName)
+        if (action.name == "Maneuver")
         {
-            EndActionInProgressForShip(actor);
-        }
-        else
-        {
-            this._initialPosition = actor.gridPosition;
-            this._initialFacing = actor.facing;
+            this._initialPosition = ship.gridPosition;
+            this._initialFacing = ship.facing;
             _destinationsSoFar.Clear();
             _turnsSoFar.Clear();
-            actionsThisPhase.Add(actor, new CrewAction(actionName));
         }
     }
 
-    public void EndActionInProgressForShip(Ship actor)
+    public void OnActionEnd(CrewAction action, Ship ship)
     {
-        actionsThisPhase.Remove(actor);
+        
     }
 
-    public CrewAction getShipAction(Ship ship)
+    public void OnActionCancel(CrewAction action, Ship ship)
     {
-        return this.actionsThisPhase.ContainsKey(ship) ? this.actionsThisPhase[ship] : null;
+        if (action.name == "Maneuver")
+        {
+            _turnsSoFar.Clear();
+            _destinationsSoFar.Clear();
+            ship.gridPosition = _initialPosition;
+            ship.facing = _initialFacing;
+        }
     }
 
     public bool TryStarboardTurn(Ship ship)
@@ -104,14 +93,6 @@ public class HelmPhaseController : MonoBehaviour
         return false;
     }
 
-    public void ResetAction(Ship ship)
-    {
-        actionsThisPhase.Remove(ship);
-        _turnsSoFar.Clear();
-        _destinationsSoFar.Clear();
-        ship.gridPosition = _initialPosition;
-        ship.facing = _initialFacing;
-    }
 
     public bool MayAdvance(Ship ship)
     {
@@ -146,14 +127,10 @@ public class HelmPhaseController : MonoBehaviour
 
 }
 
-public class CrewAction
+public interface IPhaseController
 {
-    public string name { get; }
-    public Phase phase { get; }
-
-    public CrewAction(string name, Phase phase = Phase.Helm)
-    {
-        this.name = name;
-        this.phase = phase;
-    }
+    void OnPhaseBegin();
+    void OnActionBegin(CrewAction action, Ship ship);
+    void OnActionEnd(CrewAction action, Ship ship);
+    void OnActionCancel(CrewAction action, Ship ship);
 }

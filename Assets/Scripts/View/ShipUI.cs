@@ -18,6 +18,7 @@ public class ShipUI : MonoBehaviour
     private GameObject _firingArcUI;
     private TextMesh movesUntilTurnReadout;
     private TextMesh movesLeftReadout;
+    private PhaseManager phaseManager;
 
     void Awake()
     {
@@ -32,6 +33,7 @@ public class ShipUI : MonoBehaviour
         this.shipUiManager = FindObjectOfType<ShipUIManager>();
         this.helmPhaseController = FindObjectOfType<HelmPhaseController>();
         this._firingArcUI = this.transform.Find("FiringArcUI").gameObject;
+        this.phaseManager = FindObjectOfType<PhaseManager>();
     }
 
     void Update()
@@ -46,8 +48,8 @@ public class ShipUI : MonoBehaviour
 
     private void EnableManeuverUIIfManeuvering()
     {
-        if (helmPhaseController.HasShipChosenActionThisPhase(shipToTrack) &&
-            helmPhaseController.getShipAction(shipToTrack).name == "Maneuver")
+        if (phaseManager.HasShipChosenActionThisPhase(shipToTrack) &&
+            phaseManager.getShipAction(shipToTrack).name == "Maneuver")
         {
             this.maneuverUI.SetActive(true);
             SetAdvanceUIColor();
