@@ -70,7 +70,13 @@ public class InitiativeController : MonoBehaviour
             _initiativesThisRound[ship] = inputs[ship.displayName];
         }
         this._initiativePanel.SetActive(false);
-        GameObject.FindObjectOfType<PhaseManager>().SetShipInitiativeOrder(createInitiativeQueue(this._initiativesThisRound));
+        SendInitiativesToPhaseManager();
+    }
+
+    public void SendInitiativesToPhaseManager()
+    {
+        FindObjectOfType<PhaseManager>()
+            .SetShipInitiativeOrder(createInitiativeQueue(this._initiativesThisRound));
     }
 
     public Dictionary<Ship, short> GetInitiativesThisRound()

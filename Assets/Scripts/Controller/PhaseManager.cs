@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Controller.PhaseControllers;
 using Model;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class PhaseManager : MonoBehaviour
     protected Phase currentPhase = Phase.Engineering;
     protected List<Ship> shipsSignalingComplete = new List<Ship>();
     private HelmPhaseController _helmPhaseController;
+    private GunneryPhaseController _gunneryPhaseController;
     private Queue<Ship> _shipsYetToActInOrder = new Queue<Ship>();
     private ShipUIManager _shipsUI;
     private Dictionary<Ship, CrewAction> actionsThisPhase;
@@ -17,6 +19,7 @@ public class PhaseManager : MonoBehaviour
     void Awake()
     {
         _helmPhaseController = FindObjectOfType<HelmPhaseController>();
+        _gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
         _shipsUI = FindObjectOfType<ShipUIManager>();
         actionsThisPhase = new Dictionary<Ship, CrewAction>();
     }
@@ -77,6 +80,10 @@ public class PhaseManager : MonoBehaviour
         if (this.currentPhase == Phase.Helm)
         {
             _helmPhaseController.OnPhaseBegin();
+        }
+        else if (this.currentPhase == Phase.Gunnery)
+        {
+            _gunneryPhaseController.OnPhaseBegin();
         }
 
         this.shipsSignalingComplete.Clear();
@@ -189,6 +196,10 @@ public class PhaseManager : MonoBehaviour
             {
                 _helmPhaseController.OnActionBegin(this.actionsThisPhase[actor], actor);
             }
+            else if (currentPhase == Phase.Gunnery)
+            {
+                _gunneryPhaseController.OnActionBegin(this.actionsThisPhase[actor], actor);
+            }
         }
     }
 
@@ -197,6 +208,10 @@ public class PhaseManager : MonoBehaviour
         if (this.currentPhase == Phase.Helm)
         {
             _helmPhaseController.OnActionEnd(this.actionsThisPhase[actor], actor);
+        }
+        else if (currentPhase == Phase.Gunnery)
+        {
+            _gunneryPhaseController.OnActionEnd(this.actionsThisPhase[actor], actor);
         }
         actionsThisPhase.Remove(actor);
     }
@@ -210,6 +225,10 @@ public class PhaseManager : MonoBehaviour
         if (this.currentPhase == Phase.Helm)
         {
             _helmPhaseController.OnActionCancel(this.actionsThisPhase[ship], ship);
+        }
+        else if (currentPhase == Phase.Gunnery)
+        {
+            _gunneryPhaseController.OnActionCancel(this.actionsThisPhase[ship], ship);
         }
 
         actionsThisPhase.Remove(ship);
