@@ -6,6 +6,7 @@ public class Util
 {
     public static int DistanceBetween(Vector3Int origin, Vector3Int destination)
     {
+        //this is incorrect
         return Math.Abs(origin.x - destination.x) + Math.Abs(origin.y - destination.y);
     }
 

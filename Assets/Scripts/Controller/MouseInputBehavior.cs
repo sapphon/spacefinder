@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Controller.PhaseControllers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -16,7 +17,7 @@ public class MouseInputBehavior : MonoBehaviour
 
     private TileBase _prevTile;
     private Vector3Int _prevPosition;
-   
+
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class MouseInputBehavior : MonoBehaviour
     {
         getMouseMoveAction().performed += MousePositionChanged;
         getMouseClickAction().performed += MouseClicked;
+        getMouseRightClickAction().performed += MouseRightClicked;
     }
 
     private InputAction getMouseMoveAction()
@@ -40,10 +42,16 @@ public class MouseInputBehavior : MonoBehaviour
         return _input.actions["Mouse Click"];
     }
 
+    private InputAction getMouseRightClickAction()
+    {
+        return _input.actions["Target Ship"];
+    }
+    
     private void OnDisable()
     {
         getMouseMoveAction().performed -= MousePositionChanged;
         getMouseClickAction().performed -= MouseClicked;
+        getMouseRightClickAction().performed -= MouseRightClicked;
     }
 
     void Start()
@@ -71,6 +79,18 @@ public class MouseInputBehavior : MonoBehaviour
             if (_tilemap.HasTile(tileCoordinates))
             {
                 _shipsUI.TrySelectShip(tileCoordinates);
+            }
+        }
+    }
+    
+    private void MouseRightClicked(InputAction.CallbackContext callbackContext)
+    {
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            Vector3Int tileCoordinates = GetMousePositionRelativeToTilemap();
+            if (_tilemap.HasTile(tileCoordinates))
+            {
+                _shipsUI.TryTargetShip(tileCoordinates);
             }
         }
     }

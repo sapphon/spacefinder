@@ -6,7 +6,6 @@ namespace Controller.PhaseControllers
 {
     public class HelmPhaseController : MonoBehaviour, IPhaseController
     {
-        private ShipUIManager _shipUiManager;
         private List<Vector3Int> _turnsSoFar;
         private List<Vector3Int> _destinationsSoFar;
         private Vector3Int _initialPosition;
@@ -16,7 +15,6 @@ namespace Controller.PhaseControllers
         void Awake()
         {
             _initiativeUIController = FindObjectOfType<InitiativeController>();
-            _shipUiManager = FindObjectOfType<ShipUIManager>();
             _turnsSoFar = new List<Vector3Int>();
             _destinationsSoFar = new List<Vector3Int>();
         }

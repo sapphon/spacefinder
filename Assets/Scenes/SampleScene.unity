@@ -112516,9 +112516,65 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f3678ffe-dd40-420e-828e-561028ad09f1
     m_ActionName: Mouse/Toggle Range Bands[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 16bd8ffe-a21b-466c-ab8d-1b9d46258a1d
+    m_ActionName: Default/End Phase for Ship[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 63804609-860c-4208-98dc-c31d564cf2d0
+    m_ActionName: Default/Target Ship[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 07259871-7c5c-45e3-bcec-1e9735cc4648
+    m_ActionName: Default/Select Weapon 1[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ffd9f330-5758-472d-8fdb-1780ef023650
+    m_ActionName: Default/Select Weapon 2[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: be7a9090-0bc2-4801-892d-9d7dfa50c2ba
+    m_ActionName: Default/Select Weapon 3[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0b934716-a42e-49a5-9fcb-446bcbd0418a
+    m_ActionName: Default/Select Weapon 4[/Keyboard/4]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 424aed92-27c4-4de4-baf5-a96635641b2a
+    m_ActionName: Default/Select Weapon 5[/Keyboard/5]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 80d6df6a-d975-4ab9-8cff-a38c6e516a32
+    m_ActionName: Default/Select Weapon 6[/Keyboard/6]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 699dfecd-d4a8-4f8a-aeae-a7306d3a191f
+    m_ActionName: Default/Select Weapon 7[/Keyboard/7]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 33461ef3-632f-4836-8bf6-a7d2e078f1b2
+    m_ActionName: Default/Select Weapon 8[/Keyboard/8]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9ef8a06e-9a02-4ac7-8e9d-02ac674bef6e
+    m_ActionName: Default/Select Weapon 9[/Keyboard/9]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bbe8692b-29e6-40aa-a1e9-1676ef60d2a8
+    m_ActionName: Default/Select Weapon 10[/Keyboard/0]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: da89ff57-7fa4-4152-aaff-93ebcc4ea8ad
+    m_ActionName: Default/Select Weapon 11[/Keyboard/minus]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e532802b-dfc6-4a0d-b661-ec25dd9e0ded
+    m_ActionName: Default/Select Weapon 12[/Keyboard/equals]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Mouse
+  m_DefaultActionMap: Default
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!4 &1630927592

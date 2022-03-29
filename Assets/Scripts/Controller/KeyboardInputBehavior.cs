@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -13,11 +14,13 @@ public class KeyboardInputBehavior : MonoBehaviour
     private PlayerInput _input;
     private ShipUIManager _shipsUI;
     private HelmPhaseController _helmPhaseController;
+    private GunneryPhaseController _gunneryPhaseController;
     private PhaseManager _phaseManager;
 
 
     void Awake()
     {
+        _gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
         _helmPhaseController = FindObjectOfType<HelmPhaseController>();
         _input = GetComponent<PlayerInput>();
         _shipsUI = FindObjectOfType<ShipUIManager>();
@@ -33,6 +36,10 @@ public class KeyboardInputBehavior : MonoBehaviour
         getResetActionAction().performed += ResetAction;
         getToggleBandsAction().performed += ToggleRangeBands;
         getEndShipPhaseAction().performed += EndShipPhase;
+        for (int i = 1; i <= 12; i++)
+        {
+            getSelectWeaponAction(i).performed += TrySelectWeapon;
+        }
 
     }
 
@@ -48,6 +55,18 @@ public class KeyboardInputBehavior : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void TrySelectWeapon(InputAction.CallbackContext obj)
+    {
+        int weaponOrdinal = getWeaponNumberFromActionName(obj.action);
+        _shipsUI.TrySelectWeapon(weaponOrdinal);
+
+    }
+
+    private static int getWeaponNumberFromActionName(InputAction action)
+    {
+        return Int32.Parse(action.name.Split(' ').Last());
     }
 
     private void TryStarboardTurn(InputAction.CallbackContext obj)
@@ -136,6 +155,11 @@ public class KeyboardInputBehavior : MonoBehaviour
     {
         return _input.actions["Reset Action"];
     }
+    
+    private InputAction getSelectWeaponAction(int weapon)
+    {
+        return _input.actions["Select Weapon "+weapon];
+    }
 
     private void OnDisable()
     {
@@ -145,5 +169,9 @@ public class KeyboardInputBehavior : MonoBehaviour
         getToggleArcsAction().performed -= ToggleArcs;
         getResetActionAction().performed -= ResetAction;
         getEndShipPhaseAction().performed -= EndShipPhase;
+        for (int i = 1; i <= 12; i++)
+        {
+            getSelectWeaponAction(i).performed -= TrySelectWeapon;
+        }
     }
 }

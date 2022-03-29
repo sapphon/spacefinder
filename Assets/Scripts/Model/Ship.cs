@@ -5,6 +5,7 @@ using System.Linq;
 using Model;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class Ship : MonoBehaviour
@@ -72,6 +73,11 @@ public class Ship : MonoBehaviour
         return GameObject.Find("Ship Models").GetComponentsInChildren<Ship>();
     }
 
+    public Vector3 getWorldSpacePosition()
+    {
+        return GameObject.Find("Tilemap").GetComponent<Tilemap>().GetCellCenterWorld(this.gridPosition);
+    }
+
     public void TurnToStarboard()
     {
 
@@ -109,6 +115,36 @@ public class Ship : MonoBehaviour
         {
             gridPosition = new Vector3Int(gridPosition.x + (gridPosition.y % 2 == 0 ? 0 : 1), gridPosition.y + 1, gridPosition.z);
         }
+    }
+
+    public Vector3 getForwardVectorInWorld()
+    {
+        if (facing == Facing.N)
+        {
+            return Vector3.up;
+        }
+        else if (facing == Facing.NW)
+        {
+            return new Vector3(-0.5f, Mathf.Sqrt(3)/2f, 0f);
+        }
+        else if (facing == Facing.SW)
+        {
+            return new Vector3(-0.5f, -Mathf.Sqrt(3)/2f, 0f);
+        }
+        else if (facing == Facing.S)
+        {
+            return Vector3.down;
+        }
+        else if (facing == Facing.SE)
+        {
+            return new Vector3(0.5f, -Mathf.Sqrt(3)/2f, 0f);
+        }
+        else if (facing == Facing.NE)
+        {
+            return new Vector3(0.5f, -Mathf.Sqrt(3)/2f, 0f);
+        }
+
+        return Vector3.up;
     }
 }
 

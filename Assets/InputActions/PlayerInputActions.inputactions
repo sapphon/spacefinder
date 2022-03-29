@@ -2,7 +2,7 @@
     "name": "PlayerInputActions",
     "maps": [
         {
-            "name": "Mouse",
+            "name": "Default",
             "id": "c8eb1a29-2d86-414c-a686-42cafc6a5b92",
             "actions": [
                 {
@@ -73,6 +73,110 @@
                     "name": "End Phase for Ship",
                     "type": "Button",
                     "id": "16bd8ffe-a21b-466c-ab8d-1b9d46258a1d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Target Ship",
+                    "type": "Button",
+                    "id": "63804609-860c-4208-98dc-c31d564cf2d0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 1",
+                    "type": "Button",
+                    "id": "07259871-7c5c-45e3-bcec-1e9735cc4648",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 2",
+                    "type": "Button",
+                    "id": "ffd9f330-5758-472d-8fdb-1780ef023650",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 3",
+                    "type": "Button",
+                    "id": "be7a9090-0bc2-4801-892d-9d7dfa50c2ba",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 4",
+                    "type": "Button",
+                    "id": "0b934716-a42e-49a5-9fcb-446bcbd0418a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 5",
+                    "type": "Button",
+                    "id": "424aed92-27c4-4de4-baf5-a96635641b2a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 6",
+                    "type": "Button",
+                    "id": "80d6df6a-d975-4ab9-8cff-a38c6e516a32",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 7",
+                    "type": "Button",
+                    "id": "699dfecd-d4a8-4f8a-aeae-a7306d3a191f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 8",
+                    "type": "Button",
+                    "id": "33461ef3-632f-4836-8bf6-a7d2e078f1b2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 9",
+                    "type": "Button",
+                    "id": "9ef8a06e-9a02-4ac7-8e9d-02ac674bef6e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 10",
+                    "type": "Button",
+                    "id": "bbe8692b-29e6-40aa-a1e9-1676ef60d2a8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 11",
+                    "type": "Button",
+                    "id": "da89ff57-7fa4-4152-aaff-93ebcc4ea8ad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select Weapon 12",
+                    "type": "Button",
+                    "id": "e532802b-dfc6-4a0d-b661-ec25dd9e0ded",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -175,6 +279,149 @@
                     "processors": "",
                     "groups": "",
                     "action": "End Phase for Ship",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54e32312-6c49-4bf7-9c4d-b94ba8775da1",
+                    "path": "<Pointer>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Target Ship",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "df2d18b2-bfb9-422c-8524-988bc46ada53",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69d12c0e-1479-4205-a590-f6b7e74cb29d",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48557a07-891b-4086-8421-3bb78243ad1b",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 6",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f0fc31f-7333-4fba-8cb5-d5b80e011816",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 7",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1ea19d30-280b-477d-904b-b9eeaa349a90",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 8",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e33089ae-d9aa-4500-b719-b6b8451026c5",
+                    "path": "<Keyboard>/9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 9",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5d5054e3-cd36-4a4f-9c23-f274c1c259d8",
+                    "path": "<Keyboard>/0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 10",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e5aab73f-34ba-4a3a-8f7e-acfec5832509",
+                    "path": "<Keyboard>/minus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 11",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f62cea10-37ca-4e13-9f37-afdf9debc464",
+                    "path": "<Keyboard>/equals",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 12",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58e20a0a-3d9e-475e-aba8-578f9ae54f44",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80d33538-221c-4ac3-b72c-e8de5ffc3d48",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e46bcf6c-0059-4100-8c9f-87a6cd7eb27c",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Weapon 3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
