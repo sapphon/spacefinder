@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Model;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Controller.PhaseControllers
         {
             _initiativeUIController = FindObjectOfType<InitiativeController>();
             _shipUiManager = FindObjectOfType<ShipUIManager>();
+            this.firingSolutions = new HashSet<FiringSolution>();
         }
 
 
@@ -81,8 +83,14 @@ namespace Controller.PhaseControllers
                 float angleBetween = Vector3.SignedAngle(solution.attacker.getForwardVectorInWorld(),
                     solution.target.getWorldSpacePosition()- solution.attacker.getWorldSpacePosition(),
                     Vector3.forward);
-                Debug.Log(angleBetween);
+                Debug.Log("Firing angle " + angleBetween);
+                if (solution.weapon.arc == WeaponFiringArc.Fore)
+                {
+                    if (Mathf.Abs(angleBetween) < 45f) return true;
+                }
+
                 return false;
+
             }
         }
         
@@ -103,6 +111,11 @@ namespace Controller.PhaseControllers
         {
             this.firingSolutions.RemoveWhere(solution =>
                 solution.weapon == weapon && solution.attacker == attacker);
+        }
+
+        public bool IsTargeted(Ship ship)
+        {
+            return this.firingSolutions.Any(solution => solution.target == ship);
         }
     }
 

@@ -13,6 +13,7 @@ public class ShipUI : MonoBehaviour
     protected SpriteRenderer advanceIndicator;
     protected ShipUIManager shipUiManager;
     protected HelmPhaseController helmPhaseController;
+    protected GunneryPhaseController gunneryPhaseController;
     protected GameObject maneuverUI;
     private SpriteRenderer starboardTurnIndicator;
     private SpriteRenderer portTurnIndicator;
@@ -20,19 +21,24 @@ public class ShipUI : MonoBehaviour
     private TextMesh movesUntilTurnReadout;
     private TextMesh movesLeftReadout;
     private PhaseManager phaseManager;
+    private SpriteRenderer targetedIndicator;
+    private GameObject targetingUI;
 
     void Awake()
     {
         this.shipMap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.maneuverUI = this.transform.Find("ManeuverUI").gameObject;
+        this.targetingUI = this.transform.Find("TargetingUI").gameObject;
         this.advanceIndicator = this.maneuverUI.transform.Find("AdvanceIndicator").GetComponent<SpriteRenderer>();
+        this.targetedIndicator = this.targetingUI.transform.Find("TargetedIndicator").GetComponent<SpriteRenderer>();
         this.starboardTurnIndicator = this.maneuverUI.transform.Find("StarboardTurnIndicator").GetComponent<SpriteRenderer>();
         this.portTurnIndicator = this.maneuverUI.transform.Find("PortTurnIndicator").GetComponent<SpriteRenderer>();
         this.movesUntilTurnReadout = this.maneuverUI.transform.Find("MovesUntilTurnReadout").GetComponent<TextMesh>();
         this.movesLeftReadout = this.maneuverUI.transform.Find("MovesRemainingReadout").GetComponent<TextMesh>();
         this.shipUiManager = FindObjectOfType<ShipUIManager>();
         this.helmPhaseController = FindObjectOfType<HelmPhaseController>();
+        this.gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
         this._firingArcUI = this.transform.Find("FiringArcUI").gameObject;
         this.phaseManager = FindObjectOfType<PhaseManager>();
     }
@@ -45,6 +51,7 @@ public class ShipUI : MonoBehaviour
         spriteRenderer.color = shipToTrack.hitPoints < 1? Color.grey : shipToTrack.affiliation == Affiliation.Player ? Color.green : Color.red;
         EnableManeuverUIIfManeuvering();
         FiringArcs();
+        TargetingCrosshair();
     }
 
     private void EnableManeuverUIIfManeuvering()
@@ -62,7 +69,13 @@ public class ShipUI : MonoBehaviour
         {
             this.maneuverUI.SetActive(false);
         }
-    } 
+    }
+
+    private void TargetingCrosshair()
+    {
+        bool shouldAppear = phaseManager.GetCurrentPhase() == Phase.Gunnery && this.gunneryPhaseController.IsTargeted(this.shipToTrack);
+        this.targetedIndicator.gameObject.SetActive(shouldAppear);
+    }
 
     private void SetMovesUntilTurn()
     {
