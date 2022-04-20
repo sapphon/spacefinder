@@ -25,6 +25,7 @@ Things would still have been OK because of the availability of excellent tools f
 
 **Available only while a ship is selected**
 * Toggle display of firing arcs - F
+* Indicate selected ship is done with phase - SPACEBAR
 
 **Available only while maneuvering**
 * Advance - UPARROW
