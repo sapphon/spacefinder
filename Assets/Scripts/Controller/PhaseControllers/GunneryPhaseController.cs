@@ -28,10 +28,6 @@ namespace Controller.PhaseControllers
 
         public void OnActionBegin(CrewAction action, Ship ship)
         {
-            if (action.name == "Shoot")
-            {
-                //do a shoot
-            }
         }
 
         public void OnActionEnd(CrewAction action, Ship ship)
@@ -43,7 +39,10 @@ namespace Controller.PhaseControllers
         {
             if (action.name == "Shoot")
             {
-                //cancel shoot
+                //for larger ships, taking into account which gunner is canceling will be necessary
+                this.firingSolutions.RemoveWhere(solution => solution.attacker == ship);
+                this._shipUiManager.UpdateAttackMarkers(this.firingSolutions);
+               
             }
         }
 
