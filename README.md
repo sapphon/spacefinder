@@ -17,3 +17,25 @@ Things would still have been OK because of the availability of excellent tools f
 [Paizo](https://paizo.com/)'s permissive game licensing means they don't necessarily get paid when a *Starfinder* tool is distributed the way Disney does when any and all things *Star Wars* are.  That means there's no technical or legal reason such a tool can't be [free software](https://en.wikipedia.org/wiki/Free_software_movement).  
 
 **So**: this aid isn't meant to be the best Starfinder starship combat tracker out there, but it will always be tied for the freest!
+
+## Controls
+
+Select ship - LMOUSE
+Deselect ship - LMOUSE empty hex
+
+**Available only while a ship is selected**
+Toggle display of firing arcs - F
+
+**Available only while maneuvering**
+Advance - UPARROW
+Turn to port - LARROW
+Turn to starboard - RARROW
+
+**Available only while shooting**
+Choose selected ship's weapon by number - 1-12
+
+**Available only while a weapon is selected**
+Toggle display of range bands - R
+Target ship with selected weapon - RMOUSE
+
+Cancel an action in progress - BACKSPACE
