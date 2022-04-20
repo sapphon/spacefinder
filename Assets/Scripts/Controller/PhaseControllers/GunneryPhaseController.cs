@@ -26,6 +26,11 @@ namespace Controller.PhaseControllers
             this._initiativeUIController.SendInitiativesToPhaseManager();
         }
 
+        public void OnPhaseEnd()
+        {
+            FireOnAllSolutions();
+        }
+
         public void OnActionBegin(CrewAction action, Ship ship)
         {
         }
@@ -33,6 +38,27 @@ namespace Controller.PhaseControllers
         public void OnActionEnd(CrewAction action, Ship ship)
         {
             
+        }
+
+        public void FireOnAllSolutions()
+        {
+            DiceRoller rnJesus = new DiceRoller();
+            foreach (FiringSolution solution in this.firingSolutions)
+            {
+                int toHitRoll = rnJesus.rollAndTotal(1, Die.D20);
+                int gunneryBonus = (solution.gunner != null ? solution.gunner.gunneryBonus : 0);
+                Debug.Log(solution.attacker.displayName + " fired " + solution.weapon.name + " at " +
+                          solution.target.displayName + ", rolled " + toHitRoll +
+                          "+" + gunneryBonus + "; needed " + solution.target.armorClass + ".");
+                bool hit = toHitRoll + gunneryBonus >= solution.target.armorClass;
+                if (hit)
+                {
+                    int damageRoll =
+                        rnJesus.rollAndTotal(solution.weapon.damageDieCount, solution.weapon.damageDieType);
+                    Debug.Log(damageRoll + " damage rolled.");
+                }
+            }
+            this.firingSolutions.Clear();
         }
 
         public void OnActionCancel(CrewAction action, Ship ship)

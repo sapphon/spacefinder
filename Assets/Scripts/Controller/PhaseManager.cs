@@ -76,7 +76,14 @@ public class PhaseManager : MonoBehaviour
 
     protected void EndPhase()
     {
+        NotifyEndPhase();
         DoEndPhase();
+        NotifyBeginPhase();
+        this.shipsSignalingComplete.Clear();
+    }
+
+    private void NotifyBeginPhase()
+    {
         if (this.currentPhase == Phase.Helm)
         {
             _helmPhaseController.OnPhaseBegin();
@@ -85,8 +92,14 @@ public class PhaseManager : MonoBehaviour
         {
             _gunneryPhaseController.OnPhaseBegin();
         }
+    }
 
-        this.shipsSignalingComplete.Clear();
+    private void NotifyEndPhase()
+    {
+        if (this.currentPhase == Phase.Gunnery)
+        {
+            _gunneryPhaseController.OnPhaseEnd();
+        }
     }
 
     private void DoEndPhase()

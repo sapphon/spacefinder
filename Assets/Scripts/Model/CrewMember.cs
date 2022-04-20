@@ -13,5 +13,6 @@ namespace Model
         
         public Crew.Role role = Crew.Role.Gunner;
         public string name = Util.chooseRandom(_defaultNames);
+        public int gunneryBonus = 0;
     }
 }

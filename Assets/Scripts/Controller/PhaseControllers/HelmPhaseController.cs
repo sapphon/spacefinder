@@ -25,6 +25,10 @@ namespace Controller.PhaseControllers
             this._initiativeUIController.GatherInitiatives();
         }
 
+        public void OnPhaseEnd()
+        {
+        }
+
         public void OnActionBegin(CrewAction action, Ship ship)
         {
             if (action.name == "Maneuver")
