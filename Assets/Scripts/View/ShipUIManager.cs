@@ -11,6 +11,7 @@ using UnityEngine.Tilemaps;
 public class ShipUIManager : MonoBehaviour
 {
     public GameObject shipUIPrefab;
+    public GameObject attackMarkerPrefab;
     protected Tilemap shipMap;
     protected Ship selectedShip;
     protected bool showingArcs;
@@ -18,12 +19,15 @@ public class ShipUIManager : MonoBehaviour
     protected CameraController cameraControlller;
     private GunneryPhaseController _gunneryPhaseController;
     protected Weapon selectedWeapon;
+    private GameObject _attackMarkerParent;
+
 
     void Awake()
     {
         this.shipMap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         this.cameraControlller = GameObject.FindObjectOfType<CameraController>();
         this._gunneryPhaseController = GameObject.FindObjectOfType<GunneryPhaseController>();
+        this._attackMarkerParent = GameObject.Find("Attack Markers");
 
         this.selectedShip = null;
         this.selectedWeapon = null;
@@ -139,5 +143,28 @@ public class ShipUIManager : MonoBehaviour
     public void SetShowingRange(int toSet)
     {
         this.showingRange = toSet;
+    }
+
+    public void UpdateAttackMarkers(HashSet<FiringSolution> solutions)
+
+    {
+        ClearAttackMarkers();
+        foreach(FiringSolution solution in solutions)
+        {
+            GameObject attackMarkerObject = Instantiate(attackMarkerPrefab, this._attackMarkerParent.transform);
+            LineRenderer attackMarker = attackMarkerObject.GetComponent<LineRenderer>();
+            float dontChangeTheZ = attackMarker.GetPosition(0).z;
+            Vector3 attackerPosition = solution.attacker.getWorldSpacePosition();
+            Vector3 targetPosition = solution.target.getWorldSpacePosition();
+            attackMarker.SetPositions(new[]{new Vector3(attackerPosition.x, attackerPosition.y, dontChangeTheZ), new Vector3(targetPosition.x, targetPosition.y, dontChangeTheZ)});
+        }
+    }
+
+    private void ClearAttackMarkers()
+    {
+        while (this._attackMarkerParent.transform.childCount > 0)
+        {
+            DestroyImmediate(_attackMarkerParent.transform.GetChild(0).gameObject);
+        }
     }
 }

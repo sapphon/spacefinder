@@ -13,7 +13,7 @@ public class SpriteRotator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.transform.RotateAround(Vector3.forward, rotationSpeed * Time.deltaTime);
+        this.transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
         reverseIfNecessary();
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Model;
+using UnityEditor;
 using UnityEngine;
 
 namespace Controller.PhaseControllers
@@ -11,7 +12,7 @@ namespace Controller.PhaseControllers
         private ShipUIManager _shipUiManager;
         private InitiativeController _initiativeUIController;
         private HashSet<FiringSolution> firingSolutions;
-        
+
         void Awake()
         {
             _initiativeUIController = FindObjectOfType<InitiativeController>();
@@ -105,6 +106,7 @@ namespace Controller.PhaseControllers
         private void DoTarget(Ship attacker, Ship target, Weapon weapon)
         {
             this.firingSolutions.Add(new FiringSolution(attacker, target, weapon));
+            this._shipUiManager.UpdateAttackMarkers(this.firingSolutions);
         }
 
         private void ClearPreviousTargetForWeapon(Ship attacker, Weapon weapon)
