@@ -20,22 +20,22 @@ Things would still have been OK because of the availability of excellent tools f
 
 ## Controls
 
-Select ship - LMOUSE
-Deselect ship - LMOUSE empty hex
+* Select ship - LMOUSE
+* Deselect ship - LMOUSE empty hex
 
 **Available only while a ship is selected**
-Toggle display of firing arcs - F
+* Toggle display of firing arcs - F
 
 **Available only while maneuvering**
-Advance - UPARROW
-Turn to port - LARROW
-Turn to starboard - RARROW
+* Advance - UPARROW
+* Turn to port - LARROW
+* Turn to starboard - RARROW
 
 **Available only while shooting**
-Choose selected ship's weapon by number - 1-12
+* Choose selected ship's weapon by number - 1-12
 
 **Available only while a weapon is selected**
-Toggle display of range bands - R
-Target ship with selected weapon - RMOUSE
+* Toggle display of range bands - R
+* Target ship with selected weapon - RMOUSE
 
-Cancel an action in progress - BACKSPACE
+* Cancel an action in progress - BACKSPACE
