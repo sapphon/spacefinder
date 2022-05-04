@@ -102,7 +102,7 @@ public class ShipUIManager : MonoBehaviour
             if (GetSelectedShip().weapons.Count >= weaponOrdinal)
             {
                 this.selectedWeapon = GetSelectedShip().weapons[weaponOrdinal - 1];
-                Debug.Log("Weapon " + weaponOrdinal + " Selected: it's a " + this.selectedWeapon.name);
+                Debug.Log("Weapon " + weaponOrdinal + " Selected: it's a " + this.selectedWeapon.name + ", arc: " + this.selectedWeapon.arc);
                 return true;
             }
         }
