@@ -88,7 +88,7 @@ namespace Controller
             int criticalThreshold = _solution.target.hitPointsTotal / 5;
             int stepsIncurredBeforeDamage =
                 (_solution.target.hitPointsTotal - _solution.target.hitPoints) / criticalThreshold;
-            int stepsAfterDamage = (_solution.target.hitPointsTotal - amount);
+            int stepsAfterDamage = (_solution.target.hitPointsTotal - _solution.target.hitPoints + amount) / criticalThreshold;
             if (stepsAfterDamage > stepsIncurredBeforeDamage)
             {
                 if (Util.isGameDebugging())
