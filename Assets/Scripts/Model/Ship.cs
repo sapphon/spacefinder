@@ -126,11 +126,11 @@ public class Ship : MonoBehaviour
         }
         else if (facing == Facing.NW)
         {
-            return new Vector3(-0.5f, Mathf.Sqrt(3)/2f, 0f);
+            return new Vector3(-Mathf.Sqrt(3)/2f, 0.5f);
         }
         else if (facing == Facing.SW)
         {
-            return new Vector3(-0.5f, -Mathf.Sqrt(3)/2f, 0f);
+            return new Vector3(-Mathf.Sqrt(3)/2f, -0.5f);
         }
         else if (facing == Facing.S)
         {
@@ -138,11 +138,11 @@ public class Ship : MonoBehaviour
         }
         else if (facing == Facing.SE)
         {
-            return new Vector3(0.5f, -Mathf.Sqrt(3)/2f, 0f);
+            return new Vector3(Mathf.Sqrt(3)/2f, -0.5f);
         }
         else if (facing == Facing.NE)
         {
-            return new Vector3(0.5f, -Mathf.Sqrt(3)/2f, 0f);
+            return new Vector3(Mathf.Sqrt(3)/2f, 0.5f);
         }
 
         return Vector3.up;

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Model;
-using UnityEditor;
 using UnityEngine;
 
 namespace Controller.PhaseControllers
@@ -104,20 +102,36 @@ namespace Controller.PhaseControllers
             }
             else
             {
-                float angleBetween = Vector3.SignedAngle(solution.attacker.getForwardVectorInWorld(),
-                    solution.target.getWorldSpacePosition()- solution.attacker.getWorldSpacePosition(),
-                    Vector3.forward);
-                Debug.Log("Firing angle " + angleBetween);
+                var angleBetween = getAngleBetweenAttackerFrontAndTarget(solution);
                 if (solution.weapon.arc == WeaponFiringArc.Fore)
                 {
-                    if (Mathf.Abs(angleBetween) < 45f) return true;
+                    if (Mathf.Abs(angleBetween) <= 30f) return true;
+                }
+                else if (solution.weapon.arc == WeaponFiringArc.Aft)
+                {
+                    if (Mathf.Abs(angleBetween) >= 150f) return true;
+                }
+                else if (solution.weapon.arc == WeaponFiringArc.Port)
+                {
+                    if (angleBetween > 30f && angleBetween < 150f) return true;
+                }
+                else if (solution.weapon.arc == WeaponFiringArc.Starboard)
+                {
+                    if (angleBetween < -30f && angleBetween > -150f) return true;
                 }
 
                 return false;
 
             }
         }
-        
+
+        private static float getAngleBetweenAttackerFrontAndTarget(FiringSolution solution)
+        {
+            float angleBetween = Vector3.SignedAngle(solution.attacker.getForwardVectorInWorld(),
+                solution.target.getWorldSpacePosition() - solution.attacker.getWorldSpacePosition(), Vector3.forward);
+            return angleBetween;
+        }
+
         private bool isInRange(FiringSolution solution)
         {
             var distanceBetween = Util.DistanceBetween(solution.attacker.gridPosition, solution.target.gridPosition);
