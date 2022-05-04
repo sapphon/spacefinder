@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 84911730}
   - component: {fileID: 84911731}
   m_Layer: 0
-  m_Name: ShipModel (2)
+  m_Name: Wanderer #1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,7 +326,8 @@ MonoBehaviour:
   maneuverability: 0
   armorClass: 12
   targetLock: 12
-  hitPoints: 100
+  hitPoints: 35
+  hitPointsTotal: 35
   damageThreshold: 0
   shieldCapacity: 60
   shieldForeCurrent: 15
@@ -348,12 +349,16 @@ MonoBehaviour:
   crew:
   - role: 1
     name: Engi NPC
+    gunneryBonus: 0
   - role: 4
     name: Gunny NPC
+    gunneryBonus: 0
   - role: 3
     name: Pilot NPC
+    gunneryBonus: 0
   - role: 2
     name: Science NPC
+    gunneryBonus: 0
   weapons:
   - name: LLC
     arc: 0
@@ -372,7 +377,7 @@ GameObject:
   - component: {fileID: 150275694}
   - component: {fileID: 150275695}
   m_Layer: 0
-  m_Name: ShipModel (4)
+  m_Name: Voidrunner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -412,7 +417,8 @@ MonoBehaviour:
   maneuverability: 0
   armorClass: 12
   targetLock: 12
-  hitPoints: 100
+  hitPoints: 20
+  hitPointsTotal: 20
   damageThreshold: 0
   shieldCapacity: 60
   shieldForeCurrent: 15
@@ -529,7 +535,7 @@ GameObject:
   - component: {fileID: 241814995}
   - component: {fileID: 241814996}
   m_Layer: 0
-  m_Name: ShipModel (1)
+  m_Name: Drone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -569,7 +575,8 @@ MonoBehaviour:
   maneuverability: 3
   armorClass: 12
   targetLock: 12
-  hitPoints: 100
+  hitPoints: 40
+  hitPointsTotal: 40
   damageThreshold: 0
   shieldCapacity: 60
   shieldForeCurrent: 15
@@ -1031,7 +1038,7 @@ GameObject:
   - component: {fileID: 461348635}
   - component: {fileID: 461348636}
   m_Layer: 0
-  m_Name: ShipModel
+  m_Name: PlayerShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1071,7 +1078,8 @@ MonoBehaviour:
   maneuverability: 0
   armorClass: 12
   targetLock: 12
-  hitPoints: 100
+  hitPoints: 55
+  hitPointsTotal: 55
   damageThreshold: 0
   shieldCapacity: 60
   shieldForeCurrent: 15
@@ -1093,14 +1101,19 @@ MonoBehaviour:
   crew:
   - role: 1
     name: Skrich
+    gunneryBonus: 0
   - role: 2
     name: Finder
+    gunneryBonus: 0
   - role: 3
     name: Skiz
+    gunneryBonus: 0
   - role: 4
     name: NPC1
+    gunneryBonus: 0
   - role: 4
     name: NPC2
+    gunneryBonus: 0
   weapons:
   - name: LLC
     arc: 0
@@ -56569,7 +56582,7 @@ GameObject:
   - component: {fileID: 783246780}
   - component: {fileID: 783246781}
   m_Layer: 0
-  m_Name: ShipModel (3)
+  m_Name: Wanderer #2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56609,7 +56622,8 @@ MonoBehaviour:
   maneuverability: 0
   armorClass: 12
   targetLock: 12
-  hitPoints: 100
+  hitPoints: 35
+  hitPointsTotal: 35
   damageThreshold: 0
   shieldCapacity: 60
   shieldForeCurrent: 15
@@ -56631,12 +56645,16 @@ MonoBehaviour:
   crew:
   - role: 1
     name: Engi NPC
+    gunneryBonus: 0
   - role: 4
     name: Gunny NPC
+    gunneryBonus: 0
   - role: 3
     name: Pilot NPC
+    gunneryBonus: 0
   - role: 2
     name: Science NPC
+    gunneryBonus: 0
   weapons:
   - name: LLC
     arc: 0

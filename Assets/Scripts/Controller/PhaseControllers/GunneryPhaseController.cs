@@ -53,9 +53,7 @@ namespace Controller.PhaseControllers
                 bool hit = toHitRoll + gunneryBonus >= solution.target.armorClass;
                 if (hit)
                 {
-                    int damageRoll =
-                        rnJesus.rollAndTotal(solution.weapon.damageDieCount, solution.weapon.damageDieType);
-                    Debug.Log(damageRoll + " damage rolled.");
+                    new HitResolver(solution, rnJesus).Resolve();
                 }
             }
             this.firingSolutions.Clear();

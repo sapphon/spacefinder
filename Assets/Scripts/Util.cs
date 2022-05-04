@@ -14,4 +14,9 @@ public class Util
     {
         return choosingFrom[new System.Random().Next(choosingFrom.Length)];
     }
+
+    public static bool isGameDebugging()
+    {
+        return true;
+    }
 }

@@ -31,6 +31,7 @@ public class Ship : MonoBehaviour
     public int armorClass = 12;
     public int targetLock = 12;
     public int hitPoints = 100;
+    public int hitPointsTotal = 100;
     public int damageThreshold = 0;
 
     //fake-ass made up defenses
