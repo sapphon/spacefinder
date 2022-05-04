@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Model;
 using UnityEngine;
@@ -35,7 +36,6 @@ namespace Controller.PhaseControllers
 
         public void OnActionEnd(CrewAction action, Ship ship)
         {
-            
         }
 
         public void FireOnAllSolutions()
@@ -54,6 +54,7 @@ namespace Controller.PhaseControllers
                     new HitResolver(solution, rnJesus).Resolve();
                 }
             }
+
             this.firingSolutions.Clear();
         }
 
@@ -64,7 +65,6 @@ namespace Controller.PhaseControllers
                 //for larger ships, taking into account which gunner is canceling will be necessary
                 this.firingSolutions.RemoveWhere(solution => solution.attacker == ship);
                 this._shipUiManager.UpdateAttackMarkers(this.firingSolutions);
-               
             }
         }
 
@@ -90,46 +90,55 @@ namespace Controller.PhaseControllers
                 Debug.Log("Targeting successful");
                 return true;
             }
+
             Debug.Log("Targeting unsuccessful");
             return false;
         }
-        
+
         private bool isInArc(FiringSolution solution)
         {
+            bool toReturn = false;
             if (solution.weapon.arc == WeaponFiringArc.Turret)
             {
-                return true;
+                toReturn = true;
+                if (Util.isGameDebugging())
+                {
+                    Debug.Log("Attack is in arc, because the weapon is turreted.");
+                }
             }
             else
             {
-                var angleBetween = getAngleBetweenAttackerFrontAndTarget(solution);
+                var angleBetween = Util.getAngleBetweenShips(solution.attacker, solution.target);
+
                 if (solution.weapon.arc == WeaponFiringArc.Fore)
                 {
-                    if (Mathf.Abs(angleBetween) <= 30f) return true;
+                    if (Mathf.Abs(angleBetween) <= 30f || Mathf.Approximately(Mathf.Abs(angleBetween), 30f))
+                        toReturn = true;
                 }
                 else if (solution.weapon.arc == WeaponFiringArc.Aft)
                 {
-                    if (Mathf.Abs(angleBetween) >= 150f) return true;
+                    if (Mathf.Abs(angleBetween) >= 150f || Mathf.Approximately(Mathf.Abs(angleBetween), 150f))
+                        toReturn = true;
                 }
                 else if (solution.weapon.arc == WeaponFiringArc.Port)
                 {
-                    if (angleBetween > 30f && angleBetween < 150f) return true;
+                    if (angleBetween > 30f && angleBetween < 150f) toReturn = true;
                 }
                 else if (solution.weapon.arc == WeaponFiringArc.Starboard)
                 {
-                    if (angleBetween < -30f && angleBetween > -150f) return true;
+                    if (angleBetween < -30f && angleBetween > -150f) toReturn = true;
                 }
 
-                return false;
+                if (Util.isGameDebugging())
+                {
+                    Debug.Log("Attack " + (toReturn
+                        ? " is "
+                        : " is not ") + " in the " + solution.weapon.arc +
+                          " arc, according with an angle of incidence of " + angleBetween + ".");
+                }
 
             }
-        }
-
-        private static float getAngleBetweenAttackerFrontAndTarget(FiringSolution solution)
-        {
-            float angleBetween = Vector3.SignedAngle(solution.attacker.getForwardVectorInWorld(),
-                solution.target.getWorldSpacePosition() - solution.attacker.getWorldSpacePosition(), Vector3.forward);
-            return angleBetween;
+                return toReturn;
         }
 
         private bool isInRange(FiringSolution solution)
@@ -164,7 +173,7 @@ namespace Controller.PhaseControllers
         public Ship target;
         public Weapon weapon;
         public CrewMember gunner;
-        
+
         public FiringSolution(Ship attacker, Ship target, Weapon weapon)
         {
             this.attacker = attacker;
@@ -172,12 +181,13 @@ namespace Controller.PhaseControllers
             this.weapon = weapon;
             this.gunner = null;
         }
+
         public FiringSolution(Ship attacker, Ship target, Weapon weapon, CrewMember gunner)
         {
             this.attacker = attacker;
             this.target = target;
             this.weapon = weapon;
             this.gunner = gunner;
-        }                
+        }
     }
 }

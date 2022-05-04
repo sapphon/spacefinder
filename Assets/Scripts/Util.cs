@@ -19,4 +19,10 @@ public class Util
     {
         return true;
     }
+
+    public static float getAngleBetweenShips(Ship observer, Ship observed)
+    {
+        return Vector3.SignedAngle(observer.getForwardVectorInWorld(),
+            observed.getWorldSpacePosition() - observer.getWorldSpacePosition(), Vector3.forward);
+    }
 }
