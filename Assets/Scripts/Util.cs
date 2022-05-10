@@ -15,9 +15,14 @@ public class Util
         return choosingFrom[new System.Random().Next(choosingFrom.Length)];
     }
 
-    public static bool isGameDebugging()
+    public static bool logIfDebugging(string toLog)
     {
-        return true;
+        bool isDebugging = true;
+        if (isDebugging)
+        {
+            Debug.Log(toLog);
+        }
+        return isDebugging;
     }
 
     public static float getAngleBetweenShips(Ship observer, Ship observed)

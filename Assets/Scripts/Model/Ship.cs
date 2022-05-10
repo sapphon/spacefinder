@@ -34,7 +34,7 @@ public class Ship : MonoBehaviour
     public int hitPointsTotal = 100;
     public int damageThreshold = 0;
 
-    //fake-ass made up defenses
+    //shields
     public int shieldCapacity = 60;
     public int shieldForeCurrent = 15;
     public int shieldAftCurrent = 15;
@@ -61,7 +61,7 @@ public class Ship : MonoBehaviour
     public SystemCondition starboardWeapons = 0;
     public SystemCondition foreWeapons = 0;
     public SystemCondition aftWeapons = 0;
-
+    
     [Header("Crew")] 
     public List<CrewMember> crew;
 
@@ -72,6 +72,11 @@ public class Ship : MonoBehaviour
     public static Ship[] getAllShips()
     {
         return GameObject.Find("Ship Models").GetComponentsInChildren<Ship>();
+    }
+
+    public SystemCondition[] getAllWeaponsSystemConditions()
+    {
+        return new[]{foreWeapons, aftWeapons, starboardWeapons, portWeapons};
     }
 
     public Vector3 getWorldSpacePosition()
@@ -147,6 +152,14 @@ public class Ship : MonoBehaviour
 
         return Vector3.up;
     }
+
+    public bool isWeaponsSystemWrecked()
+    {
+        return this.aftWeapons == SystemCondition.Wrecked &&
+               this.foreWeapons == SystemCondition.Wrecked &&
+               this.starboardWeapons == SystemCondition.Wrecked &&
+               this.portWeapons == SystemCondition.Wrecked;
+    }
 }
 
 public enum Affiliation
@@ -181,5 +194,5 @@ public enum Die
 
 public enum WeaponFiringArc
 {
-    Fore,Aft,Starboard,Port,Turret
+    Fore=0,Aft=1,Starboard=2,Port=3,Turret=4
 }

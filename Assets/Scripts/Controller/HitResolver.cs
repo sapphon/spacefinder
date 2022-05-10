@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Controller.PhaseControllers;
 using Model;
 using UnityEngine;
@@ -60,10 +62,8 @@ namespace Controller
             amount -= _solution.target.damageThreshold;
             if (amount <= 0)
             {
-                if (Util.isGameDebugging())
-                {
-                    Debug.Log("Ship " + _solution.target.displayName + "'s DT negated damage totally.");
-                }
+                Util.logIfDebugging("Ship " + _solution.target.displayName + "'s DT negated damage totally.");
+
 
                 return;
             }
@@ -77,10 +77,8 @@ namespace Controller
         private void deductHullPoints(int amount)
         {
             _solution.target.hitPoints -= amount;
-            if (Util.isGameDebugging())
-            {
-                Debug.Log("Ship " + _solution.target.displayName + " lost " + amount + "hull points from the attack.");
-            }
+            Util.logIfDebugging("Ship " + _solution.target.displayName + " lost " + amount +
+                                " hull points from the attack.");
 
             handleLowHullPoints();
         }
@@ -89,13 +87,11 @@ namespace Controller
         {
             if (_solution.target.hitPoints < -_solution.target.hitPointsTotal)
             {
-                if (Util.isGameDebugging())
-                    Debug.Log("Ship " + _solution.target.displayName + " was destroyed by loss of hull points.");
+                Util.logIfDebugging("Ship " + _solution.target.displayName + " was destroyed by loss of hull points.");
             }
             else if (_solution.target.hitPoints <= 0)
             {
-                if (Util.isGameDebugging())
-                    Debug.Log("Ship " + _solution.target.displayName + " was crippled by loss of hull points.");
+                Util.logIfDebugging("Ship " + _solution.target.displayName + " was crippled by loss of hull points.");
             }
         }
 
@@ -106,13 +102,11 @@ namespace Controller
                 (_solution.target.hitPointsTotal - _solution.target.hitPoints) / criticalThreshold;
             int stepsAfterDamage = (_solution.target.hitPointsTotal - _solution.target.hitPoints + amount) /
                                    criticalThreshold;
+            Util.logIfDebugging("Before: " + stepsIncurredBeforeDamage + " steps; after: " + stepsAfterDamage);
             if (stepsAfterDamage > stepsIncurredBeforeDamage)
             {
-                if (Util.isGameDebugging())
-                {
-                    Debug.Log("Ship " + _solution.target.displayName + " dealt " +
-                              (stepsAfterDamage - stepsIncurredBeforeDamage) + " critical hits.");
-                }
+                Util.logIfDebugging("Ship " + _solution.target.displayName + " dealt " +
+                                    (stepsAfterDamage - stepsIncurredBeforeDamage) + " critical hits.");
 
                 dealCriticalHits(stepsAfterDamage - stepsIncurredBeforeDamage);
             }
@@ -122,16 +116,129 @@ namespace Controller
         {
             for (int i = 0; i < howMany; i++)
             {
-                Debug.Log("Critical hits not implemented.");
+                dealCriticalHit(_solution.target);
             }
+        }
+
+        private void dealCriticalHit(Ship ship)
+        {
+            int systemAffectedRoll = _random.rollAndTotal(1, Die.D100);
+            Util.logIfDebugging("Crit table roll: " + systemAffectedRoll);
+
+            bool cascade = false;
+            if (systemAffectedRoll <= 10)
+            {
+                if (ship.lifeSupport == SystemCondition.Wrecked)
+                {
+                    cascade = true;
+                    Util.logIfDebugging("Life support already wrecked; critical hit cascading");
+                }
+                else
+                {
+                    ship.lifeSupport++;
+                    Util.logIfDebugging("Life support damaged by critical, status: " + ship.lifeSupport);
+
+                    return;
+                }
+            }
+
+            if (cascade || systemAffectedRoll <= 30)
+            {
+                if (ship.sensors == SystemCondition.Wrecked)
+                {
+                    cascade = true;
+                    Util.logIfDebugging("Sensors already wrecked; critical hit cascading");
+                }
+                else
+                {
+                    ship.sensors++;
+                    Util.logIfDebugging("Sensors damaged by critical, status: " + ship.sensors);
+                    return;
+                }
+            }
+
+            if (cascade || systemAffectedRoll <= 60)
+            {
+                if (ship.isWeaponsSystemWrecked())
+                {
+                    cascade = true;
+                    Util.logIfDebugging("All weapons already wrecked; critical hit cascading");
+                }
+                else
+                {
+                    SystemCondition[] allWeaponsSystemConditions = ship.getAllWeaponsSystemConditions();
+                    List<WeaponFiringArc> damageables = new List<WeaponFiringArc>();
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (allWeaponsSystemConditions[i] != SystemCondition.Wrecked)
+                        {
+                            damageables.Add((WeaponFiringArc) i);
+                        }
+                    }
+
+                    WeaponFiringArc damaged = Util.chooseRandom<WeaponFiringArc>(damageables.ToArray());
+                    switch (damaged)
+                    {
+                        case WeaponFiringArc.Fore:
+                            ship.foreWeapons++;
+                            Util.logIfDebugging("Fore weapons damaged by critical, status: " + ship.foreWeapons);
+                            break;
+                        case WeaponFiringArc.Aft:
+                            ship.aftWeapons++;
+                            Util.logIfDebugging("Aft weapons damaged by critical, status: " + ship.aftWeapons);
+                            break;
+                        case WeaponFiringArc.Starboard:
+                            ship.starboardWeapons++;
+                            Util.logIfDebugging("Starboard weapons damaged by critical, status: " + ship.starboardWeapons);
+                            break;
+                        case WeaponFiringArc.Port:
+                            ship.portWeapons++;
+                            Util.logIfDebugging("Port weapons damaged by critical, status: " + ship.portWeapons);
+                            break;
+                    }
+                }
+            }
+
+            if (cascade || systemAffectedRoll <= 80)
+            {
+                if (ship.engines == SystemCondition.Wrecked)
+                {
+                    cascade = true;
+                    Util.logIfDebugging("Engines already wrecked; critical hit cascading");
+                }
+                else
+                {
+                    ship.engines++;
+                    Util.logIfDebugging("Engines damaged by critical, status: " + ship.engines);
+                    return;
+                }
+            }
+
+            if (cascade || systemAffectedRoll <= 100)
+            {
+                if (ship.powerCore == SystemCondition.Wrecked)
+                {
+                    Util.logIfDebugging("Power core already wrecked; critical hit cascading");
+                    DamageCrew(ship);
+                }
+                else
+                {
+                    ship.powerCore++;
+                    Util.logIfDebugging("Power core damaged by critical, status: " + ship.powerCore);
+                }
+            }
+        }
+
+        private void DamageCrew(Ship ship)
+        {
+            Debug.Log("Crew damage not implemented");
         }
 
         private int rollDamage()
         {
             int damageRoll =
                 _random.rollAndTotal(_solution.weapon.damageDieCount, _solution.weapon.damageDieType);
-            if (Util.isGameDebugging())
-                Debug.Log(damageRoll + " damage rolled.");
+            Util.logIfDebugging(damageRoll + " damage rolled.");
             return damageRoll;
         }
 
@@ -156,11 +263,9 @@ namespace Controller
                 hitDirection = WeaponFiringArc.Starboard;
             }
 
-            if (Util.isGameDebugging())
-            {
-                Debug.Log("Attack hit ship " + _solution.target.displayName + " in the " + hitDirection.ToString() +
-                          " side, according with an angle of incidence of " + angleBetween + ".");
-            }
+            Util.logIfDebugging("Attack hit ship " + _solution.target.displayName + " in the " +
+                                hitDirection.ToString() +
+                                " side, according with an angle of incidence of " + angleBetween + ".");
 
             return hitDirection;
         }

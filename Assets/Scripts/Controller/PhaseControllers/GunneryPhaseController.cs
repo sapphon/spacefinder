@@ -101,10 +101,8 @@ namespace Controller.PhaseControllers
             if (solution.weapon.arc == WeaponFiringArc.Turret)
             {
                 toReturn = true;
-                if (Util.isGameDebugging())
-                {
-                    Debug.Log("Attack is in arc, because the weapon is turreted.");
-                }
+                Util.logIfDebugging("Attack is in arc, because the weapon is turreted.");
+
             }
             else
             {
@@ -129,13 +127,10 @@ namespace Controller.PhaseControllers
                     if (angleBetween < -30f && angleBetween > -150f) toReturn = true;
                 }
 
-                if (Util.isGameDebugging())
-                {
-                    Debug.Log("Attack " + (toReturn
-                        ? " is "
-                        : " is not ") + " in the " + solution.weapon.arc +
-                          " arc, according with an angle of incidence of " + angleBetween + ".");
-                }
+                Util.logIfDebugging("Attack " + (toReturn
+                                        ? " is "
+                                        : " is not ") + " in the " + solution.weapon.arc +
+                                    " arc, according with an angle of incidence of " + angleBetween + ".");
 
             }
                 return toReturn;
@@ -145,7 +140,7 @@ namespace Controller.PhaseControllers
         {
             var distanceBetween = Util.DistanceBetween(solution.attacker.gridPosition, solution.target.gridPosition);
             var maxRange = (int) solution.weapon.range * 10;
-            Debug.Log("Range calculation: maximum " + maxRange + ", actual " + distanceBetween);
+            Util.logIfDebugging("Range calculation: maximum " + maxRange + ", actual " + distanceBetween);
             return distanceBetween <= maxRange;
         }
 

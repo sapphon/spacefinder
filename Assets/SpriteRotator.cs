@@ -10,7 +10,6 @@ public class SpriteRotator : MonoBehaviour
     //arc through which to rotate before returning; 0 or 360 means an infinite spin
     public int rotationArc = 360;
     
-    // Update is called once per frame
     void Update()
     {
         this.transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
