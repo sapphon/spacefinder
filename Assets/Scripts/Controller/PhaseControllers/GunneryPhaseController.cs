@@ -28,6 +28,8 @@ namespace Controller.PhaseControllers
         public void OnPhaseEnd()
         {
             FireOnAllSolutions();
+            this.firingSolutions.Clear();
+            this._shipUiManager.UpdateAttackMarkers(this.firingSolutions);
         }
 
         public void OnActionBegin(CrewAction action, Ship ship)
