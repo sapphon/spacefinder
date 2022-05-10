@@ -10,9 +10,9 @@ public class Util
         return Math.Abs(origin.x - destination.x) + Math.Abs(origin.y - destination.y);
     }
 
-    public static T chooseRandom<T>(T[] choosingFrom)
+    public static T chooseOneRandomlyFrom<T>(T[] choosingFrom, DiceRoller diceRoller)
     {
-        return choosingFrom[new System.Random().Next(choosingFrom.Length)];
+        return choosingFrom[diceRoller.randomIndex(choosingFrom)];
     }
 
     public static bool logIfDebugging(string toLog)

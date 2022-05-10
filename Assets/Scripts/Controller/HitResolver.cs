@@ -176,7 +176,7 @@ namespace Controller
                         }
                     }
 
-                    WeaponFiringArc damaged = Util.chooseRandom<WeaponFiringArc>(damageables.ToArray());
+                    WeaponFiringArc damaged = Util.chooseOneRandomlyFrom(damageables.ToArray(), _random);
                     switch (damaged)
                     {
                         case WeaponFiringArc.Fore:

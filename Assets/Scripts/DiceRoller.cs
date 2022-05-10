@@ -1,13 +1,19 @@
+using System;
+using System.Collections;
 using UnityEngine;
-using Random = System.Random;
 
 public class DiceRoller
 {
-    private Random _random;
+    private System.Random _random;
 
     public DiceRoller()
     {
-        _random = new System.Random(Time.frameCount);
+        _random = new System.Random();
+    }
+
+    public int randomIndex(IList collection)
+    {
+        return _random.Next(collection.Count);
     }
 
     public int rollAndTotal(int dice, Die dieType)

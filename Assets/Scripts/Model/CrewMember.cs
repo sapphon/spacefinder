@@ -12,7 +12,7 @@ namespace Model
         };
         
         public Crew.Role role = Crew.Role.Gunner;
-        public string name = Util.chooseRandom(_defaultNames);
+        public string name = Util.chooseOneRandomlyFrom(_defaultNames, new DiceRoller());
         public int gunneryBonus = 0;
     }
 }

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Model;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
 
 public class Ship : MonoBehaviour
 {
@@ -19,7 +15,7 @@ public class Ship : MonoBehaviour
     
     public Vector3Int gridPosition = new Vector3Int(0,0,0);
     public Facing facing = Facing.N;
-    public String displayName = Util.chooseRandom(_defaultNames);
+    public String displayName = Util.chooseOneRandomlyFrom(_defaultNames, new DiceRoller());
     public Affiliation affiliation = Affiliation.Player;
     
     //maneuvering
