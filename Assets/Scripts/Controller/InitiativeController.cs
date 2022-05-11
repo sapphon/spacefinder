@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,9 +21,23 @@ public class InitiativeController : MonoBehaviour
 
     public void GatherInitiatives()
     {
+        initializeEmptyPanel();
+        this._initiativePanel.SetActive(true);
+    }
+
+    private void initializeEmptyPanel()
+    {
+        ClearInputPanel();
         this._initiativesThisRound.Clear();
         PopulateEmptyInputs();
-        this._initiativePanel.SetActive(true);
+    }
+
+    private void ClearInputPanel()
+    {
+        Transform inputContainer = _initiativePanel.transform.Find("InitiativeInputs").transform;
+        foreach (Transform child in inputContainer) {
+            Destroy(child.gameObject);
+        }
     }
 
     private void PopulateEmptyInputs()
