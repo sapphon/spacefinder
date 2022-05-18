@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -18,6 +19,7 @@ namespace Controller.Input
             getMouseMoveAction().performed += MousePositionChanged;
             getMouseClickAction().performed += MouseClicked;
             getMouseRightClickAction().performed += MouseRightClicked;
+            getMouseScrollAction().performed += MouseScrolled;
         }
 
         private InputAction getMouseMoveAction()
@@ -34,12 +36,19 @@ namespace Controller.Input
         {
             return _input.actions["Target Ship"];
         }
+        
+        private InputAction getMouseScrollAction()
+        {
+            return _input.actions["Zoom"];
+        }
     
         private void OnDisable()
         {
             getMouseMoveAction().performed -= MousePositionChanged;
             getMouseClickAction().performed -= MouseClicked;
             getMouseRightClickAction().performed -= MouseRightClicked;
+            getMouseScrollAction().performed -= MouseScrolled;
+
         }
 
         void Start()
@@ -56,6 +65,18 @@ namespace Controller.Input
             {
                 undoPreviousHighlight();
                 setHighlight(mousePosition);
+            }
+        }
+        
+        private void MouseScrolled(InputAction.CallbackContext callbackContext)
+        {
+            if (callbackContext.ReadValue<Vector2>().y < 0)
+            {
+                CameraController.ZoomCameraOut();
+            }
+            else
+            {
+                CameraController.ZoomCameraIn();
             }
         }
     

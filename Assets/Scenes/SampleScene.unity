@@ -112624,6 +112624,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e532802b-dfc6-4a0d-b661-ec25dd9e0ded
     m_ActionName: Default/Select Weapon 12[/Keyboard/equals]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5dafbf86-eb4b-4755-a3ab-9b24b2f83660
+    m_ActionName: Default/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Default
