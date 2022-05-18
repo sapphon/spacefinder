@@ -70,11 +70,11 @@ namespace Controller.Input
         {
             if (callbackContext.ReadValue<Vector2>().y < 0)
             {
-                CameraController.ZoomCameraOut();
+                CameraController.zoomCameraOut();
             }
             else
             {
-                CameraController.ZoomCameraIn();
+                CameraController.zoomCameraIn();
             }
         }
     

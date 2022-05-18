@@ -91,7 +91,7 @@ public class ShipUIManager : MonoBehaviour
     protected void SelectShip(Ship ship)
     {
         Vector3 worldCenterOfCell = shipMap.CellToWorld(ship.gridPosition);
-        cameraControlller.SetAimPoint(new Vector3(worldCenterOfCell.x, worldCenterOfCell.y));
+        cameraControlller.setAimPoint(new Vector3(worldCenterOfCell.x, worldCenterOfCell.y));
         this.selectedShip = ship;
     }
 

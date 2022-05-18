@@ -12,22 +12,39 @@ public class CameraController : MonoBehaviour
     void Awake()
     {
         _camera = Camera.main;
+        if (_camera == null)
+        {
+            Util.logIfDebugging("Main camera not found at CameraController awake!!");
+        }
     }
 
+    public static bool zoomCameraOut()
+    {
+        float previousSize = Camera.main.orthographicSize;
+        Camera.main.orthographicSize = Mathf.Min(previousSize + 1, 22);
+        return Camera.main.orthographicSize != previousSize;
+    }
 
-    public void SetAimPoint(Vector2 newAimPoint)
+    public static bool zoomCameraIn()
+    {
+        float previousSize = Camera.main.orthographicSize;
+        Camera.main.orthographicSize = Mathf.Max(previousSize - 1, 1);
+        return Camera.main.orthographicSize != previousSize;
+    }
+
+    public void setAimPoint(Vector2 newAimPoint)
     {
         if (_currentCameraMovement != null)
         {
             StopCoroutine(_currentCameraMovement);
         }
         this._aimPoint = newAimPoint;
-        _currentCameraMovement = LerpPosition(_aimPoint, durationOfPan);
+        _currentCameraMovement = lerpPosition(_aimPoint, durationOfPan);
         StartCoroutine(_currentCameraMovement);
     }
    
 
-    IEnumerator LerpPosition(Vector2 targetXY, float duration)
+    IEnumerator lerpPosition(Vector2 targetXY, float duration)
     {
         float time = 0;
         Vector3 startPosition = _camera.transform.position;
