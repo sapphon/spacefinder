@@ -6,7 +6,7 @@
             "id": "c8eb1a29-2d86-414c-a686-42cafc6a5b92",
             "actions": [
                 {
-                    "name": "Mouse Position",
+                    "name": "Cursor Position",
                     "type": "Value",
                     "id": "55bde72a-ad32-4e85-92ec-9b41cfcad71e",
                     "expectedControlType": "Vector2",
@@ -14,9 +14,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Mouse Click",
+                    "name": "Primary Action",
                     "type": "Button",
                     "id": "c66051e2-4a34-486f-a1eb-3d8fbdbeb2fb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Secondary Action",
+                    "type": "Button",
+                    "id": "63804609-860c-4208-98dc-c31d564cf2d0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -73,14 +81,6 @@
                     "name": "End Phase for Ship",
                     "type": "Button",
                     "id": "16bd8ffe-a21b-466c-ab8d-1b9d46258a1d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Target Ship",
-                    "type": "Button",
-                    "id": "63804609-860c-4208-98dc-c31d564cf2d0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -198,7 +198,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Mouse Position",
+                    "action": "Cursor Position",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -209,7 +209,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Mouse Click",
+                    "action": "Primary Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -287,17 +287,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "End Phase for Ship",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "54e32312-6c49-4bf7-9c4d-b94ba8775da1",
-                    "path": "<Pointer>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Target Ship",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -441,6 +430,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54e32312-6c49-4bf7-9c4d-b94ba8775da1",
+                    "path": "<Pointer>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Util
 {
@@ -29,5 +30,10 @@ public class Util
     {
         return Vector3.SignedAngle(observer.getForwardVectorInWorld(),
             observed.getWorldSpacePosition() - observer.getWorldSpacePosition(), Vector3.forward);
+    }
+
+    public static bool IsMouseOverUI()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
     }
 }

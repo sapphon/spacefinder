@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
@@ -16,38 +14,38 @@ namespace Controller.Input
 
         private void OnEnable()
         {
-            getMouseMoveAction().performed += MousePositionChanged;
-            getMouseClickAction().performed += MouseClicked;
-            getMouseRightClickAction().performed += MouseRightClicked;
-            getMouseScrollAction().performed += MouseScrolled;
+            getCursorMoveAction().performed += cursorPositionChanged;
+            getPrimaryAction().performed += mainButtonPressed;
+            getSecondaryAction().performed += alternatePressed;
+            getZoomAction().performed += zoomChanged;
         }
 
-        private InputAction getMouseMoveAction()
+        private InputAction getCursorMoveAction()
         {
-            return _input.actions["Mouse Position"];
+            return _input.actions["Cursor Position"];
         }
     
-        private InputAction getMouseClickAction()
+        private InputAction getPrimaryAction()
         {
-            return _input.actions["Mouse Click"];
+            return _input.actions["Primary Action"];
         }
 
-        private InputAction getMouseRightClickAction()
+        private InputAction getSecondaryAction()
         {
-            return _input.actions["Target Ship"];
+            return _input.actions["Secondary Action"];
         }
         
-        private InputAction getMouseScrollAction()
+        private InputAction getZoomAction()
         {
             return _input.actions["Zoom"];
         }
     
         private void OnDisable()
         {
-            getMouseMoveAction().performed -= MousePositionChanged;
-            getMouseClickAction().performed -= MouseClicked;
-            getMouseRightClickAction().performed -= MouseRightClicked;
-            getMouseScrollAction().performed -= MouseScrolled;
+            getCursorMoveAction().performed -= cursorPositionChanged;
+            getPrimaryAction().performed -= mainButtonPressed;
+            getSecondaryAction().performed -= alternatePressed;
+            getZoomAction().performed -= zoomChanged;
 
         }
 
@@ -58,9 +56,9 @@ namespace Controller.Input
         
         }
 
-        private void MousePositionChanged(InputAction.CallbackContext callbackContext)
+        private void cursorPositionChanged(InputAction.CallbackContext callbackContext)
         {
-            Vector3Int mousePosition = GetMousePositionRelativeToTilemap();
+            Vector3Int mousePosition = getMousePositionRelativeToTilemap();
             if (_tilemap.HasTile(mousePosition))
             {
                 undoPreviousHighlight();
@@ -68,7 +66,7 @@ namespace Controller.Input
             }
         }
         
-        private void MouseScrolled(InputAction.CallbackContext callbackContext)
+        private void zoomChanged(InputAction.CallbackContext callbackContext)
         {
             if (callbackContext.ReadValue<Vector2>().y < 0)
             {
@@ -80,11 +78,11 @@ namespace Controller.Input
             }
         }
     
-        private void MouseClicked(InputAction.CallbackContext callbackContext)
+        private void mainButtonPressed(InputAction.CallbackContext callbackContext)
         {
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (!Util.IsMouseOverUI())
             {
-                Vector3Int tileCoordinates = GetMousePositionRelativeToTilemap();
+                Vector3Int tileCoordinates = getMousePositionRelativeToTilemap();
                 if (_tilemap.HasTile(tileCoordinates))
                 {
                     _shipsUI.TrySelectShip(tileCoordinates);
@@ -92,22 +90,20 @@ namespace Controller.Input
             }
         }
     
-        private void MouseRightClicked(InputAction.CallbackContext callbackContext)
+        private void alternatePressed(InputAction.CallbackContext callbackContext)
         {
-            if (ShouldTargetingControlsEnable() && !EventSystem.current.IsPointerOverGameObject())
+            if (!ShouldTargetingControlsEnable() || Util.IsMouseOverUI()) return;
+            Vector3Int tileCoordinates = getMousePositionRelativeToTilemap();
+            if (_tilemap.HasTile(tileCoordinates))
             {
-                Vector3Int tileCoordinates = GetMousePositionRelativeToTilemap();
-                if (_tilemap.HasTile(tileCoordinates))
-                {
-                    _shipsUI.TryTargetShip(tileCoordinates);
-                }
+                _shipsUI.TryTargetShip(tileCoordinates);
             }
         }
 
         private void setHighlight(Vector3Int mousePosition)
         {
-            this._prevTile = _tilemap.GetTile(mousePosition);
-            this._prevPosition = mousePosition;
+            _prevTile = _tilemap.GetTile(mousePosition);
+            _prevPosition = mousePosition;
             _tilemap.SetTile(mousePosition, highlightedSpaceTile);
         }
 
@@ -119,9 +115,15 @@ namespace Controller.Input
             }
         }
 
-        Vector3Int GetMousePositionRelativeToTilemap()
+        private Vector3Int getMousePositionRelativeToTilemap()
         {
-            return _tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(getMouseMoveAction().ReadValue<Vector2>()));
+            if (Camera.main != null)
+            {
+                return _tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(getCursorMoveAction().ReadValue<Vector2>()));
+            }
+
+            Util.logIfDebugging("Main camera not found when mouse moved!");
+            return Vector3Int.zero;
         }
     }
 }

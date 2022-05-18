@@ -8,12 +8,9 @@ namespace Controller.Input
     public class KeyboardInputBehavior : InputBehavior
     {
         private HelmPhaseController _helmPhaseController;
-        private GunneryPhaseController _gunneryPhaseController;
-
 
         void Awake()
         {
-            _gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
             _helmPhaseController = FindObjectOfType<HelmPhaseController>();
             _input = GetComponent<PlayerInput>();
             _shipsUI = FindObjectOfType<ShipUIManager>();
@@ -22,20 +19,20 @@ namespace Controller.Input
 
         private void OnEnable()
         {
-            getAdvanceAction().performed += TryAdvance;
-            getPortTurnAction().performed += TryPortTurn;
-            getStarboardTurnAction().performed += TryStarboardTurn;
-            getToggleArcsAction().performed += ToggleArcs;
-            getResetActionAction().performed += ResetAction;
-            getToggleBandsAction().performed += ToggleRangeBands;
-            getEndShipPhaseAction().performed += EndShipPhase;
+            getAdvanceAction().performed += tryAdvance;
+            getPortTurnAction().performed += tryPortTurn;
+            getStarboardTurnAction().performed += tryStarboardTurn;
+            getToggleArcsAction().performed += toggleArcs;
+            getResetActionAction().performed += resetAction;
+            getToggleBandsAction().performed += toggleRangeBands;
+            getEndShipPhaseAction().performed += endShipPhase;
             for (int i = 1; i <= 12; i++)
             {
-                getSelectWeaponAction(i).performed += TrySelectWeapon;
+                getSelectWeaponAction(i).performed += trySelectWeapon;
             }
         }
 
-        private void TrySelectWeapon(InputAction.CallbackContext obj)
+        private void trySelectWeapon(InputAction.CallbackContext obj)
         {
             if (ShouldTargetingControlsEnable())
             {
@@ -49,7 +46,7 @@ namespace Controller.Input
             return Int32.Parse(action.name.Split(' ').Last());
         }
 
-        private void TryStarboardTurn(InputAction.CallbackContext obj)
+        private void tryStarboardTurn(InputAction.CallbackContext obj)
         {
             if (ShouldMovementControlsEnable())
             {
@@ -57,7 +54,7 @@ namespace Controller.Input
             }
         }
 
-        private void TryPortTurn(InputAction.CallbackContext obj)
+        private void tryPortTurn(InputAction.CallbackContext obj)
         {
             if (ShouldMovementControlsEnable())
             {
@@ -65,7 +62,7 @@ namespace Controller.Input
             }
         }
 
-        private void TryAdvance(InputAction.CallbackContext obj)
+        private void tryAdvance(InputAction.CallbackContext obj)
         {
             if (ShouldMovementControlsEnable())
             {
@@ -73,17 +70,17 @@ namespace Controller.Input
             }
         }
 
-        private void ToggleArcs(InputAction.CallbackContext obj)
+        private void toggleArcs(InputAction.CallbackContext obj)
         {
             _shipsUI.SetShowingArcs(!_shipsUI.GetShowingArcs());
         }
 
-        private void ToggleRangeBands(InputAction.CallbackContext obj)
+        private void toggleRangeBands(InputAction.CallbackContext obj)
         {
             _shipsUI.SetShowingRange(_shipsUI.GetShowingRange() > 0 ? 0 : 5);
         }
 
-        private void ResetAction(InputAction.CallbackContext obj)
+        private void resetAction(InputAction.CallbackContext obj)
         {
             if (_shipsUI.GetSelectedShip() != null &&
                 _phaseManager.HasShipChosenActionThisPhase(_shipsUI.GetSelectedShip()))
@@ -92,7 +89,7 @@ namespace Controller.Input
             }
         }
 
-        private void EndShipPhase(InputAction.CallbackContext obj)
+        private void endShipPhase(InputAction.CallbackContext obj)
         {
             Ship selectedShip = _shipsUI.GetSelectedShip();
             if (selectedShip != null)
@@ -143,15 +140,15 @@ namespace Controller.Input
 
         private void OnDisable()
         {
-            getAdvanceAction().performed -= TryAdvance;
-            getPortTurnAction().performed -= TryPortTurn;
-            getStarboardTurnAction().performed -= TryStarboardTurn;
-            getToggleArcsAction().performed -= ToggleArcs;
-            getResetActionAction().performed -= ResetAction;
-            getEndShipPhaseAction().performed -= EndShipPhase;
+            getAdvanceAction().performed -= tryAdvance;
+            getPortTurnAction().performed -= tryPortTurn;
+            getStarboardTurnAction().performed -= tryStarboardTurn;
+            getToggleArcsAction().performed -= toggleArcs;
+            getResetActionAction().performed -= resetAction;
+            getEndShipPhaseAction().performed -= endShipPhase;
             for (int i = 1; i <= 12; i++)
             {
-                getSelectWeaponAction(i).performed -= TrySelectWeapon;
+                getSelectWeaponAction(i).performed -= trySelectWeapon;
             }
         }
     }
