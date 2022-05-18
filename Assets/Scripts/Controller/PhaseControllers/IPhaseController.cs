@@ -1,3 +1,5 @@
+using Model;
+
 namespace Controller.PhaseControllers
 {
     public interface IPhaseController

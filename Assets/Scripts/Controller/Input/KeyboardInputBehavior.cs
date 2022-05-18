@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Controller.PhaseControllers;
+using Model;
 using UnityEngine.InputSystem;
 
 namespace Controller.Input

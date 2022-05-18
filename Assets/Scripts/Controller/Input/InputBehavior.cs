@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Model;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Controller.Input
