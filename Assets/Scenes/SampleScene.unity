@@ -318,6 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isArtificiallyIntelligentlyControlled: 1
   gridPosition: {x: 1, y: 10, z: 0}
   facing: 120
   displayName: Wanderer1
@@ -409,6 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isArtificiallyIntelligentlyControlled: 1
   gridPosition: {x: -10, y: 5, z: 0}
   facing: 0
   displayName: Voidrunner
@@ -570,6 +572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isArtificiallyIntelligentlyControlled: 0
   gridPosition: {x: 7, y: 5, z: 0}
   facing: 300
   displayName: Drone
@@ -1073,6 +1076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isArtificiallyIntelligentlyControlled: 0
   gridPosition: {x: 1, y: 5, z: 0}
   facing: 0
   displayName: Temeraire
@@ -56147,7 +56151,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
@@ -56617,6 +56621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d08643696fdf3144b3086a23af16cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isArtificiallyIntelligentlyControlled: 1
   gridPosition: {x: 1, y: 0, z: 0}
   facing: 240
   displayName: Wanderer2
@@ -112384,6 +112389,7 @@ GameObject:
   - component: {fileID: 1455774270}
   - component: {fileID: 1455774271}
   - component: {fileID: 1455774272}
+  - component: {fileID: 1455774273}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: Untagged
@@ -112477,6 +112483,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4630bfcd491aa34da73a4cbbad0ee18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1455774273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455774265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2513940d4d4d8c819028d5ca520a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1630927589

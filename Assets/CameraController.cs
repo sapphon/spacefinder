@@ -8,7 +8,8 @@ public class CameraController : MonoBehaviour
     private Vector3 _aimPoint;
     private IEnumerator _currentCameraMovement;
     public float durationOfPan = 1;
-
+    public static float zoomAmount = 0.9f;
+    
     void Awake()
     {
         _camera = Camera.main;
@@ -21,15 +22,15 @@ public class CameraController : MonoBehaviour
     public static bool zoomCameraOut()
     {
         float previousSize = Camera.main.orthographicSize;
-        Camera.main.orthographicSize = Mathf.Min(previousSize + 1, 22);
-        return Camera.main.orthographicSize != previousSize;
+        Camera.main.orthographicSize = Mathf.Min(previousSize + zoomAmount, 22);
+        return !Mathf.Approximately(Camera.main.orthographicSize, previousSize);
     }
 
     public static bool zoomCameraIn()
     {
         float previousSize = Camera.main.orthographicSize;
-        Camera.main.orthographicSize = Mathf.Max(previousSize - 1, 1);
-        return Camera.main.orthographicSize != previousSize;
+        Camera.main.orthographicSize = Mathf.Max(previousSize - zoomAmount, 1);
+        return !Mathf.Approximately(Camera.main.orthographicSize, previousSize);
     }
 
     public void setAimPoint(Vector2 newAimPoint)

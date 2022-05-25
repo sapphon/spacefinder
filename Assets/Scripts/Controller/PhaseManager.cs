@@ -14,14 +14,21 @@ public class PhaseManager : MonoBehaviour
     private Queue<Ship> _shipsYetToActInOrder = new Queue<Ship>();
     private ShipUIManager _shipsUI;
     private Dictionary<Ship, CrewAction> actionsThisPhase;
+    private IPhaseController _engineeringPhaseController;
 
 
     void Awake()
     {
         _helmPhaseController = FindObjectOfType<HelmPhaseController>();
         _gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
+        _engineeringPhaseController = FindObjectOfType<EngineeringPhaseController>();
         _shipsUI = FindObjectOfType<ShipUIManager>();
         actionsThisPhase = new Dictionary<Ship, CrewAction>();
+    }
+
+    void Start()
+    {
+        this.NotifyBeginPhase();
     }
 
     public Phase GetCurrentPhase()
@@ -78,13 +85,17 @@ public class PhaseManager : MonoBehaviour
     {
         NotifyEndPhase();
         DoEndPhase();
-        NotifyBeginPhase();
         this.shipsSignalingComplete.Clear();
+        NotifyBeginPhase();
     }
 
     private void NotifyBeginPhase()
     {
-        if (this.currentPhase == Phase.Helm)
+        if (this.currentPhase == Phase.Engineering)
+        {
+            _engineeringPhaseController.OnPhaseBegin();
+        }
+        else if (this.currentPhase == Phase.Helm)
         {
             _helmPhaseController.OnPhaseBegin();
         }
@@ -200,11 +211,14 @@ public class PhaseManager : MonoBehaviour
     {
         if (HasShipChosenActionThisPhase(actor) && actionsThisPhase[actor].name == actionName)
         {
+            Util.logIfDebugging("Phase manager canceling action " + actionName + " for ship " + actor.displayName);
             EndActionInProgressForShip(actor);
         }
         else
         {
+            Util.logIfDebugging("Phase manager starting action " + actionName + " for ship " + actor.displayName);
             actionsThisPhase.Add(actor, new CrewAction(actionName));
+
             if (this.currentPhase == Phase.Helm)
             {
                 _helmPhaseController.OnActionBegin(this.actionsThisPhase[actor], actor);
@@ -218,7 +232,11 @@ public class PhaseManager : MonoBehaviour
 
     public void EndActionInProgressForShip(Ship actor)
     {
-        if (this.currentPhase == Phase.Helm)
+        if (this.currentPhase == Phase.Engineering)
+        {
+            _engineeringPhaseController.OnActionEnd(this.actionsThisPhase[actor], actor);
+        }
+        else if (this.currentPhase == Phase.Helm)
         {
             _helmPhaseController.OnActionEnd(this.actionsThisPhase[actor], actor);
         }
