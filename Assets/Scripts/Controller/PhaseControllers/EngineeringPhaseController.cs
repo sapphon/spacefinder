@@ -18,9 +18,7 @@ namespace Controller.PhaseControllers
         {
             foreach (Ship ship in ArtificialIntelligencePlayer.getAllAIControlledShips())
             {
-                phaseManager.ToggleShipAction(ship,
-                    ship.gameObject.GetComponent<ArtificialIntelligencePlayer>().getEngineeringPhaseActions().First());
-                phaseManager.SignalComplete(ship);
+                ship.GetComponent<ArtificialIntelligencePlayer>().YourTurn(Phase.Engineering);
             }
         }
 

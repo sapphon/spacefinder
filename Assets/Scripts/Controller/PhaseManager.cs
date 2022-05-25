@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using Controller.PhaseControllers;
 using Model;
 using UnityEngine;
@@ -145,7 +146,12 @@ public class PhaseManager : MonoBehaviour
     {
         if (_shipsYetToActInOrder.Count > 0)
         {
-            _shipsUI.TrySelectShip(_shipsYetToActInOrder.Peek().gridPosition);
+            Ship next = _shipsYetToActInOrder.Peek();
+            if (next.isArtificiallyIntelligentlyControlled && next.GetComponent<ArtificialIntelligencePlayer>() != null)
+            {
+                next.GetComponent<ArtificialIntelligencePlayer>().YourTurn(this.currentPhase);
+            }
+            _shipsUI.TrySelectShip(next.gridPosition);
         }
         else
         {
