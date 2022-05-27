@@ -53,7 +53,7 @@ public class PhasePanelUI : MonoBehaviour
         bool phaseAdvanced = _phaseManager.TryAdvancePhase();
         if (!phaseAdvanced)
         {
-            Debug.Log("Phase not advanced; not all ships ready");
+            Util.logIfDebugging("Phase not advanced; not all ships ready");
         }
     }
 }

@@ -231,7 +231,7 @@ namespace Controller
 
         private void DamageCrew(Ship ship)
         {
-            Debug.Log("Crew damage not implemented");
+            Util.logIfDebugging("Crew damage not implemented");
         }
 
         private int rollDamage()

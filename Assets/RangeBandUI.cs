@@ -30,11 +30,11 @@ public class RangeBandUI : MonoBehaviour
                     j++)
                 {
                     Vector3Int currentTilePosition = new Vector3Int(i, j, 0);
-                    if(!_overlayMap.HasTile(currentTilePosition)) Debug.Log("tile coordinate error");
+                    if(!_overlayMap.HasTile(currentTilePosition)) Util.logIfDebugging("tile coordinate error");
                     _overlayMap.SetColor(currentTilePosition, getColorForDistance(getDistance(shipPosition, currentTilePosition)));
                 }
             }
-            Debug.Log(_overlayMap.color);    //255,255,255,51 as expected.  When does it go full alpha?
+            Util.logIfDebugging(_overlayMap.color.ToString());    //255,255,255,51 as expected.  When does it go full alpha?
         }
         else
         {

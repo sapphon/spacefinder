@@ -78,9 +78,9 @@ public class ShipUIManager : MonoBehaviour
         return false;
     }
 
-    private void TargetShip(Ship shipFound)
+    private void TargetShip(Ship ship)
     {
-        _gunneryPhaseController.TryTarget(this.GetSelectedShip(), shipFound, this.getSelectedWeapon());
+        _gunneryPhaseController.TryTarget(this.GetSelectedShip(), ship, this.getSelectedWeapon());
     }
 
     public void DeselectShip()
@@ -102,11 +102,11 @@ public class ShipUIManager : MonoBehaviour
             if (GetSelectedShip().weapons.Count >= weaponOrdinal)
             {
                 this.selectedWeapon = GetSelectedShip().weapons[weaponOrdinal - 1];
-                Debug.Log("Weapon " + weaponOrdinal + " Selected: it's a " + this.selectedWeapon.name + ", arc: " + this.selectedWeapon.arc);
+                Util.logIfDebugging("Weapon " + weaponOrdinal + " Selected: it's a " + this.selectedWeapon.name + ", arc: " + this.selectedWeapon.arc);
                 return true;
             }
         }
-        Debug.Log("Weapon selection failed.");
+        Util.logIfDebugging("Weapon selection failed.");
         return false;
     }
 

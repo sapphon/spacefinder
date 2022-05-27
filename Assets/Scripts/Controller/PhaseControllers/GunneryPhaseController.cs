@@ -47,7 +47,7 @@ namespace Controller.PhaseControllers
             {
                 int toHitRoll = rnJesus.rollAndTotal(1, Die.D20);
                 int gunneryBonus = (solution.gunner != null ? solution.gunner.gunneryBonus : 0);
-                Debug.Log(solution.attacker.displayName + " fired " + solution.weapon.name + " at " +
+                Util.logIfDebugging(solution.attacker.displayName + " fired " + solution.weapon.name + " at " +
                           solution.target.displayName + ", rolled " + toHitRoll +
                           "+" + gunneryBonus + "; needed " + solution.target.armorClass + ".");
                 bool hit = toHitRoll + gunneryBonus >= solution.target.armorClass;
@@ -84,16 +84,16 @@ namespace Controller.PhaseControllers
 
         public bool TryTarget(Ship attacker, Ship target, Weapon weapon)
         {
-            Debug.Log("Attempting targeting of " + target.name + " by " + attacker.name + " with " + weapon.name);
+            Util.logIfDebugging("Attempting targeting of " + target.name + " by " + attacker.name + " with " + weapon.name);
             if (MayTarget(attacker, target, weapon))
             {
                 ClearPreviousTargetForWeapon(attacker, weapon);
                 DoTarget(attacker, target, weapon);
-                Debug.Log("Targeting successful");
+                Util.logIfDebugging("Targeting successful");
                 return true;
             }
 
-            Debug.Log("Targeting unsuccessful");
+            Util.logIfDebugging("Targeting unsuccessful");
             return false;
         }
 
