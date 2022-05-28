@@ -35,8 +35,8 @@ namespace AI
                 phaseManager.ToggleShipAction(controlledShip, "Shoot");
                 foreach (Weapon toShoot in this.controlledShip.weapons)
                 {
-                    Ship toTarget = Ship.getAllShips()
-                        .First(ship => gunneryController.MayTarget(this.controlledShip, ship, toShoot));
+                    Ship toTarget = Ship.getAllShips().Where(ship => ship.affiliation != controlledShip.affiliation)
+                        .FirstOrDefault(ship => gunneryController.MayTarget(this.controlledShip, ship, toShoot));
                     if (toTarget != null)
                     {
                         Util.logIfDebugging("AI player controlling ship " + this.controlledShip.displayName +

@@ -56623,7 +56623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isArtificiallyIntelligentlyControlled: 1
   gridPosition: {x: 1, y: 0, z: 0}
-  facing: 240
+  facing: 300
   displayName: Wanderer2
   affiliation: 1
   speed: 6
