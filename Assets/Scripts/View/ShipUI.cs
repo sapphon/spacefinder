@@ -11,19 +11,21 @@ public class ShipUI : MonoBehaviour
     public Ship shipToTrack;
     protected SpriteRenderer spriteRenderer;
     protected Tilemap shipMap;
-    protected SpriteRenderer advanceIndicator;
     protected ShipUIManager shipUiManager;
     protected HelmPhaseController helmPhaseController;
     protected GunneryPhaseController gunneryPhaseController;
-    protected GameObject maneuverUI;
-    private SpriteRenderer starboardTurnIndicator;
-    private SpriteRenderer portTurnIndicator;
-    private GameObject _firingArcUI;
     private TextMesh movesUntilTurnReadout;
     private TextMesh movesLeftReadout;
     private PhaseManager phaseManager;
+    protected SpriteRenderer advanceIndicator;
+    private SpriteRenderer starboardTurnIndicator;
+    private SpriteRenderer portTurnIndicator;
     private SpriteRenderer targetedIndicator;
+    private SpriteRenderer aiControlledIndicator;
+    private GameObject _firingArcUI;
+    protected GameObject maneuverUI;
     private GameObject targetingUI;
+    private GameObject aiUi;
 
     void Awake()
     {
@@ -31,12 +33,14 @@ public class ShipUI : MonoBehaviour
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.maneuverUI = this.transform.Find("ManeuverUI").gameObject;
         this.targetingUI = this.transform.Find("TargetingUI").gameObject;
+        this.aiUi = this.transform.Find("ArtificialIntelligenceUI").gameObject;
         this.advanceIndicator = this.maneuverUI.transform.Find("AdvanceIndicator").GetComponent<SpriteRenderer>();
         this.targetedIndicator = this.targetingUI.transform.Find("TargetedIndicator").GetComponent<SpriteRenderer>();
         this.starboardTurnIndicator = this.maneuverUI.transform.Find("StarboardTurnIndicator").GetComponent<SpriteRenderer>();
         this.portTurnIndicator = this.maneuverUI.transform.Find("PortTurnIndicator").GetComponent<SpriteRenderer>();
         this.movesUntilTurnReadout = this.maneuverUI.transform.Find("MovesUntilTurnReadout").GetComponent<TextMesh>();
         this.movesLeftReadout = this.maneuverUI.transform.Find("MovesRemainingReadout").GetComponent<TextMesh>();
+        this.aiControlledIndicator = this.aiUi.transform.Find("AIControlledIndicator").GetComponent<SpriteRenderer>();
         this.shipUiManager = FindObjectOfType<ShipUIManager>();
         this.helmPhaseController = FindObjectOfType<HelmPhaseController>();
         this.gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
@@ -53,6 +57,12 @@ public class ShipUI : MonoBehaviour
         EnableManeuverUIIfManeuvering();
         FiringArcs();
         TargetingCrosshair();
+        AIIndicator();
+    }
+
+    private void AIIndicator()
+    {
+        this.aiControlledIndicator.enabled = this.shipToTrack.isArtificiallyIntelligentlyControlled;
     }
 
     private void EnableManeuverUIIfManeuvering()
