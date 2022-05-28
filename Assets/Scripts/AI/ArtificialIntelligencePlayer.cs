@@ -1,4 +1,5 @@
 using System.Linq;
+using Controller.PhaseControllers;
 using Model;
 using UnityEngine;
 
@@ -8,10 +9,12 @@ namespace AI
     {
         private PhaseManager phaseManager;
         private Ship controlledShip;
+        private GunneryPhaseController gunneryController;
 
         void Awake()
         {
             this.phaseManager = FindObjectOfType<PhaseManager>();
+            this.gunneryController = FindObjectOfType<GunneryPhaseController>();
             this.controlledShip = GetComponent<Ship>();
         }
 
@@ -20,19 +23,30 @@ namespace AI
             return Ship.getAllShips().Where(ship => ship.isArtificiallyIntelligentlyControlled).ToArray();
         }
 
-        private string[] getEngineeringPhaseActions()
-        {
-            return  new string[]{"Hold It Together"};
-        }
-
         public void YourTurn(Phase phase)
         {
             if (phase == Phase.Engineering)
             {
                 phaseManager.ToggleShipAction(controlledShip,
-                    this.getEngineeringPhaseActions().First());
-                phaseManager.SignalComplete(controlledShip);
+                    "Hold It Together");
             }
+            else if (phase == Phase.Gunnery)
+            {
+                phaseManager.ToggleShipAction(controlledShip, "Shoot");
+                foreach (Weapon toShoot in this.controlledShip.weapons)
+                {
+                    Ship toTarget = Ship.getAllShips()
+                        .First(ship => gunneryController.MayTarget(this.controlledShip, ship, toShoot));
+                    if (toTarget != null)
+                    {
+                        Util.logIfDebugging("AI player controlling ship " + this.controlledShip.displayName +
+                                            " has chosen ship " + toTarget.displayName + " as a target for " +
+                                            toShoot.name);
+                        gunneryController.TryTarget(this.controlledShip, toTarget, toShoot);
+                    }
+                }
+            }
+            phaseManager.SignalComplete(controlledShip);
         }
     }
 }
