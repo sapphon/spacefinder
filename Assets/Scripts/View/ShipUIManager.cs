@@ -55,14 +55,13 @@ public class ShipUIManager : MonoBehaviour
 
     public bool TrySelectShip(Vector3Int shipCoordinates)
     {
+        DeselectShip();
         Ship shipFound = ShipPresentAt(shipCoordinates);
         if (shipFound != null)
         {
             SelectShip(shipFound);
             return true;
         }
-
-        DeselectShip();
         return false;
     }
 
@@ -86,6 +85,9 @@ public class ShipUIManager : MonoBehaviour
     public void DeselectShip()
     {
         this.selectedShip = null;
+        this.selectedWeapon = null;
+        this.showingArcs = false;
+        this.showingRange = 0;
     }
 
     protected void SelectShip(Ship ship)
