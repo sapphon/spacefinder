@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -128,6 +129,11 @@ namespace Model
             {
                 gridPosition = new Vector3Int(gridPosition.x + (gridPosition.y % 2 == 0 ? 0 : 1), gridPosition.y + 1, gridPosition.z);
             }
+        }
+
+        public Weapon getShortestRangeWeaponInArc(WeaponFiringArc arc)
+        {
+            return this.weapons.FindAll(weapon => weapon.arc == arc).OrderBy(weapon => weapon.range).FirstOrDefault();
         }
 
         public Vector3 getForwardVectorInWorld()
