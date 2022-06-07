@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AI;
+using Model.Crew;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

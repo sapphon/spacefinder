@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Controller;
 using Model;
+using Model.Crew;
 using UnityEngine;
 using UnityEngine.UI;
 

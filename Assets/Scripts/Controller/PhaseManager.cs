@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AI;
 using Controller.PhaseControllers;
 using Model;
+using Model.Crew;
 using UnityEngine;
 
 namespace Controller
