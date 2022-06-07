@@ -259,6 +259,8 @@ public class PhaseManager : MonoBehaviour
     }
     public void ResetAction(Ship ship)
     {
+        Util.logIfDebugging("Phase manager canceling action " + this.actionsThisPhase[ship] + " for ship " +
+                            ship.displayName);
         if (this.currentPhase == Phase.Helm)
         {
             _helmPhaseController.OnActionCancel(this.actionsThisPhase[ship], ship);

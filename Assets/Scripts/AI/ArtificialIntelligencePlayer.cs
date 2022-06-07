@@ -13,11 +13,13 @@ namespace AI
         private PhaseManager phaseManager;
         private Ship controlledShip;
         private GunneryPhaseController gunneryController;
+        private HelmPhaseController helmController;
 
         void Awake()
         {
             this.phaseManager = FindObjectOfType<PhaseManager>();
             this.gunneryController = FindObjectOfType<GunneryPhaseController>();
+            this.helmController = FindObjectOfType<HelmPhaseController>();
             this.controlledShip = GetComponent<Ship>();
         }
 
@@ -45,19 +47,64 @@ namespace AI
             phaseManager.SignalComplete(controlledShip);
         }
 
+        private bool isInIdealRangeForArc(Ship target, WeaponFiringArc arc)
+        {
+            Weapon shortestRangeWeaponInArc = controlledShip.getShortestRangeWeaponInArc(arc);
+            return gunneryController.MayTarget(controlledShip, target,
+                       shortestRangeWeaponInArc) &&
+                   Util.DistanceBetween(controlledShip.gridPosition, target.gridPosition) <=
+                   (int) shortestRangeWeaponInArc.range;
+        }
+
         private void moveTowardsOpponentNearestFrontArc()
         {
-            phaseManager.ToggleShipAction(controlledShip, "Maneuver");
-            //sort by angle from front, then first by existing ability to target
             Ship[] followCandidates = Ship.getAllShips()
                 .Where(ship => ship.affiliation != controlledShip.affiliation)
                 .OrderBy(ship => Util.DistanceBetween(controlledShip.gridPosition, ship.gridPosition)).ToArray();
+            if (followCandidates.Any(candidate =>
+                isInIdealRangeForArc(candidate, WeaponFiringArc.Fore)))
+            {
+                return;
+            }
+
             foreach (var candidate in followCandidates)
             {
-                if (gunneryController.MayTarget(controlledShip, candidate,
-                    controlledShip.getShortestRangeWeaponInArc(WeaponFiringArc.Fore)))
-                    return;
+                if (pathTowards(candidate)) return;
+                else phaseManager.ResetAction(controlledShip);
             }
+
+            Util.logIfDebugging("Ship " + controlledShip.displayName +
+                                " cannot find a way to put any opponents in its Front arc at shortest range!");
+        }
+
+        private bool pathTowards(Ship destination)
+        {
+            phaseManager.ToggleShipAction(controlledShip, "Maneuver");
+            while (helmController.MayAdvance(controlledShip))
+            {
+                while (Mathf.Abs(Util.getAngleBetweenShips(controlledShip, destination)) >= 30 &&
+                       helmController.MayTurn(controlledShip))
+                {
+                    if (Util.getAngleBetweenShips(controlledShip, destination) < 0)
+                    {
+                        helmController.TryStarboardTurn(controlledShip);
+                    }
+                    else
+                    {
+                        helmController.TryPortTurn(controlledShip);
+                    }
+                }
+
+                if (isInIdealRangeForArc(destination, WeaponFiringArc.Fore))
+                {
+                    return true;
+                }
+                else
+                {
+                    helmController.TryAdvance(controlledShip);
+                }
+            }
+            return isInIdealRangeForArc(destination, WeaponFiringArc.Fore);
         }
 
         private void fireAllWeaponsAtRandomOpponents()
