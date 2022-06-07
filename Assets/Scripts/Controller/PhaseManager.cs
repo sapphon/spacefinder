@@ -6,289 +6,269 @@ using Controller.PhaseControllers;
 using Model;
 using UnityEngine;
 
-public class PhaseManager : MonoBehaviour
+namespace Controller
 {
-    protected Phase currentPhase = Phase.Engineering;
-    protected List<Ship> shipsSignalingComplete = new List<Ship>();
-    private HelmPhaseController _helmPhaseController;
-    private GunneryPhaseController _gunneryPhaseController;
-    private Queue<Ship> _shipsYetToActInOrder = new Queue<Ship>();
-    private ShipUIManager _shipsUI;
-    private Dictionary<Ship, CrewAction> actionsThisPhase;
-    private IPhaseController _engineeringPhaseController;
-
-
-    void Awake()
+    public class PhaseManager : MonoBehaviour
     {
-        _helmPhaseController = FindObjectOfType<HelmPhaseController>();
-        _gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
-        _engineeringPhaseController = FindObjectOfType<EngineeringPhaseController>();
-        _shipsUI = FindObjectOfType<ShipUIManager>();
-        actionsThisPhase = new Dictionary<Ship, CrewAction>();
-    }
+        protected Phase currentPhase = Phase.Engineering;
+        protected List<Ship> shipsSignalingComplete = new List<Ship>();
+        private HelmPhaseController _helmPhaseController;
+        private GunneryPhaseController _gunneryPhaseController;
+        private Queue<Ship> _shipsYetToActInOrder = new Queue<Ship>();
+        private ShipUIManager _shipsUI;
+        private Dictionary<Ship, CrewAction> actionsThisPhase;
+        private IPhaseController _engineeringPhaseController;
 
-    void Start()
-    {
-        this.NotifyBeginPhase();
-    }
 
-    public Phase GetCurrentPhase()
-    {
-        return this.currentPhase;
-    }
-
-    public List<Crew.Role> GetActivePhaseRoles()
-    {
-        switch (this.currentPhase)
+        void Awake()
         {
-            case Phase.Engineering:
-                return new List<Crew.Role>(){Crew.Role.Engineer, Crew.Role.Captain};
-            case Phase.Helm:
-                return new List<Crew.Role>() {Crew.Role.Pilot, Crew.Role.Scientist, Crew.Role.Captain};
-            case Phase.Gunnery:
-                return new List<Crew.Role>() {Crew.Role.Gunner, Crew.Role.Captain};
-            default:
-                return new List<Crew.Role>(); 
-        }
-    }
-    
-    public List<string> GetPossibleActionNamesForPhase()
-    {
-        switch (currentPhase)
-        {
-            case Phase.Helm:
-                return new List<string>() {"Maneuver"};
-            case Phase.Gunnery:
-                return new List<string>() {"Shoot"};
-            default:
-                return new List<string>(){"Hold It Together"};
-        }
-    }
-
-    public bool TryAdvancePhase()
-    {
-        bool mayAdvance = CanPhaseEnd();
-        if (mayAdvance)
-        {
-            EndPhase();
+            _helmPhaseController = FindObjectOfType<HelmPhaseController>();
+            _gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
+            _engineeringPhaseController = FindObjectOfType<EngineeringPhaseController>();
+            _shipsUI = FindObjectOfType<ShipUIManager>();
+            actionsThisPhase = new Dictionary<Ship, CrewAction>();
         }
 
-        return mayAdvance;
-    }
+        void Start()
+        {
+            this.NotifyBeginPhase();
+        }
 
-    public bool CanPhaseEnd()
-    {
-        Ship[] allShips = Ship.getAllShips();
-        return allShips.Length == shipsSignalingComplete.Count && new HashSet<Ship>(allShips).SetEquals(allShips);
-    }
+        public Phase GetCurrentPhase()
+        {
+            return this.currentPhase;
+        }
 
-    protected void EndPhase()
-    {
-        NotifyEndPhase();
-        DoEndPhase();
-        this.shipsSignalingComplete.Clear();
-        NotifyBeginPhase();
-    }
+        public List<Crew.Role> GetActivePhaseRoles()
+        {
+            switch (this.currentPhase)
+            {
+                case Phase.Engineering:
+                    return new List<Crew.Role>() {Crew.Role.Engineer, Crew.Role.Captain};
+                case Phase.Helm:
+                    return new List<Crew.Role>() {Crew.Role.Pilot, Crew.Role.Scientist, Crew.Role.Captain};
+                case Phase.Gunnery:
+                    return new List<Crew.Role>() {Crew.Role.Gunner, Crew.Role.Captain};
+                default:
+                    return new List<Crew.Role>();
+            }
+        }
 
-    private void NotifyBeginPhase()
-    {
-        if (this.currentPhase == Phase.Engineering)
+        public List<string> GetPossibleActionNamesForPhase()
         {
-            _engineeringPhaseController.OnPhaseBegin();
+            switch (currentPhase)
+            {
+                case Phase.Helm:
+                    return new List<string>() {"Maneuver"};
+                case Phase.Gunnery:
+                    return new List<string>() {"Shoot"};
+                default:
+                    return new List<string>() {"Hold It Together"};
+            }
         }
-        else if (this.currentPhase == Phase.Helm)
-        {
-            _helmPhaseController.OnPhaseBegin();
-        }
-        else if (this.currentPhase == Phase.Gunnery)
-        {
-            _gunneryPhaseController.OnPhaseBegin();
-        }
-    }
 
-    private void NotifyEndPhase()
-    {
-        if (this.currentPhase == Phase.Gunnery)
+        public bool TryAdvancePhase()
         {
-            _gunneryPhaseController.OnPhaseEnd();
-        }
-    }
+            bool mayAdvance = CanPhaseEnd();
+            if (mayAdvance)
+            {
+                EndPhase();
+            }
 
-    private void DoEndPhase()
-    {
-        if (FindObjectOfType<RoundManager>().TryAdvanceRound(this))
-        {
-            this.currentPhase = 0;
+            return mayAdvance;
         }
-        else
-        {
-            this.currentPhase++;
-        }
-    }
 
-    public void SignalComplete(Ship ship)
-    {
-        if (!DoesCurrentPhaseUseInitiative())
+        public bool CanPhaseEnd()
         {
-            EndActionIfInProgress(ship);
-            shipsSignalingComplete.Add(ship);
+            Ship[] allShips = Ship.getAllShips();
+            return allShips.Length == shipsSignalingComplete.Count && new HashSet<Ship>(allShips).SetEquals(allShips);
         }
-        else if(ShipHasInitiative(ship))
+
+        protected void EndPhase()
         {
-            EndActionIfInProgress(ship);
-            _shipsYetToActInOrder.Dequeue();
-            shipsSignalingComplete.Add(ship);
+            NotifyEndPhase();
+            DoEndPhase();
+            this.shipsSignalingComplete.Clear();
+            NotifyBeginPhase();
+        }
+
+        private void NotifyBeginPhase()
+        {
+            getCurrentController().OnPhaseBegin();
+        }
+
+        private void NotifyEndPhase()
+        {
+            getCurrentController().OnPhaseEnd();
+        }
+
+        private void DoEndPhase()
+        {
+            if (FindObjectOfType<RoundManager>().TryAdvanceRound(this))
+            {
+                this.currentPhase = 0;
+            }
+            else
+            {
+                this.currentPhase++;
+            }
+        }
+
+        public void SignalComplete(Ship ship)
+        {
+            if (!DoesCurrentPhaseUseInitiative())
+            {
+                EndActionIfInProgress(ship);
+                shipsSignalingComplete.Add(ship);
+            }
+            else if (ShipHasInitiative(ship))
+            {
+                EndActionIfInProgress(ship);
+                _shipsYetToActInOrder.Dequeue();
+                shipsSignalingComplete.Add(ship);
+                selectNextShipOrNone();
+            }
+        }
+
+        private void selectNextShipOrNone()
+        {
+            if (_shipsYetToActInOrder.Count > 0)
+            {
+                Ship next = _shipsYetToActInOrder.Peek();
+                if (next.isArtificiallyIntelligentlyControlled &&
+                    next.GetComponent<ArtificialIntelligencePlayer>() != null)
+                {
+                    next.GetComponent<ArtificialIntelligencePlayer>().YourTurn(this.currentPhase);
+                }
+
+                _shipsUI.TrySelectShip(next.gridPosition);
+            }
+            else
+            {
+                _shipsUI.DeselectShip();
+            }
+        }
+
+        private void EndActionIfInProgress(Ship ship)
+        {
+            if (this.HasShipChosenActionThisPhase(ship))
+            {
+                this.EndActionInProgressForShip(ship);
+            }
+        }
+
+        public void SignalStillWorking(Ship ship)
+        {
+            shipsSignalingComplete.Remove(ship);
+        }
+
+        public bool isShipDone(Ship ship)
+        {
+            return shipsSignalingComplete.Contains(ship);
+        }
+
+        public bool IsLastPhase()
+        {
+            return Convert.ToInt32(this.currentPhase).Equals(Enum.GetValues(typeof(Phase)).Length - 1);
+        }
+
+        public void SetShipInitiativeOrder(Queue<Ship> shipsByInitiativeAscending)
+        {
+            this._shipsYetToActInOrder = shipsByInitiativeAscending;
             selectNextShipOrNone();
         }
-    }
 
-    private void selectNextShipOrNone()
-    {
-        if (_shipsYetToActInOrder.Count > 0)
+        public Ship GetShipWithInitiative()
         {
-            Ship next = _shipsYetToActInOrder.Peek();
-            if (next.isArtificiallyIntelligentlyControlled && next.GetComponent<ArtificialIntelligencePlayer>() != null)
+            return this._shipsYetToActInOrder.Count < 1 ? null : this._shipsYetToActInOrder.Peek();
+        }
+
+        public bool ShipHasInitiative(Ship ship)
+        {
+            return GetShipWithInitiative() == ship;
+        }
+
+        public bool DoesCurrentPhaseUseInitiative()
+        {
+            return DoesPhaseUseInitiative(currentPhase);
+        }
+
+        public bool DoesPhaseUseInitiative(Phase phase)
+        {
+            return phase == Phase.Helm || currentPhase == Phase.Gunnery;
+        }
+
+        public bool HasShipChosenActionThisPhase(Ship ship)
+        {
+            return actionsThisPhase.ContainsKey(ship);
+        }
+
+        public void ToggleShipAction(Ship actor, string actionName)
+        {
+            if (HasShipChosenActionThisPhase(actor) && actionsThisPhase[actor].name == actionName)
             {
-                next.GetComponent<ArtificialIntelligencePlayer>().YourTurn(this.currentPhase);
+                Util.logIfDebugging("Phase manager canceling action " + actionName + " for ship " + actor.displayName);
+                EndActionInProgressForShip(actor);
             }
-            _shipsUI.TrySelectShip(next.gridPosition);
-        }
-        else
-        {
-            _shipsUI.DeselectShip();
-        }
-
-    }
-
-    private void EndActionIfInProgress(Ship ship)
-    {
-        if (this.HasShipChosenActionThisPhase(ship)){
-            this.EndActionInProgressForShip(ship);
-        }
-    }
-
-    public void SignalStillWorking(Ship ship)
-    {
-        shipsSignalingComplete.Remove(ship);
-    }
-
-    public bool isShipDone(Ship ship)
-    {
-        return shipsSignalingComplete.Contains(ship);
-    }
-
-    public bool IsLastPhase()
-    {
-        return Convert.ToInt32(this.currentPhase).Equals(Enum.GetValues(typeof(Phase)).Length - 1);
-    }
-    
-    public void SetShipInitiativeOrder(Queue<Ship> shipsByInitiativeAscending)
-    {
-        this._shipsYetToActInOrder = shipsByInitiativeAscending;
-        selectNextShipOrNone();
-    }
-
-    public Ship GetShipWithInitiative()
-    {
-        return this._shipsYetToActInOrder.Count < 1 ? null : this._shipsYetToActInOrder.Peek();
-    }
-
-    public bool ShipHasInitiative(Ship ship)
-    {
-        return GetShipWithInitiative() == ship;
-    }
-
-    public bool DoesCurrentPhaseUseInitiative()
-    {
-        return DoesPhaseUseInitiative(currentPhase);
-    }
-
-    public bool DoesPhaseUseInitiative(Phase phase)
-    {
-        return phase == Phase.Helm || currentPhase == Phase.Gunnery;
-    }
-    
-    public bool HasShipChosenActionThisPhase(Ship ship)
-    {
-        return actionsThisPhase.ContainsKey(ship);
-    }
-
-    public void ToggleShipAction(Ship actor, string actionName)
-    {
-        if (HasShipChosenActionThisPhase(actor) && actionsThisPhase[actor].name == actionName)
-        {
-            Util.logIfDebugging("Phase manager canceling action " + actionName + " for ship " + actor.displayName);
-            EndActionInProgressForShip(actor);
-        }
-        else
-        {
-            Util.logIfDebugging("Phase manager starting action " + actionName + " for ship " + actor.displayName);
-            actionsThisPhase.Add(actor, new CrewAction(actionName));
-
-            if (this.currentPhase == Phase.Helm)
+            else
             {
-                _helmPhaseController.OnActionBegin(this.actionsThisPhase[actor], actor);
+                Util.logIfDebugging("Phase manager starting action " + actionName + " for ship " + actor.displayName);
+                actionsThisPhase.Add(actor, new CrewAction(actionName));
+                getCurrentController().OnActionBegin(this.actionsThisPhase[actor], actor);
             }
-            else if (currentPhase == Phase.Gunnery)
+        }
+
+        public void EndActionInProgressForShip(Ship actor)
+        {
+            getCurrentController().OnActionEnd(this.actionsThisPhase[actor], actor);
+            actionsThisPhase.Remove(actor);
+        }
+
+        public CrewAction getShipAction(Ship ship)
+        {
+            return this.actionsThisPhase.ContainsKey(ship) ? this.actionsThisPhase[ship] : null;
+        }
+
+        public void ResetAction(Ship ship)
+        {
+            Util.logIfDebugging("Phase manager canceling action " + this.actionsThisPhase[ship] + " for ship " +
+                                ship.displayName);
+            getCurrentController().OnActionCancel(this.actionsThisPhase[ship], ship);
+            actionsThisPhase.Remove(ship);
+        }
+
+        private IPhaseController getCurrentController()
+        {
+            switch (currentPhase)
             {
-                _gunneryPhaseController.OnActionBegin(this.actionsThisPhase[actor], actor);
+                case Phase.Helm:
+                    return _helmPhaseController;
+                case Phase.Gunnery:
+                    return _gunneryPhaseController;
+                case Phase.Engineering:
+                    return _engineeringPhaseController;
+                default:
+                    return null;
             }
         }
     }
 
-    public void EndActionInProgressForShip(Ship actor)
+    public enum Phase
     {
-        if (this.currentPhase == Phase.Engineering)
-        {
-            _engineeringPhaseController.OnActionEnd(this.actionsThisPhase[actor], actor);
-        }
-        else if (this.currentPhase == Phase.Helm)
-        {
-            _helmPhaseController.OnActionEnd(this.actionsThisPhase[actor], actor);
-        }
-        else if (currentPhase == Phase.Gunnery)
-        {
-            _gunneryPhaseController.OnActionEnd(this.actionsThisPhase[actor], actor);
-        }
-        actionsThisPhase.Remove(actor);
+        Engineering = 0,
+        Helm = 1,
+        Gunnery = 2
     }
 
-    public CrewAction getShipAction(Ship ship)
+    public class CrewAction
     {
-        return this.actionsThisPhase.ContainsKey(ship) ? this.actionsThisPhase[ship] : null;
-    }
-    public void ResetAction(Ship ship)
-    {
-        Util.logIfDebugging("Phase manager canceling action " + this.actionsThisPhase[ship] + " for ship " +
-                            ship.displayName);
-        if (this.currentPhase == Phase.Helm)
+        public string name { get; }
+        public Phase phase { get; }
+
+        public CrewAction(string name, Phase phase = Phase.Helm)
         {
-            _helmPhaseController.OnActionCancel(this.actionsThisPhase[ship], ship);
+            this.name = name;
+            this.phase = phase;
         }
-        else if (currentPhase == Phase.Gunnery)
-        {
-            _gunneryPhaseController.OnActionCancel(this.actionsThisPhase[ship], ship);
-        }
-
-        actionsThisPhase.Remove(ship);
-    }
-}
-
-public enum Phase
-{
-    Engineering = 0,
-    Helm = 1,
-    Gunnery = 2
-}
-
-public class CrewAction
-{
-    public string name { get; }
-    public Phase phase { get; }
-
-    public CrewAction(string name, Phase phase = Phase.Helm)
-    {
-        this.name = name;
-        this.phase = phase;
     }
 }

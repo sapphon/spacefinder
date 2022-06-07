@@ -1,31 +1,30 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class RoundManager : MonoBehaviour
+namespace Controller
 {
-    protected int currentRound = 1;
-
-    public int GetCurrentRound()
+    public class RoundManager : MonoBehaviour
     {
-        return currentRound;
-    }
+        protected int currentRound = 1;
 
-    public bool TryAdvanceRound(PhaseManager phaseManager)
-    {
-        bool mayAdvance = phaseManager.CanPhaseEnd() && phaseManager.IsLastPhase();
-        if (mayAdvance)
+        public int GetCurrentRound()
         {
-            EndRound();
+            return currentRound;
         }
 
-        return mayAdvance;
-    }
+        public bool TryAdvanceRound(PhaseManager phaseManager)
+        {
+            bool mayAdvance = phaseManager.CanPhaseEnd() && phaseManager.IsLastPhase();
+            if (mayAdvance)
+            {
+                EndRound();
+            }
 
-    protected void EndRound()
-    {
-        currentRound++;
+            return mayAdvance;
+        }
+
+        protected void EndRound()
+        {
+            currentRound++;
+        }
     }
 }
