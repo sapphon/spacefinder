@@ -38,10 +38,10 @@ public class PhasePanelUI : MonoBehaviour
     {
         List<Crew.Role> activePhaseRoles = _phaseManager.GetActivePhaseRoles();
         Ship selectedShip = this._shipsUI.GetSelectedShip();
-        if (selectedShip != null && selectedShip.crew.Count > 0)
+        if (selectedShip != null && selectedShip.crew.getMembers().Count > 0)
         {
             _phaseRolesText.text = String.Join("\r\n",
-                selectedShip.crew.Where(crewperson => activePhaseRoles.Contains(crewperson.role))
+                selectedShip.crew.getMembers().Where(crewperson => activePhaseRoles.Contains(crewperson.role))
                     .Select(crewperson => crewperson.name));
         }
         else

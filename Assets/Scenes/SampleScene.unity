@@ -285,6 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 84911730}
   - component: {fileID: 84911731}
+  - component: {fileID: 84911732}
   m_Layer: 0
   m_Name: Wanderer #1
   m_TagString: Untagged
@@ -347,19 +348,7 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
-  crew:
-  - role: 1
-    name: Engi NPC
-    gunneryBonus: 0
-  - role: 4
-    name: Gunny NPC
-    gunneryBonus: 0
-  - role: 3
-    name: Pilot NPC
-    gunneryBonus: 0
-  - role: 2
-    name: Science NPC
-    gunneryBonus: 0
+  crew: {fileID: 84911732}
   weapons:
   - name: LLC
     arc: 0
@@ -367,6 +356,56 @@ MonoBehaviour:
     damageDieCount: 2
     range: 5
     speed: 0
+--- !u!114 &84911732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84911729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5776b9edbcac4c9cabe082f47426482b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalCrew: 4
+  engineeringCrewRequired: 1
+  gunneryCrewRequired: 1
+  pilotingCrewRequired: 1
+  scientificCrewRequired: 1
+  officers:
+  - role: 1
+    name: NPC Engineer
+    gunneryBonus: 0
+    engineeringBonus: 5
+    computersBonus: 0
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 3
+    name: NPC Pilot
+    gunneryBonus: 0
+    engineeringBonus: 0
+    computersBonus: 0
+    pilotingBonus: 13
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 4
+    name: NPC Gunner
+    gunneryBonus: 3
+    engineeringBonus: 0
+    computersBonus: 0
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 2
+    name: NPC Scientist
+    gunneryBonus: 0
+    engineeringBonus: 0
+    computersBonus: 5
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
 --- !u!1 &150275693
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 150275694}
   - component: {fileID: 150275695}
+  - component: {fileID: 150275696}
   m_Layer: 0
   m_Name: Voidrunner
   m_TagString: Untagged
@@ -439,10 +479,7 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
-  crew:
-  - role: 3
-    name: Pilot NPC
-    gunneryBonus: 0
+  crew: {fileID: 0}
   weapons:
   - name: Gyrolaser
     arc: 0
@@ -450,6 +487,32 @@ MonoBehaviour:
     damageDieCount: 1
     range: 5
     speed: 0
+--- !u!114 &150275696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150275693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5776b9edbcac4c9cabe082f47426482b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalCrew: 1
+  engineeringCrewRequired: 1
+  gunneryCrewRequired: 1
+  pilotingCrewRequired: 1
+  scientificCrewRequired: 1
+  officers:
+  - role: 3
+    name: NPC Pilot
+    gunneryBonus: 3
+    engineeringBonus: 0
+    computersBonus: 7
+    pilotingBonus: 11
+    diplomacyBonus: 0
+    intimidationBonus: 0
 --- !u!1 &161381844
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,6 +602,7 @@ GameObject:
   m_Component:
   - component: {fileID: 241814995}
   - component: {fileID: 241814996}
+  - component: {fileID: 241814997}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -601,7 +665,7 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
-  crew: []
+  crew: {fileID: 241814997}
   weapons:
   - name: Gyrolaser (Linked)
     arc: 0
@@ -621,6 +685,72 @@ MonoBehaviour:
     damageDieCount: 2
     range: 20
     speed: 16
+--- !u!114 &241814997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241814994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5776b9edbcac4c9cabe082f47426482b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalCrew: 6
+  engineeringCrewRequired: 1
+  gunneryCrewRequired: 1
+  pilotingCrewRequired: 1
+  scientificCrewRequired: 1
+  officers:
+  - role: 0
+    name: NPC Captain
+    gunneryBonus: 0
+    engineeringBonus: 5
+    computersBonus: 5
+    pilotingBonus: 5
+    diplomacyBonus: 5
+    intimidationBonus: 0
+  - role: 0
+    name: NPC Engineer
+    gunneryBonus: 0
+    engineeringBonus: 10
+    computersBonus: 0
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 0
+    name: NPC Gunner
+    gunneryBonus: 5
+    engineeringBonus: 0
+    computersBonus: 0
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 0
+    name: NPC Gunner
+    gunneryBonus: 5
+    engineeringBonus: 0
+    computersBonus: 0
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 0
+    name: NPC Pilot
+    gunneryBonus: 0
+    engineeringBonus: 0
+    computersBonus: 0
+    pilotingBonus: 6
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 0
+    name: NPC Scientist
+    gunneryBonus: 0
+    engineeringBonus: 0
+    computersBonus: 5
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
 --- !u!1 &250884531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,6 +1173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 461348635}
   - component: {fileID: 461348636}
+  - component: {fileID: 461348637}
   m_Layer: 0
   m_Name: PlayerShip
   m_TagString: Untagged
@@ -1105,22 +1236,7 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
-  crew:
-  - role: 1
-    name: Skrich
-    gunneryBonus: 0
-  - role: 2
-    name: Finder
-    gunneryBonus: 0
-  - role: 3
-    name: Skiz
-    gunneryBonus: 0
-  - role: 4
-    name: NPC1
-    gunneryBonus: 0
-  - role: 4
-    name: NPC2
-    gunneryBonus: 0
+  crew: {fileID: 461348637}
   weapons:
   - name: LLC
     arc: 0
@@ -1146,6 +1262,64 @@ MonoBehaviour:
     damageDieCount: 4
     range: 20
     speed: 0
+--- !u!114 &461348637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461348634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5776b9edbcac4c9cabe082f47426482b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalCrew: 5
+  engineeringCrewRequired: 1
+  gunneryCrewRequired: 1
+  pilotingCrewRequired: 1
+  scientificCrewRequired: 1
+  officers:
+  - role: 3
+    name: Skiz
+    gunneryBonus: 0
+    engineeringBonus: 0
+    computersBonus: 0
+    pilotingBonus: 8
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 1
+    name: Skrich
+    gunneryBonus: 0
+    engineeringBonus: 8
+    computersBonus: 0
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 4
+    name: Rinara
+    gunneryBonus: 4
+    engineeringBonus: 0
+    computersBonus: 0
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 2
+    name: Finder
+    gunneryBonus: 0
+    engineeringBonus: 0
+    computersBonus: 7
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 0
+    name: Arthin
+    gunneryBonus: 4
+    engineeringBonus: 7
+    computersBonus: 7
+    pilotingBonus: 7
+    diplomacyBonus: 7
+    intimidationBonus: 7
 --- !u!1 &471339169
 GameObject:
   m_ObjectHideFlags: 0
@@ -56588,6 +56762,7 @@ GameObject:
   m_Component:
   - component: {fileID: 783246780}
   - component: {fileID: 783246781}
+  - component: {fileID: 783246782}
   m_Layer: 0
   m_Name: Wanderer #2
   m_TagString: Untagged
@@ -56650,19 +56825,7 @@ MonoBehaviour:
   starboardWeapons: 0
   foreWeapons: 0
   aftWeapons: 0
-  crew:
-  - role: 1
-    name: Engi NPC
-    gunneryBonus: 0
-  - role: 4
-    name: Gunny NPC
-    gunneryBonus: 0
-  - role: 3
-    name: Pilot NPC
-    gunneryBonus: 0
-  - role: 2
-    name: Science NPC
-    gunneryBonus: 0
+  crew: {fileID: 783246782}
   weapons:
   - name: LLC
     arc: 0
@@ -56670,6 +56833,56 @@ MonoBehaviour:
     damageDieCount: 2
     range: 5
     speed: 0
+--- !u!114 &783246782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783246779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5776b9edbcac4c9cabe082f47426482b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalCrew: 4
+  engineeringCrewRequired: 1
+  gunneryCrewRequired: 1
+  pilotingCrewRequired: 1
+  scientificCrewRequired: 1
+  officers:
+  - role: 1
+    name: NPC Engineer
+    gunneryBonus: 0
+    engineeringBonus: 5
+    computersBonus: 0
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 3
+    name: NPC Pilot
+    gunneryBonus: 0
+    engineeringBonus: 0
+    computersBonus: 0
+    pilotingBonus: 13
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 4
+    name: NPC Gunner
+    gunneryBonus: 3
+    engineeringBonus: 0
+    computersBonus: 0
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
+  - role: 2
+    name: NPC Scientist
+    gunneryBonus: 0
+    engineeringBonus: 0
+    computersBonus: 5
+    pilotingBonus: 0
+    diplomacyBonus: 0
+    intimidationBonus: 0
 --- !u!1 &808027698
 GameObject:
   m_ObjectHideFlags: 0

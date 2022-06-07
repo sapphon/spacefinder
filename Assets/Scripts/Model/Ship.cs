@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AI;
-using Model.Crew;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -62,9 +61,8 @@ namespace Model
         public SystemCondition starboardWeapons = 0;
         public SystemCondition foreWeapons = 0;
         public SystemCondition aftWeapons = 0;
-    
-        [Header("Crew")] 
-        public List<CrewMember> crew;
+
+        [Header("Crew")] public Crew.Crew crew;
 
         [Header("Weaponry")] 
         public List<Weapon> weapons;

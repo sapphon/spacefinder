@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Crew
@@ -18,6 +19,11 @@ namespace Model.Crew
             Scientist=2,
             Pilot=3,
             Gunner=4
+        }
+
+        public List<CrewMember> getMembers()
+        {
+            return new List<CrewMember>(officers);
         }
     }
     
