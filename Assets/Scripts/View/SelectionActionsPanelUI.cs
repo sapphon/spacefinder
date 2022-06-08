@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Controller;
 using Model;
 using UnityEngine;
@@ -132,10 +133,10 @@ public class SelectionActionsPanelUI : MonoBehaviour
 
     private void colorButtonByActivity(Ship actor, string buttonActionName, Button button, bool buttonEnabled = true)
     {
-        CrewAction shipAction = _phaseManager.getShipAction(actor);
+        List<CrewAction> shipAction = _phaseManager.getShipActionsThisPhase(actor);
         ColorBlock block = ColorBlock.defaultColorBlock;
 
-        if (shipAction != null && shipAction.name.Equals(buttonActionName))
+        if (shipAction != null && shipAction.Count > 0 && shipAction.First().name.Equals(buttonActionName))
         {
             block.normalColor = Color.cyan;
             block.highlightedColor = Color.cyan;

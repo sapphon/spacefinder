@@ -84,7 +84,7 @@ namespace Controller.Input
         private void resetAction(InputAction.CallbackContext obj)
         {
             if (_shipsUI.GetSelectedShip() != null &&
-                _phaseManager.HasShipChosenActionThisPhase(_shipsUI.GetSelectedShip()))
+                _phaseManager.HasShipChosenAnyActionThisPhase(_shipsUI.GetSelectedShip()))
             {
                 _phaseManager.ResetAction(_shipsUI.GetSelectedShip());
             }

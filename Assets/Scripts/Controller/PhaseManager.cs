@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AI;
 using Controller.PhaseControllers;
 using Model;
@@ -17,7 +18,7 @@ namespace Controller
         private GunneryPhaseController _gunneryPhaseController;
         private Queue<Ship> _shipsYetToActInOrder = new Queue<Ship>();
         private ShipUIManager _shipsUI;
-        private Dictionary<Ship, CrewAction> actionsThisPhase;
+        private Dictionary<CrewAction, Ship> actionsThisPhase;
         private IPhaseController _engineeringPhaseController;
 
 
@@ -27,7 +28,7 @@ namespace Controller
             _gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
             _engineeringPhaseController = FindObjectOfType<EngineeringPhaseController>();
             _shipsUI = FindObjectOfType<ShipUIManager>();
-            actionsThisPhase = new Dictionary<Ship, CrewAction>();
+            actionsThisPhase = new Dictionary<CrewAction, Ship>();
         }
 
         void Start()
@@ -152,9 +153,9 @@ namespace Controller
 
         private void EndActionIfInProgress(Ship ship)
         {
-            if (this.HasShipChosenActionThisPhase(ship))
+            if (this.HasShipChosenAnyActionThisPhase(ship))
             {
-                this.EndActionInProgressForShip(ship);
+                this.EndAllActionsInProgressForShip(ship);
             }
         }
 
@@ -199,43 +200,53 @@ namespace Controller
             return phase == Phase.Helm || currentPhase == Phase.Gunnery;
         }
 
-        public bool HasShipChosenActionThisPhase(Ship ship)
+        public bool HasShipChosenAnyActionThisPhase(Ship ship)
         {
-            return actionsThisPhase.ContainsKey(ship);
+            return actionsThisPhase.ContainsValue(ship);
+        }
+        
+        public bool HasShipChosenAnyActionThisPhaseNamed(Ship ship, string actionName)
+        {
+            return actionsThisPhase.Any(entry => { return entry.Value == ship && entry.Key.name == actionName; });
         }
 
-        public void ToggleShipAction(Ship actor, string actionName)
+        public void ToggleShipAction(Ship shipBeingActedOn, string actionName)
         {
-            if (HasShipChosenActionThisPhase(actor) && actionsThisPhase[actor].name == actionName)
+            if (HasShipChosenAnyActionThisPhaseNamed(shipBeingActedOn, actionName))
             {
-                Util.logIfDebugging("Phase manager canceling action " + actionName + " for ship " + actor.displayName);
-                EndActionInProgressForShip(actor);
+                Util.logIfDebugging("Phase manager canceling action " + actionName + " for ship " + shipBeingActedOn.displayName);
+                EndAllActionsInProgressForShip(shipBeingActedOn);
             }
             else
             {
-                Util.logIfDebugging("Phase manager starting action " + actionName + " for ship " + actor.displayName);
-                actionsThisPhase.Add(actor, new CrewAction(actionName));
-                getCurrentController().OnActionBegin(this.actionsThisPhase[actor], actor);
+                Util.logIfDebugging("Phase manager starting action " + actionName + " for ship " + shipBeingActedOn.displayName);
+                CrewAction actionToAdd = new CrewAction(actionName, new CrewMember());
+                actionsThisPhase.Add(actionToAdd, shipBeingActedOn);
+                getCurrentController().OnActionBegin(actionToAdd, shipBeingActedOn);
             }
         }
 
-        public void EndActionInProgressForShip(Ship actor)
+        public void EndAllActionsInProgressForShip(Ship actor)
         {
-            getCurrentController().OnActionEnd(this.actionsThisPhase[actor], actor);
-            actionsThisPhase.Remove(actor);
+            foreach (CrewAction action in getShipActionsThisPhase(actor))
+            {
+                getCurrentController().OnActionEnd(action, actor);
+                actionsThisPhase.Remove(action);
+            }
         }
 
-        public CrewAction getShipAction(Ship ship)
+        public List<CrewAction> getShipActionsThisPhase(Ship ship)
         {
-            return this.actionsThisPhase.ContainsKey(ship) ? this.actionsThisPhase[ship] : null;
+            return this.actionsThisPhase.Where(tuple => tuple.Value == ship).Select(tuple => tuple.Key).ToList();
         }
 
         public void ResetAction(Ship ship)
         {
-            Util.logIfDebugging("Phase manager canceling action " + this.actionsThisPhase[ship] + " for ship " +
+            CrewAction mostRecent = getShipActionsThisPhase(ship).Last();
+            Util.logIfDebugging("Phase manager canceling action " + mostRecent.name + " for ship " +
                                 ship.displayName);
-            getCurrentController().OnActionCancel(this.actionsThisPhase[ship], ship);
-            actionsThisPhase.Remove(ship);
+            getCurrentController().OnActionCancel(mostRecent, ship);
+            actionsThisPhase.Remove(mostRecent);
         }
 
         private IPhaseController getCurrentController()
@@ -265,11 +276,14 @@ namespace Controller
     {
         public string name { get; }
         public Phase phase { get; }
+        public CrewMember actor { get; }
 
-        public CrewAction(string name, Phase phase = Phase.Helm)
+
+        public CrewAction(string name, CrewMember acting, Phase phase = Phase.Helm)
         {
             this.name = name;
             this.phase = phase;
+            this.actor = acting;
         }
     }
 }

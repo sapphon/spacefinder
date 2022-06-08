@@ -68,8 +68,7 @@ public class ShipUI : MonoBehaviour
 
     private void EnableManeuverUIIfManeuvering()
     {
-        if (phaseManager.HasShipChosenActionThisPhase(shipToTrack) &&
-            phaseManager.getShipAction(shipToTrack).name == "Maneuver")
+        if (phaseManager.HasShipChosenAnyActionThisPhaseNamed(shipToTrack, "Maneuver"))
         {
             this.maneuverUI.SetActive(true);
             SetAdvanceUIColor();

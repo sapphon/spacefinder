@@ -22,8 +22,7 @@ namespace Controller.Input
             Ship selectedShip = _shipsUI.GetSelectedShip();
             if (selectedShip != null)
             {
-                CrewAction currentAction = _phaseManager.getShipAction(selectedShip);
-                if (currentAction != null && currentAction.name == "Maneuver")
+                if (_phaseManager.HasShipChosenAnyActionThisPhaseNamed(selectedShip, "Maneuver"))
                 {
                     return true;
                 }
@@ -37,12 +36,12 @@ namespace Controller.Input
             Ship selectedShip = _shipsUI.GetSelectedShip();
             if (selectedShip != null)
             {
-                CrewAction currentAction = _phaseManager.getShipAction(selectedShip);
-                if (currentAction != null && currentAction.name == "Shoot")
+                if (_phaseManager.HasShipChosenAnyActionThisPhaseNamed(selectedShip, "Shoot"))
                 {
                     return true;
                 }
             }
+
 
             return false;
         }
