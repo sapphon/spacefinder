@@ -16,7 +16,7 @@ Things would still have been OK because of the availability of excellent tools f
 
 [Paizo](https://paizo.com/)'s permissive game licensing means they don't necessarily get paid when a *Starfinder* tool is distributed the way Disney does when any and all things *Star Wars* are.  That means there's no technical or legal reason such a tool can't be [free software](https://en.wikipedia.org/wiki/Free_software_movement).  
 
-**So**: this aid isn't meant to be the best Starfinder starship combat tracker out there, but it will always be tied for the freest!
+**So**: this aid isn't meant to be the best Starfinder starship combat tracker out there, but it will always be tied for the freest!  (Licensed under the GNU General Public License v3 or later, a copy of which is included with this repository)
 
 ## Controls
 
