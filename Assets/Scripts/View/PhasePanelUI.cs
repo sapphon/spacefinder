@@ -21,8 +21,6 @@ public class PhasePanelUI : MonoBehaviour
         this._shipsUI = FindObjectOfType<ShipUIManager>();
         this._phaseManager = FindObjectOfType<PhaseManager>();
         this._phaseNameText = transform.Find("CurrentPhaseReadout").GetComponent<Text>();
-        this._phaseRolesText = transform.parent.Find("PhaseAvailableRolesPanel").Find("ActiveRolesReadout")
-            .GetComponent<Text>();
         _endPhaseButton = this.transform.Find("AdvancePhaseButton").GetComponent<Button>();
         _endPhaseButton.onClick.AddListener(TryAdvancePhase);
     }
@@ -30,24 +28,7 @@ public class PhasePanelUI : MonoBehaviour
     void Update()
     {
         _phaseNameText.text = _phaseManager.GetCurrentPhase().ToString();
-        SetActiveCharactersOrRoles();
         _endPhaseButton.interactable = _phaseManager.CanPhaseEnd();
-    }
-
-    private void SetActiveCharactersOrRoles()
-    {
-        List<Crew.Role> activePhaseRoles = _phaseManager.GetActivePhaseRoles();
-        Ship selectedShip = this._shipsUI.GetSelectedShip();
-        if (selectedShip != null && selectedShip.crew.getMembers().Count > 0)
-        {
-            _phaseRolesText.text = String.Join("\r\n",
-                selectedShip.crew.getMembers().Where(crewperson => activePhaseRoles.Contains(crewperson.role))
-                    .Select(crewperson => crewperson.name));
-        }
-        else
-        {   
-            _phaseRolesText.text = String.Join("\r\n", activePhaseRoles.Select(role => role.ToString()));
-        }
     }
 
     public void TryAdvancePhase()
