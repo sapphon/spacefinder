@@ -5,6 +5,7 @@ using Controller;
 using Controller.PhaseControllers;
 using Model;
 using Model.Crew;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -96,19 +97,18 @@ namespace View
                     });
                     Text crewpersonText = crewpersonButton.GetComponentInChildren<Text>();
                     crewpersonText.text = crewMembers[i].name;
-                    crewpersonText.color = crewMembers[i] == this.getSelectedCrewmember() ? Color.green : Color.black;
+                    crewpersonText.color = crewMembers[i] == this.getSelectedCrewmemberForSelectedShip() ? Color.green : Color.black;
                 }
         }
 
-        private CrewMember getSelectedCrewmember()
+        private CrewMember getSelectedCrewmemberForSelectedShip()
         {
-            Ship selectedShip = _shipsUI.GetSelectedShip();
-            if (selectedShip == null || !this._crewSelections.ContainsKey(selectedShip))
-            {
-                return null;
-            }
+            return this.getSelectedCrewmemberForShip(_shipsUI.GetSelectedShip());
+        }
 
-            return this._crewSelections[selectedShip];
+        public CrewMember getSelectedCrewmemberForShip(Ship ship)
+        {
+            return this._crewSelections.ContainsKey(ship) ? _crewSelections[ship] : null;
         }
 
         public void ShipSelectionChanged(Ship newSelection)

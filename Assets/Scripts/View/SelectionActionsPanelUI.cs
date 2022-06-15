@@ -136,7 +136,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
         List<CrewAction> shipAction = _phaseManager.getShipActionsThisPhase(actor);
         ColorBlock block = ColorBlock.defaultColorBlock;
 
-        if (shipAction != null && shipAction.Count > 0 && shipAction.First().name.Equals(buttonActionName))
+        if (shipAction != null && shipAction.Count > 0 && shipAction.First().actionType.name.Equals(buttonActionName))
         {
             block.normalColor = Color.cyan;
             block.highlightedColor = Color.cyan;

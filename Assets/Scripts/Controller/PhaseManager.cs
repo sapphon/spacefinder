@@ -6,7 +6,9 @@ using AI;
 using Controller.PhaseControllers;
 using Model;
 using Model.Crew;
+using NUnit.Framework.Constraints;
 using UnityEngine;
+using View;
 
 namespace Controller
 {
@@ -20,6 +22,7 @@ namespace Controller
         private ShipUIManager _shipsUI;
         private Dictionary<CrewAction, Ship> actionsThisPhase;
         private IPhaseController _engineeringPhaseController;
+        private CrewPanelUI _crewUI;
 
 
         void Awake()
@@ -28,6 +31,7 @@ namespace Controller
             _gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
             _engineeringPhaseController = FindObjectOfType<EngineeringPhaseController>();
             _shipsUI = FindObjectOfType<ShipUIManager>();
+            _crewUI = FindObjectOfType <CrewPanelUI>();
             actionsThisPhase = new Dictionary<CrewAction, Ship>();
         }
 
@@ -58,15 +62,7 @@ namespace Controller
 
         public List<string> GetPossibleActionNamesForPhase()
         {
-            switch (currentPhase)
-            {
-                case Phase.Helm:
-                    return new List<string>() {"Maneuver"};
-                case Phase.Gunnery:
-                    return new List<string>() {"Shoot"};
-                default:
-                    return new List<string>() {"Hold It Together"};
-            }
+            return Action.AllActions.Where(action => action.phase == currentPhase).Select(action => action.name).ToList();
         }
 
         public bool TryAdvancePhase()
@@ -207,22 +203,33 @@ namespace Controller
         
         public bool HasShipChosenAnyActionThisPhaseNamed(Ship ship, string actionName)
         {
-            return actionsThisPhase.Any(entry => { return entry.Value == ship && entry.Key.name == actionName; });
+            return actionsThisPhase.Any(entry => { return entry.Value == ship && entry.Key.actionType.name == actionName; });
         }
 
         public void ToggleShipAction(Ship shipBeingActedOn, string actionName)
         {
-            if (HasShipChosenAnyActionThisPhaseNamed(shipBeingActedOn, actionName))
+            CrewAction actionCandidate = new CrewAction(Action.findByName(actionName), _crewUI.getSelectedCrewmemberForShip(shipBeingActedOn), shipBeingActedOn);
+            if(actionCandidate.isValid() != "")
             {
-                Util.logIfDebugging("Phase manager canceling action " + actionName + " for ship " + shipBeingActedOn.displayName);
-                EndAllActionsInProgressForShip(shipBeingActedOn);
+                ErrorUI.Get().ShowError(actionCandidate.isValid());
             }
             else
             {
-                Util.logIfDebugging("Phase manager starting action " + actionName + " for ship " + shipBeingActedOn.displayName);
-                CrewAction actionToAdd = new CrewAction(actionName, new CrewMember());
-                actionsThisPhase.Add(actionToAdd, shipBeingActedOn);
-                getCurrentController().OnActionBegin(actionToAdd, shipBeingActedOn);
+                if (HasShipChosenAnyActionThisPhaseNamed(shipBeingActedOn, actionName))
+                {
+                    Util.logIfDebugging("Phase manager canceling action " + actionName + " for ship " +
+                                        shipBeingActedOn.displayName);
+                    EndAllActionsInProgressForShip(shipBeingActedOn);
+                }
+                else
+                {
+                    Util.logIfDebugging("Phase manager starting action " + actionName + " for ship " +
+                                        shipBeingActedOn.displayName);
+                    CrewAction actionToAdd =
+                        new CrewAction(Action.findByName(actionName), new CrewMember(), shipBeingActedOn);
+                    actionsThisPhase.Add(actionToAdd, shipBeingActedOn);
+                    getCurrentController().OnActionBegin(actionToAdd, shipBeingActedOn);
+                }
             }
         }
 
@@ -243,7 +250,7 @@ namespace Controller
         public void ResetAction(Ship ship)
         {
             CrewAction mostRecent = getShipActionsThisPhase(ship).Last();
-            Util.logIfDebugging("Phase manager canceling action " + mostRecent.name + " for ship " +
+            Util.logIfDebugging("Phase manager canceling action " + mostRecent.actionType.name + " for ship " +
                                 ship.displayName);
             getCurrentController().OnActionCancel(mostRecent, ship);
             actionsThisPhase.Remove(mostRecent);
@@ -272,18 +279,56 @@ namespace Controller
         Gunnery = 2
     }
 
-    public class CrewAction
+    public class Action
     {
+        public static List<Action> AllActions = new List<Action>(){new Action("Shoot", Phase.Gunnery, Crew.Role.Gunner), new Action("Maneuver", Phase.Helm, Crew.Role.Pilot), new Action("Hold It Together", Phase.Engineering, Crew.Role.Engineer)};
+
+        public static Action findByName(String name)
+        {
+            return AllActions.Find(action => action.name == name);
+        } 
         public string name { get; }
         public Phase phase { get; }
-        public CrewMember actor { get; }
+        public Crew.Role requiredRole { get;}
 
-
-        public CrewAction(string name, CrewMember acting, Phase phase = Phase.Helm)
+        public Action(String name, Phase phase, Crew.Role requiredRole)
         {
             this.name = name;
             this.phase = phase;
-            this.actor = acting;
+            this.requiredRole = requiredRole;
+        }
+    }
+
+    public class CrewAction
+    {
+        public Action actionType { get; }
+
+        public CrewMember actor { get; }
+        
+        public Ship ship { get; }
+
+        public Phase phase { get; }
+
+
+        public CrewAction(Action action, CrewMember actingCrew, Ship actingShip, Phase phaseActedDuring = Phase.Helm)
+        {
+            this.actionType = action;
+            this.actor = actingCrew;
+            this.ship = actingShip;
+            this.phase = phaseActedDuring;
+        }
+
+        public string isValid()
+        {
+            //return value of empty string is "true"
+            //any other string is an error message
+            if (actor == null || actor.role != this.actionType.requiredRole)
+            {
+                return (actionType.name + " requires a " + this.actionType.requiredRole);
+
+            }
+
+            return "";
         }
     }
 }

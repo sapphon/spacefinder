@@ -63,7 +63,7 @@ namespace Controller.PhaseControllers
 
         public void OnActionCancel(CrewAction action, Ship ship)
         {
-            if (action.name == "Shoot")
+            if (action.actionType == Action.findByName("Shoot"))
             {
                 //for larger ships, taking into account which gunner is canceling will be necessary
                 this.firingSolutions.RemoveWhere(solution => solution.attacker == ship);

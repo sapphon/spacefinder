@@ -7,6 +7,11 @@ using UnityEngine.UI;
 public class ErrorUI : MonoBehaviour
 {
 
+    public static ErrorUI Get()
+    {
+        return FindObjectOfType<ErrorUI>();
+    }
+
     public float alphaReductionRate = 0.5f;
     private Text _text;
 
@@ -28,7 +33,7 @@ public class ErrorUI : MonoBehaviour
         return !Mathf.Approximately(_text.color.a, 0f);
     }
 
-    void ShowError(String text)
+    public void ShowError(String text)
     {
         _text.text = text;
         SetAlpha(1);

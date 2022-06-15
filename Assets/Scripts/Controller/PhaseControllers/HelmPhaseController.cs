@@ -32,7 +32,7 @@ namespace Controller.PhaseControllers
 
         public void OnActionBegin(CrewAction action, Ship ship)
         {
-            if (action.name == "Maneuver")
+            if (action.actionType == Action.findByName("Maneuver"))
             {
                 this._initialPosition = ship.gridPosition;
                 this._initialFacing = ship.facing;
@@ -48,7 +48,7 @@ namespace Controller.PhaseControllers
 
         public void OnActionCancel(CrewAction action, Ship ship)
         {
-            if (action.name == "Maneuver")
+            if (action.actionType == Action.findByName("Maneuver"))
             {
                 _turnsSoFar.Clear();
                 _destinationsSoFar.Clear();
