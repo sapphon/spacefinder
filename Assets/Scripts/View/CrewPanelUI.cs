@@ -18,11 +18,9 @@ namespace View
         private Text _phaseRolesText;
         private Text _phaseRolesTitle;
         private Dictionary<Ship, CrewMember> _crewSelections;
-        private Tuple<Ship, List<Crew.Role>> _lastRender;
 
         void Awake()
         {
-            _lastRender = null;
             _crewSelections = new Dictionary<Ship, CrewMember>();
             _phaseManager = FindObjectOfType<PhaseManager>();
             _shipsUI = FindObjectOfType<ShipUIManager>();
@@ -77,10 +75,9 @@ namespace View
         {
             
             _phaseRolesTitle.text = "Active Crew".ToUpper();
+                clearCrewPanelUI();
             List<CrewMember> crewMembers = selectedShip.crew.getMembers()
                 .Where(crewperson => activePhaseRoles.Contains(crewperson.role)).ToList();
-                clearCrewPanelUI();
-                Util.logIfDebugging("Crewperson UI rerendered");
                 for (int i = 0; i < crewMembers.Count; i++)
                 {
                     int ughClosureProblem = i;
