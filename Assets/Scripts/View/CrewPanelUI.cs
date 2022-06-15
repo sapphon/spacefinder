@@ -10,15 +10,20 @@ using UnityEngine.UI;
 
 namespace View
 {
-    public class CrewPanelUI : MonoBehaviour
+    public class CrewPanelUI : MonoBehaviour, IShipSelectionObserver
     {
+        public GameObject crewmemberButtonPrefab;
         private PhaseManager _phaseManager;
         private ShipUIManager _shipsUI;
         private Text _phaseRolesText;
         private Text _phaseRolesTitle;
+        private Dictionary<Ship, CrewMember> _crewSelections;
+        private Tuple<Ship, List<Crew.Role>> _lastRender;
 
         void Awake()
         {
+            _lastRender = null;
+            _crewSelections = new Dictionary<Ship, CrewMember>();
             _phaseManager = FindObjectOfType<PhaseManager>();
             _shipsUI = FindObjectOfType<ShipUIManager>();
             this._phaseRolesText = transform.parent.Find("PhaseAvailableRolesPanel").Find("CrewUIReadout")
@@ -27,9 +32,10 @@ namespace View
                 .GetComponent<Text>();
         }
 
-        void Update()
+        void Start()
         {
-            SetActiveCharactersOrRoles();
+            this.SetActiveCharactersOrRoles();
+            _shipsUI.AddObserver(this);
         }
 
         private void SetActiveCharactersOrRoles()
@@ -43,7 +49,16 @@ namespace View
             }
             else
             {
+                clearCrewPanelUI();
                 showPhaseRoleText(activePhaseRoles);
+            }
+        }
+
+        private void clearCrewPanelUI()
+        {
+            for (int i = 0; i < _phaseRolesText.transform.childCount; i++)
+            {
+                GameObject.Destroy(_phaseRolesText.transform.GetChild(i).gameObject);
             }
         }
 
@@ -60,10 +75,48 @@ namespace View
 
         private void showCrewPanelUI(Ship selectedShip, List<Crew.Role> activePhaseRoles)
         {
+            
             _phaseRolesTitle.text = "Active Crew".ToUpper();
-            _phaseRolesText.text = String.Join("\r\n",
-                selectedShip.crew.getMembers().Where(crewperson => activePhaseRoles.Contains(crewperson.role))
-                    .Select(crewperson => crewperson.name));
+            List<CrewMember> crewMembers = selectedShip.crew.getMembers()
+                .Where(crewperson => activePhaseRoles.Contains(crewperson.role)).ToList();
+                clearCrewPanelUI();
+                Util.logIfDebugging("Crewperson UI rerendered");
+                for (int i = 0; i < crewMembers.Count; i++)
+                {
+                    int ughClosureProblem = i;
+                    Button crewpersonButton =
+                        GameObject.Instantiate(this.crewmemberButtonPrefab).GetComponent<Button>();
+                    crewpersonButton.transform.SetParent(_phaseRolesText.transform, false);
+                    RectTransform rectTransform = crewpersonButton.GetComponent<RectTransform>();
+                    rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, i * rectTransform.rect.height,
+                        rectTransform.rect.height);
+                    crewpersonButton.onClick.AddListener(() =>
+                    {
+                        Util.logIfDebugging("Crewperson " + crewMembers[ughClosureProblem].name + " selected");
+                        this._crewSelections.Remove(_shipsUI.GetSelectedShip());
+                        this._crewSelections.Add(_shipsUI.GetSelectedShip(), crewMembers[ughClosureProblem]);
+                        this.SetActiveCharactersOrRoles();
+                    });
+                    Text crewpersonText = crewpersonButton.GetComponentInChildren<Text>();
+                    crewpersonText.text = crewMembers[i].name;
+                    crewpersonText.color = crewMembers[i] == this.getSelectedCrewmember() ? Color.green : Color.black;
+                }
+        }
+
+        private CrewMember getSelectedCrewmember()
+        {
+            Ship selectedShip = _shipsUI.GetSelectedShip();
+            if (selectedShip == null || !this._crewSelections.ContainsKey(selectedShip))
+            {
+                return null;
+            }
+
+            return this._crewSelections[selectedShip];
+        }
+
+        public void ShipSelectionChanged(Ship newSelection)
+        {
+            SetActiveCharactersOrRoles();
         }
     }
 }

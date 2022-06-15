@@ -35,6 +35,8 @@ public class Util
 
     public static bool IsMouseOverUI()
     {
-        return EventSystem.current.IsPointerOverGameObject();
+        bool isPointerOverGameObject = EventSystem.current.IsPointerOverGameObject();
+        logIfDebugging("Click " + (isPointerOverGameObject ? "is" : "is not") + " over the UI.");
+        return isPointerOverGameObject;
     }
 }

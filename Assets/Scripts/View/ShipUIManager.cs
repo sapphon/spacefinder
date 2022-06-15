@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -7,8 +8,9 @@ using JetBrains.Annotations;
 using Model;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using View;
 
-public class ShipUIManager : MonoBehaviour
+public class ShipUIManager : AShipSelectionObservable
 {
     public GameObject shipUIPrefab;
     public GameObject attackMarkerPrefab;
@@ -88,6 +90,15 @@ public class ShipUIManager : MonoBehaviour
         this.selectedWeapon = null;
         this.showingArcs = false;
         this.showingRange = 0;
+        this.NotifyObserversShipSelectionChanged(null);
+    }
+
+    private void NotifyObserversShipSelectionChanged(Ship newSelection)
+    {
+        foreach (var observer in this.observers)
+        {
+            observer.ShipSelectionChanged(newSelection);
+        }
     }
 
     protected void SelectShip(Ship ship)
@@ -95,6 +106,7 @@ public class ShipUIManager : MonoBehaviour
         Vector3 worldCenterOfCell = shipMap.CellToWorld(ship.gridPosition);
         cameraControlller.setAimPoint(new Vector3(worldCenterOfCell.x, worldCenterOfCell.y));
         this.selectedShip = ship;
+        NotifyObserversShipSelectionChanged(ship);
     }
 
     public bool TrySelectWeapon(int weaponOrdinal)
