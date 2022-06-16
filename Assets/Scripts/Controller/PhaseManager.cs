@@ -206,9 +206,9 @@ namespace Controller
             return actionsThisPhase.Any(entry => { return entry.Value == ship && entry.Key.actionType.name == actionName; });
         }
 
-        public void ToggleShipAction(Ship shipBeingActedOn, string actionName)
+        public void ToggleShipAction(Ship shipBeingActedOn, CrewMember crewpersonActing, string actionName)
         {
-            CrewAction actionCandidate = new CrewAction(Action.findByName(actionName), _crewUI.getSelectedCrewmemberForShip(shipBeingActedOn), shipBeingActedOn);
+            CrewAction actionCandidate = new CrewAction(Action.findByName(actionName), crewpersonActing, shipBeingActedOn);
             if(actionCandidate.isValid() != "")
             {
                 ErrorUI.Get().ShowError(actionCandidate.isValid());

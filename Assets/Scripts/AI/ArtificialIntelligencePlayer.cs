@@ -4,6 +4,7 @@ using System.Linq;
 using Controller;
 using Controller.PhaseControllers;
 using Model;
+using Model.Crew;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ namespace AI
             if (phase == Phase.Engineering)
             {
                 phaseManager.ToggleShipAction(controlledShip,
-                    "Hold It Together");
+                     getUnoccupied(Crew.Role.Engineer), "Hold It Together");
             }
             else if (phase == Phase.Gunnery)
             {
@@ -46,6 +47,11 @@ namespace AI
             }
 
             phaseManager.SignalComplete(controlledShip);
+        }
+
+        private CrewMember getUnoccupied(Crew.Role role)
+        {
+            return controlledShip.crew.getMembers().Find(person => person.role == role);
         }
 
         private bool isInIdealRangeForArc(Ship target, WeaponFiringArc arc)
@@ -74,13 +80,13 @@ namespace AI
                 else phaseManager.ResetAction(controlledShip);
             }
 
-            Util.logIfDebugging("Ship " + controlledShip.displayName +
+            Util.logIfDebugging("AI Player for ship " + controlledShip.displayName +
                                 " cannot find a way to put any opponents in its Front arc at shortest range!");
         }
 
         private bool pathTowards(Ship destination)
         {
-            phaseManager.ToggleShipAction(controlledShip, "Maneuver");
+            phaseManager.ToggleShipAction(controlledShip, getUnoccupied(Crew.Role.Pilot), "Maneuver");
             while (helmController.MayAdvance(controlledShip))
             {
                 while (Mathf.Abs(Util.getAngleBetweenShips(controlledShip, destination)) >= 30 &&
@@ -110,7 +116,7 @@ namespace AI
 
         private void fireAllWeaponsAtRandomOpponents()
         {
-            phaseManager.ToggleShipAction(controlledShip, "Shoot");
+            phaseManager.ToggleShipAction(controlledShip, getUnoccupied(Crew.Role.Gunner), "Shoot");
             foreach (Weapon toShoot in this.controlledShip.weapons)
             {
                 Ship toTarget = Ship.getAllShips().Where(ship => ship.affiliation != controlledShip.affiliation)

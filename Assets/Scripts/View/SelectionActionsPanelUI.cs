@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Controller;
 using Model;
+using Model.Crew;
 using UnityEngine;
 using UnityEngine.UI;
+using View;
 
 public class SelectionActionsPanelUI : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
     private Color _cautionOrange;
     private Button[] _actionButtons;
     private Text _notYourTurnText;
+    private CrewPanelUI _crewUI;
 
     void Awake()
     {
@@ -28,6 +31,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
         this._phaseFinishedText = transform.Find("EndPhaseOKReadout").GetComponent<Text>();
         this._cautionOrange = new Color(.886f, .435f, .02f);
         this._notYourTurnText = transform.Find("NotYourTurnText").GetComponent<Text>();
+        this._crewUI = FindObjectOfType<CrewPanelUI>();
         initializeActionButtons();
     }
 
@@ -48,8 +52,13 @@ public class SelectionActionsPanelUI : MonoBehaviour
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() =>
         {
-            _phaseManager.ToggleShipAction(getSelectedShip(), actionName);
+            _phaseManager.ToggleShipAction(getSelectedShip(), getSelectedCrewperson(), actionName );
         });
+    }
+
+    private CrewMember getSelectedCrewperson()
+    {
+        return _crewUI.getSelectedCrewmemberForShip(getSelectedShip());
     }
 
     void ToggleDone(float dontCare)
