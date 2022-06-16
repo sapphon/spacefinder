@@ -55,6 +55,7 @@ public class ShipUI : MonoBehaviour
         transform.position = shipMap.CellToWorld(shipToTrack.gridPosition);
         transform.rotation = Quaternion.AngleAxis((int)shipToTrack.facing, Vector3.forward);
         spriteRenderer.color = shipToTrack.hitPoints < 1? Color.grey : shipToTrack.affiliation == Affiliation.Player ? Color.green : Color.red;
+        spriteRenderer.sortingOrder = 10;
         EnableManeuverUIIfManeuvering();
         FiringArcs();
         TargetingCrosshair();
