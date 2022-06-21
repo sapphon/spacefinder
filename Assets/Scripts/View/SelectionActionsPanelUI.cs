@@ -16,9 +16,7 @@ public class SelectionActionsPanelUI : MonoBehaviour
     private Text _actionsText;
     private ShipUIManager _shipsUiManager;
     private PhaseManager _phaseManager;
-    private Slider _phaseFinishedSignal;
-    private Text _phaseFinishedText;
-    private Color _cautionOrange;
+ 
     private Button[] _actionButtons;
     private Text _notYourTurnText;
     private CrewPanelUI _crewUI;
@@ -28,10 +26,6 @@ public class SelectionActionsPanelUI : MonoBehaviour
         this._phaseManager = FindObjectOfType<PhaseManager>();
         this._shipsUiManager = FindObjectOfType<ShipUIManager>();
         this._actionsText = transform.Find("PhaseNameReadout").GetComponent<Text>();
-        this._phaseFinishedSignal = transform.Find("EndPhaseOKSlider").GetComponent<Slider>();
-        this._phaseFinishedSignal.onValueChanged.AddListener(ToggleDone);
-        this._phaseFinishedText = transform.Find("EndPhaseOKReadout").GetComponent<Text>();
-        this._cautionOrange = new Color(.886f, .435f, .02f);
         this._notYourTurnText = transform.Find("NotYourTurnText").GetComponent<Text>();
         this._crewUI = FindObjectOfType<CrewPanelUI>();
         initializeActionButtons();
@@ -40,7 +34,6 @@ public class SelectionActionsPanelUI : MonoBehaviour
     private void initializeActionButtons()
     {
         _actionButtons = new Button[12];
-        List<Action> possibleActions = _phaseManager.GetPossibleActionsForCurrentPhase();
         for (int n = 0; n < _actionButtons.Length; n++)
         {
             _actionButtons[n] = transform.Find("ActionButton" + (n + 1)).GetComponent<Button>();
@@ -63,19 +56,6 @@ public class SelectionActionsPanelUI : MonoBehaviour
         return _crewUI.getSelectedCrewmemberForShip(getSelectedShip());
     }
 
-    void ToggleDone(float dontCare)
-    {
-        Ship selectedShip = getSelectedShip();
-        if (_phaseManager.isShipDone(selectedShip))
-        {
-            _phaseManager.SignalStillWorking(selectedShip);
-        }
-        else
-        {
-            _phaseManager.SignalComplete(selectedShip);
-        }
-    }
-
     private Ship getSelectedShip()
     {
         return _shipsUiManager.GetSelectedShip();
@@ -87,23 +67,6 @@ public class SelectionActionsPanelUI : MonoBehaviour
         if (selectedShip != null) 
         {
             _actionsText.text = _phaseManager.GetCurrentPhase().ToString() + " Actions";
-            if (_phaseManager.isShipDone(selectedShip))
-            {
-                _phaseFinishedText.text = "!!! DONE WITH PHASE !!!";
-                _phaseFinishedText.color = _cautionOrange;
-                ColorBlock colorBlock = ColorBlock.defaultColorBlock;
-                colorBlock.normalColor = _cautionOrange;
-                colorBlock.selectedColor = _cautionOrange;
-                _phaseFinishedSignal.colors = colorBlock;
-                _phaseFinishedSignal.SetValueWithoutNotify(1);
-            }
-            else
-            {
-                _phaseFinishedText.text = "Done w/ Phase?";
-                _phaseFinishedText.color = new Color(50, 50, 50);
-                _phaseFinishedSignal.colors = ColorBlock.defaultColorBlock;
-                _phaseFinishedSignal.SetValueWithoutNotify(0);
-            }
 
             if (_phaseManager.DoesCurrentPhaseUseInitiative() && !_phaseManager.ShipHasInitiative(selectedShip))
             {
@@ -192,18 +155,11 @@ public class SelectionActionsPanelUI : MonoBehaviour
     {
         GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 175f);
         _actionsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 160f);
-        _phaseFinishedSignal.GetComponent<RectTransform>()
-            .SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 45f);
-        _phaseFinishedSignal.gameObject.transform.Find("Handle Slide Area/Handle").GetComponent<RectTransform>()
-            .SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 20f);
     }
 
     protected void ShrinkPanel()
     {
         GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
         _actionsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
-        _phaseFinishedSignal.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
-        _phaseFinishedSignal.gameObject.transform.Find("Handle Slide Area/Handle").GetComponent<RectTransform>()
-            .SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
     }
 }
