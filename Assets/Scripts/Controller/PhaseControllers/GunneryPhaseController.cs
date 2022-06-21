@@ -71,25 +71,25 @@ namespace Controller.PhaseControllers
             }
         }
 
-        public bool MayTarget(Ship attacker, Ship target, Weapon weapon)
+        public bool IsInRangeAndArc(Ship attacker, Ship target, Weapon weapon)
         {
             FiringSolution potentialSolution = new FiringSolution(attacker, target, weapon);
             if (isInRange(potentialSolution) && isInArc(potentialSolution))
             {
                 return true;
-                //Future: Attacker has available gunner: https://trello.com/c/lCGGu5gH
             }
 
             return false;
         }
 
-        public bool TryTarget(Ship attacker, Ship target, Weapon weapon)
+        public bool TryTarget(Ship attacker, Ship target, Weapon weapon, CrewMember gunner)
         {
             Util.logIfDebugging("Attempting targeting of " + target.name + " by " + attacker.name + " with " + weapon.name);
-            if (MayTarget(attacker, target, weapon))
+            if (IsInRangeAndArc(attacker, target, weapon))
             {
                 ClearPreviousTargetForWeapon(attacker, weapon);
-                DoTarget(attacker, target, weapon);
+                ClearPreviousSolutionsFor(gunner);
+                DoTarget(attacker, target, weapon, gunner);
                 Util.logIfDebugging("Targeting successful");
                 return true;
             }
@@ -98,7 +98,8 @@ namespace Controller.PhaseControllers
             return false;
         }
 
-        private bool isInArc(FiringSolution solution)
+
+        public bool isInArc(FiringSolution solution)
         {
             bool toReturn = false;
             if (solution.weapon.arc == WeaponFiringArc.Turret)
@@ -139,7 +140,7 @@ namespace Controller.PhaseControllers
                 return toReturn;
         }
 
-        private bool isInRange(FiringSolution solution)
+        public bool isInRange(FiringSolution solution)
         {
             var distanceBetween = Util.DistanceBetween(solution.attacker.gridPosition, solution.target.gridPosition);
             var maxRange = (int) solution.weapon.range * 10;
@@ -147,9 +148,9 @@ namespace Controller.PhaseControllers
             return distanceBetween <= maxRange;
         }
 
-        private void DoTarget(Ship attacker, Ship target, Weapon weapon)
+        private void DoTarget(Ship attacker, Ship target, Weapon weapon, CrewMember gunner)
         {
-            this.firingSolutions.Add(new FiringSolution(attacker, target, weapon));
+            this.firingSolutions.Add(new FiringSolution(attacker, target, weapon, gunner));
             this._shipUiManager.UpdateAttackMarkers(this.firingSolutions);
         }
 
@@ -158,12 +159,17 @@ namespace Controller.PhaseControllers
             this.firingSolutions.RemoveWhere(solution =>
                 solution.weapon == weapon && solution.attacker == attacker);
         }
+        private void ClearPreviousSolutionsFor(CrewMember gunner)
+        {
+            this.firingSolutions.RemoveWhere(solution => solution.gunner == gunner);
+        }
 
         public bool IsTargeted(Ship ship)
         {
             return this.firingSolutions.Any(solution => solution.target == ship);
         }
     }
+    
 
     public struct FiringSolution
     {
@@ -172,20 +178,20 @@ namespace Controller.PhaseControllers
         public Weapon weapon;
         public CrewMember gunner;
 
-        public FiringSolution(Ship attacker, Ship target, Weapon weapon)
-        {
-            this.attacker = attacker;
-            this.target = target;
-            this.weapon = weapon;
-            this.gunner = null;
-        }
-
         public FiringSolution(Ship attacker, Ship target, Weapon weapon, CrewMember gunner)
         {
             this.attacker = attacker;
             this.target = target;
             this.weapon = weapon;
             this.gunner = gunner;
+        }
+
+        public FiringSolution(Ship attacker, Ship target, Weapon weapon)
+        {
+            this.attacker = attacker;
+            this.target = target;
+            this.weapon = weapon;
+            this.gunner = null;
         }
     }
 }

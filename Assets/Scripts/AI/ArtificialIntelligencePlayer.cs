@@ -51,13 +51,13 @@ namespace AI
 
         private CrewMember getUnoccupied(Crew.Role role)
         {
-            return controlledShip.crew.getMembers().Find(person => person.role == role);
+            return controlledShip.crew.getMembers().Where(person => person.role == role).First(person => phaseManager.getCrewpersonActionsThisPhase(person).Count < 1);
         }
 
         private bool isInIdealRangeForArc(Ship target, WeaponFiringArc arc)
         {
             Weapon shortestRangeWeaponInArc = controlledShip.getShortestRangeWeaponInArc(arc);
-            return gunneryController.MayTarget(controlledShip, target,
+            return gunneryController.IsInRangeAndArc(controlledShip, target,
                        shortestRangeWeaponInArc) &&
                    Util.DistanceBetween(controlledShip.gridPosition, target.gridPosition) <=
                    (int) shortestRangeWeaponInArc.range;
@@ -116,17 +116,18 @@ namespace AI
 
         private void fireAllWeaponsAtRandomOpponents()
         {
-            phaseManager.ToggleShipAction(controlledShip, getUnoccupied(Crew.Role.Gunner), "Shoot");
+            CrewMember crewpersonActing = getUnoccupied(Crew.Role.Gunner);
+            phaseManager.ToggleShipAction(controlledShip, crewpersonActing, "Shoot");
             foreach (Weapon toShoot in this.controlledShip.weapons)
             {
                 Ship toTarget = Ship.getAllShips().Where(ship => ship.affiliation != controlledShip.affiliation)
-                    .FirstOrDefault(ship => gunneryController.MayTarget(this.controlledShip, ship, toShoot));
+                    .FirstOrDefault(ship => gunneryController.IsInRangeAndArc(this.controlledShip, ship, toShoot));
                 if (toTarget != null)
                 {
                     Util.logIfDebugging("AI player controlling ship " + this.controlledShip.displayName +
                                         " has chosen ship " + toTarget.displayName + " as a target for " +
                                         toShoot.name);
-                    gunneryController.TryTarget(this.controlledShip, toTarget, toShoot);
+                    gunneryController.TryTarget(this.controlledShip, toTarget, toShoot, crewpersonActing);
                 }
             }
         }

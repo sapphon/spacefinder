@@ -22,6 +22,7 @@ public class ShipUIManager : AShipSelectionObservable
     private GunneryPhaseController _gunneryPhaseController;
     protected Weapon selectedWeapon;
     private GameObject _attackMarkerParent;
+    private CrewPanelUI _crewUI;
 
 
     void Awake()
@@ -29,6 +30,7 @@ public class ShipUIManager : AShipSelectionObservable
         this.shipMap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         this.cameraControlller = GameObject.FindObjectOfType<CameraController>();
         this._gunneryPhaseController = GameObject.FindObjectOfType<GunneryPhaseController>();
+        this._crewUI = FindObjectOfType<CrewPanelUI>();
         this._attackMarkerParent = GameObject.Find("Attack Markers");
 
         this.selectedShip = null;
@@ -81,7 +83,7 @@ public class ShipUIManager : AShipSelectionObservable
 
     private void TargetShip(Ship ship)
     {
-        _gunneryPhaseController.TryTarget(this.GetSelectedShip(), ship, this.getSelectedWeapon());
+        _gunneryPhaseController.TryTarget(this.GetSelectedShip(), ship, this.getSelectedWeapon(), _crewUI.getSelectedCrewmemberForShip(this.GetSelectedShip()));
     }
 
     public void DeselectShip()
