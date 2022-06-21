@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using System.Linq;
+using Model;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,7 +23,7 @@ namespace Controller.Input
             Ship selectedShip = _shipsUI.GetSelectedShip();
             if (selectedShip != null)
             {
-                if (_phaseManager.HasShipChosenAnyActionThisPhaseNamed(selectedShip, "Maneuver"))
+                if (_phaseManager.getShipActionsThisPhase(selectedShip).Any(action => action.actionType.isMovement()))
                 {
                     return true;
                 }

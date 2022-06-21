@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using Model;
 using Model.Crew;
 using NUnit.Framework.Constraints;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using View;
 
@@ -228,6 +229,13 @@ namespace Controller
             }
             else
             {
+                if (crewmemberAlreadyActing(crewpersonActing))
+                {
+                    ResetAction(shipBeingActedOn);
+                    ErrorUI.Get().ShowError(crewpersonActing.name + "'s previous action was canceled");
+                    Util.logIfDebugging("Crewperson " + crewpersonActing.name +
+                                        " canceled previous major action by selecting " + actionName);
+                }
                 if (HasShipChosenAnyActionThisPhaseNamed(shipBeingActedOn, actionName))
                 {
                     Util.logIfDebugging("Phase manager canceling action " + actionName + " for ship " +
@@ -244,6 +252,12 @@ namespace Controller
                     getCurrentController().OnActionBegin(actionToAdd, shipBeingActedOn);
                 }
             }
+        }
+
+        private bool crewmemberAlreadyActing(CrewMember crewpersonActing)
+        {
+            return this.actionsThisPhase.Keys.Any(action =>
+                action.actor == crewpersonActing && action.actionType.isMinor == false);
         }
 
         public void EndAllActionsInProgressForShip(Ship actor)
@@ -299,7 +313,7 @@ namespace Controller
 
     public class Action
     {
-        public static List<Action> AllActions = new List<Action>(){new Action("Shoot", Phase.Gunnery, Crew.Role.Gunner), new Action("Maneuver", Phase.Helm, Crew.Role.Pilot), new Action("Hold It Together", Phase.Engineering, Crew.Role.Engineer)};
+        public static List<Action> AllActions = new List<Action>(){new Action("Shoot", Phase.Gunnery, Crew.Role.Gunner), new Action("Maneuver", Phase.Helm, Crew.Role.Pilot), new Action("Fly", Phase.Helm, Crew.Role.Pilot), new Action("Hold It Together", Phase.Engineering, Crew.Role.Engineer)};
 
         public static Action findByName(String name)
         {
@@ -319,6 +333,11 @@ namespace Controller
             this.requiredRole = requiredRole;
             this.isMinor = false;
             this.isPush = false;
+        }
+        
+        public bool isMovement()
+        {
+            return name == "Fly" || name == "Maneuver";
         }
     }
 

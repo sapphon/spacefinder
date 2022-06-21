@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Model;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Controller.PhaseControllers
         private Vector3Int _initialPosition;
         private Facing _initialFacing;
         private InitiativeController _initiativeUIController;
+        private string[] _movementActions = new[]{"Maneuver", "Fly"};
 
         void Awake()
         {
@@ -32,7 +34,7 @@ namespace Controller.PhaseControllers
 
         public void OnActionBegin(CrewAction action, Ship ship)
         {
-            if (action.actionType == Action.findByName("Maneuver"))
+            if (isAMovementAction(action.actionType))
             {
                 this._initialPosition = ship.gridPosition;
                 this._initialFacing = ship.facing;
@@ -48,13 +50,18 @@ namespace Controller.PhaseControllers
 
         public void OnActionCancel(CrewAction action, Ship ship)
         {
-            if (action.actionType == Action.findByName("Maneuver"))
+            if (isAMovementAction(action.actionType))
             {
                 _turnsSoFar.Clear();
                 _destinationsSoFar.Clear();
                 ship.gridPosition = _initialPosition;
                 ship.facing = _initialFacing;
             }
+        }
+
+        public bool isAMovementAction(Action actionType)
+        {
+            return _movementActions.Contains(actionType.name);
         }
 
         public bool TryStarboardTurn(Ship ship)

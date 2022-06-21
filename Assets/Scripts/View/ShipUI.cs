@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Controller;
 using Controller.PhaseControllers;
 using Model;
@@ -26,7 +27,6 @@ public class ShipUI : MonoBehaviour
     private GameObject _firingArcUI;
     protected GameObject maneuverUI;
     private GameObject targetingUI;
-    private GameObject aiUi;
 
     void Awake()
     {
@@ -34,14 +34,13 @@ public class ShipUI : MonoBehaviour
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.maneuverUI = this.transform.Find("ManeuverUI").gameObject;
         this.targetingUI = this.transform.Find("TargetingUI").gameObject;
-        this.aiUi = this.transform.Find("ArtificialIntelligenceUI").gameObject;
         this.advanceIndicator = this.maneuverUI.transform.Find("AdvanceIndicator").GetComponent<SpriteRenderer>();
         this.targetedIndicator = this.targetingUI.transform.Find("TargetedIndicator").GetComponent<SpriteRenderer>();
         this.starboardTurnIndicator = this.maneuverUI.transform.Find("StarboardTurnIndicator").GetComponent<SpriteRenderer>();
         this.portTurnIndicator = this.maneuverUI.transform.Find("PortTurnIndicator").GetComponent<SpriteRenderer>();
         this.movesUntilTurnReadout = this.maneuverUI.transform.Find("MovesUntilTurnReadout").GetComponent<TextMesh>();
         this.movesLeftReadout = this.maneuverUI.transform.Find("MovesRemainingReadout").GetComponent<TextMesh>();
-        this.aiControlledIndicator = this.aiUi.transform.Find("AIControlledIndicator").GetComponent<SpriteRenderer>();
+        this.aiControlledIndicator = this.transform.Find("ArtificialIntelligenceUI").gameObject.transform.Find("AIControlledIndicator").GetComponent<SpriteRenderer>();
         this.shipUiManager = FindObjectOfType<ShipUIManager>();
         this.helmPhaseController = FindObjectOfType<HelmPhaseController>();
         this.gunneryPhaseController = FindObjectOfType<GunneryPhaseController>();
@@ -69,7 +68,8 @@ public class ShipUI : MonoBehaviour
 
     private void EnableManeuverUIIfManeuvering()
     {
-        if (phaseManager.HasShipChosenAnyActionThisPhaseNamed(shipToTrack, "Maneuver"))
+        
+        if (phaseManager.getShipActionsThisPhase(this.shipToTrack).Any(action => action.actionType.isMovement()))
         {
             this.maneuverUI.SetActive(true);
             SetAdvanceUIColor();
