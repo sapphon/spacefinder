@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AI;
 using Controller.PhaseControllers;
+using JetBrains.Annotations;
 using Model;
 using Model.Crew;
 using NUnit.Framework.Constraints;
@@ -60,9 +61,21 @@ namespace Controller
             }
         }
 
-        public List<string> GetPossibleActionNamesForPhase()
+        public List<Action> GetPossibleActionsForCurrentPhase()
         {
-            return Action.AllActions.Where(action => action.phase == currentPhase).Select(action => action.name).ToList();
+            return Action.AllActions.Where(action => action.phase == currentPhase).ToList();
+        }
+
+        public List<Action> getPossibleActionsForSelectedCrewpersonThisPhase()
+        {
+            return getPossibleActionsForCrewpersonAndPhase(_crewUI.getSelectedCrewmemberForShip(_shipsUI.GetSelectedShip()),
+                this.GetCurrentPhase());
+        }
+
+        protected List<Action> getPossibleActionsForCrewpersonAndPhase(CrewMember crew, Phase phase)
+        {
+            return GetPossibleActionsForCurrentPhase().Where(action => action.phase == phase)
+                .Where(action => action.requiredRole == crew.role).ToList();
         }
 
         public bool TryAdvancePhase()
@@ -226,7 +239,7 @@ namespace Controller
                     Util.logIfDebugging("Phase manager starting action " + actionName + " for ship " +
                                         shipBeingActedOn.displayName);
                     CrewAction actionToAdd =
-                        new CrewAction(Action.findByName(actionName), new CrewMember(), shipBeingActedOn);
+                        new CrewAction(Action.findByName(actionName), crewpersonActing, shipBeingActedOn);
                     actionsThisPhase.Add(actionToAdd, shipBeingActedOn);
                     getCurrentController().OnActionBegin(actionToAdd, shipBeingActedOn);
                 }
@@ -245,6 +258,11 @@ namespace Controller
         public List<CrewAction> getShipActionsThisPhase(Ship ship)
         {
             return this.actionsThisPhase.Where(tuple => tuple.Value == ship).Select(tuple => tuple.Key).ToList();
+        }
+        
+        public List<CrewAction> getCrewpersonActionsThisPhase(CrewMember person)
+        {
+            return this.actionsThisPhase.Where(tuple => tuple.Key.actor == person).Select(tuple => tuple.Key).ToList();
         }
 
         public void ResetAction(Ship ship)
@@ -290,12 +308,17 @@ namespace Controller
         public string name { get; }
         public Phase phase { get; }
         public Crew.Role requiredRole { get;}
+        public bool isMinor { get; }
+
+        public bool isPush { get; }
 
         public Action(String name, Phase phase, Crew.Role requiredRole)
         {
             this.name = name;
             this.phase = phase;
             this.requiredRole = requiredRole;
+            this.isMinor = false;
+            this.isPush = false;
         }
     }
 

@@ -6,8 +6,10 @@ using Controller;
 using Model;
 using Model.Crew;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using View;
+using Action = Controller.Action;
 
 public class SelectionActionsPanelUI : MonoBehaviour
 {
@@ -37,17 +39,17 @@ public class SelectionActionsPanelUI : MonoBehaviour
 
     private void initializeActionButtons()
     {
-        _actionButtons = new Button[1];
-        List<string> possibleActions = _phaseManager.GetPossibleActionNamesForPhase();
-        for (int n = 0; n < possibleActions.Count; n++)
+        _actionButtons = new Button[12];
+        List<Action> possibleActions = _phaseManager.GetPossibleActionsForCurrentPhase();
+        for (int n = 0; n < _actionButtons.Length; n++)
         {
             _actionButtons[n] = transform.Find("ActionButton" + (n + 1)).GetComponent<Button>();
-            updateActionButton(_actionButtons[n], possibleActions[n]);
         }
     }
 
-    private void updateActionButton(Button button, String actionName)
+    private void updateActionButtonTextAndOnclick(Button button, String actionName)
     {
+        button.gameObject.SetActive(true);
         button.GetComponentInChildren<Text>().text = actionName;
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() =>
@@ -103,15 +105,21 @@ public class SelectionActionsPanelUI : MonoBehaviour
                 _phaseFinishedSignal.SetValueWithoutNotify(0);
             }
 
-            if (!_phaseManager.DoesCurrentPhaseUseInitiative() || _phaseManager.ShipHasInitiative(selectedShip))
+            if (_phaseManager.DoesCurrentPhaseUseInitiative() && !_phaseManager.ShipHasInitiative(selectedShip))
             {
-                updateActionButtons(selectedShip);
-                _notYourTurnText.gameObject.SetActive(false);
+                
+                hideActionButtons();
+                setErrorText("NOT THIS SHIP'S TURN");
+            }
+            else if (getSelectedCrewperson() != null)
+            {
+                updateActionButtons(getSelectedCrewperson());
+                clearErrorText();
             }
             else
             {
                 hideActionButtons();
-                _notYourTurnText.gameObject.SetActive(true);
+                setErrorText("SELECT A CREWPERSON");
             }
 
             GrowPanel();
@@ -122,6 +130,24 @@ public class SelectionActionsPanelUI : MonoBehaviour
         }
     }
 
+    private void setErrorText(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            _notYourTurnText.gameObject.SetActive(false);
+        }
+        else
+        {
+            _notYourTurnText.text = text;
+            _notYourTurnText.gameObject.SetActive(true);
+        }
+    }
+
+    private void clearErrorText()
+    {
+        this.setErrorText(null);
+    }
+
     private void hideActionButtons()
     {
         foreach (var button in _actionButtons)
@@ -130,22 +156,28 @@ public class SelectionActionsPanelUI : MonoBehaviour
         }
     }
 
-    private void updateActionButtons(Ship actor)
+    private void updateActionButtons(CrewMember actor)
     {
-        List<string> possibleActions = _phaseManager.GetPossibleActionNamesForPhase();
+        List<Action> possibleActions = _phaseManager.getPossibleActionsForSelectedCrewpersonThisPhase();
         for (int n = 0; n < possibleActions.Count; n++)
         {
-            updateActionButton(_actionButtons[n], possibleActions[n]);
-            colorButtonByActivity(actor, possibleActions[n], _actionButtons[n]);
+            updateActionButtonTextAndOnclick(_actionButtons[n], possibleActions[n].name);
+            colorButtonByActivity(_actionButtons[n]);
+        }
+
+        for (int m = possibleActions.Count; m < 12; m++)
+        {
+            _actionButtons[m].gameObject.SetActive(false);
         }
     }
 
-    private void colorButtonByActivity(Ship actor, string buttonActionName, Button button, bool buttonEnabled = true)
+    private void colorButtonByActivity(Button button)
     {
-        List<CrewAction> shipAction = _phaseManager.getShipActionsThisPhase(actor);
+        List<CrewAction> crewpersonActionsThisPhase = _phaseManager.getCrewpersonActionsThisPhase(this.getSelectedCrewperson());
+        String buttonText = button.GetComponentInChildren<Text>().text;
         ColorBlock block = ColorBlock.defaultColorBlock;
 
-        if (shipAction != null && shipAction.Count > 0 && shipAction.First().actionType.name.Equals(buttonActionName))
+        if (crewpersonActionsThisPhase.Count > 0 && crewpersonActionsThisPhase.Any(action => action.actionType.name == buttonText))
         {
             block.normalColor = Color.cyan;
             block.highlightedColor = Color.cyan;
