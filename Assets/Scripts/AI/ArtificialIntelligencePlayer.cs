@@ -34,8 +34,11 @@ namespace AI
         {
             if (phase == Phase.Engineering)
             {
-                phaseManager.ToggleShipAction(controlledShip,
-                     getUnoccupied(Crew.Role.Engineer), "Hold It Together");
+                if (isAnyUnoccupied(Crew.Role.Engineer))
+                {
+                    phaseManager.ToggleShipAction(controlledShip,
+                        getUnoccupied(Crew.Role.Engineer), "Hold It Together");
+                }
             }
             else if (phase == Phase.Gunnery)
             {
@@ -43,7 +46,10 @@ namespace AI
             }
             else if (phase == Phase.Helm)
             {
-                moveTowardsOpponentNearestFrontArc();
+                if (isAnyUnoccupied(Crew.Role.Pilot))
+                {
+                    moveTowardsOpponentNearestFrontArc();
+                }
             }
 
             phaseManager.SignalComplete(controlledShip);
@@ -51,7 +57,13 @@ namespace AI
 
         private CrewMember getUnoccupied(Crew.Role role)
         {
-            return controlledShip.crew.getMembers().Where(person => person.role == role).First(person => phaseManager.getCrewpersonActionsThisPhase(person).Count < 1);
+            return controlledShip.crew.getMembers().Where(person => person.role == role)
+                .FirstOrDefault(person => phaseManager.getCrewpersonActionsThisPhase(person).Count < 1);
+        }
+
+        private bool isAnyUnoccupied(Crew.Role role)
+        {
+            return getUnoccupied(role) != null;
         }
 
         private bool isInIdealRangeForArc(Ship target, WeaponFiringArc arc)
@@ -111,15 +123,17 @@ namespace AI
                     helmController.TryAdvance(controlledShip);
                 }
             }
+
             return isInIdealRangeForArc(destination, WeaponFiringArc.Fore);
         }
 
         private void fireAllWeaponsAtRandomOpponents()
         {
-            CrewMember crewpersonActing = getUnoccupied(Crew.Role.Gunner);
-            phaseManager.ToggleShipAction(controlledShip, crewpersonActing, "Shoot");
             foreach (Weapon toShoot in this.controlledShip.weapons)
             {
+                if (!isAnyUnoccupied(Crew.Role.Gunner)) return;
+                CrewMember crewpersonActing = getUnoccupied(Crew.Role.Gunner);
+                phaseManager.ToggleShipAction(controlledShip, crewpersonActing, "Shoot");
                 Ship toTarget = Ship.getAllShips().Where(ship => ship.affiliation != controlledShip.affiliation)
                     .FirstOrDefault(ship => gunneryController.IsInRangeAndArc(this.controlledShip, ship, toShoot));
                 if (toTarget != null)
