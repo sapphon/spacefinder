@@ -16,6 +16,8 @@ namespace AI
         private Ship controlledShip;
         private GunneryPhaseController gunneryController;
         private HelmPhaseController helmController;
+        private WeaponFiringArc faceEnemyWithArc = WeaponFiringArc.Fore;
+        private WeaponFiringArc stayInEnemyArc = WeaponFiringArc.Aft;
 
         void Awake()
         {
@@ -96,13 +98,27 @@ namespace AI
                                 " cannot find a way to put any opponents in its Front arc at shortest range!");
         }
 
+        private List<Tuple<Vector3Int, Facing>> findAllValidEndStates(Ship target)
+        {
+            //the current disposition is an entry
+            List<Tuple<Vector3Int, Facing>> toReturn = new List<Tuple<Vector3Int, Facing>>();
+            toReturn.Add(new Tuple<Vector3Int, Facing>(this.controlledShip.gridPosition, this.controlledShip.facing));
+            
+            return toReturn;
+        }
+        
+        //ze rules: once you can no longer turn nor advance, return
+        //if you can turn, turn and recurse
+        //if you can turn the other direction, turn and recurse
+        //if you can advance, advance and recurse
+
         private bool pathTowards(Ship destination)
         {
             phaseManager.ToggleShipAction(controlledShip, getUnoccupied(Crew.Role.Pilot), "Maneuver");
-            while (helmController.MayAdvance(controlledShip))
+            while (helmController.getMovementState().MayAdvance())
             {
                 while (Mathf.Abs(Util.getAngleBetweenShips(controlledShip, destination)) >= 30 &&
-                       helmController.MayTurn(controlledShip))
+                       helmController.getMovementState().MayTurn())
                 {
                     if (Util.getAngleBetweenShips(controlledShip, destination) < 0)
                     {

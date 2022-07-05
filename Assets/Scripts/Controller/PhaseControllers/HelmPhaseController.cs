@@ -8,18 +8,14 @@ namespace Controller.PhaseControllers
 {
     public class HelmPhaseController : MonoBehaviour, IPhaseController
     {
-        private List<Vector3Int> _turnsSoFar;
-        private List<Vector3Int> _destinationsSoFar;
-        private Vector3Int _initialPosition;
-        private Facing _initialFacing;
         private InitiativeController _initiativeUIController;
         private string[] _movementActions = new[]{"Maneuver", "Fly"};
+        private ShipMovementState _currentMovementState;
 
         void Awake()
         {
             _initiativeUIController = FindObjectOfType<InitiativeController>();
-            _turnsSoFar = new List<Vector3Int>();
-            _destinationsSoFar = new List<Vector3Int>();
+            _currentMovementState = null;
         }
 
 
@@ -36,26 +32,24 @@ namespace Controller.PhaseControllers
         {
             if (isAMovementAction(action.actionType))
             {
-                this._initialPosition = ship.gridPosition;
-                this._initialFacing = ship.facing;
-                _destinationsSoFar.Clear();
-                _turnsSoFar.Clear();
+                this._currentMovementState = new ShipMovementState(ship);
             }
         }
 
         public void OnActionEnd(CrewAction action, Ship ship)
         {
-
+            if (isAMovementAction(action.actionType))
+            {
+                _currentMovementState = null;
+            }
         }
 
         public void OnActionCancel(CrewAction action, Ship ship)
         {
             if (isAMovementAction(action.actionType))
             {
-                _turnsSoFar.Clear();
-                _destinationsSoFar.Clear();
-                ship.gridPosition = _initialPosition;
-                ship.facing = _initialFacing;
+                _currentMovementState.Reset();
+                _currentMovementState = null;
             }
         }
 
@@ -66,9 +60,9 @@ namespace Controller.PhaseControllers
 
         public bool TryStarboardTurn(Ship ship)
         {
-            if (MayTurn(ship))
+            if (_currentMovementState.MayTurn())
             {
-                this._turnsSoFar.Add(ship.gridPosition);
+                this._currentMovementState.Turn(WeaponFiringArc.Starboard);
                 ship.TurnToStarboard();
                 return true;
             }
@@ -78,9 +72,9 @@ namespace Controller.PhaseControllers
 
         public bool TryPortTurn(Ship ship)
         {
-            if (MayTurn(ship))
+            if (_currentMovementState.MayTurn())
             {
-                this._turnsSoFar.Add(ship.gridPosition);
+                this._currentMovementState.Turn(WeaponFiringArc.Port);
                 ship.TurnToPort();
                 return true;
             }
@@ -90,47 +84,19 @@ namespace Controller.PhaseControllers
 
         public bool TryAdvance(Ship ship)
         {
-            if (MayAdvance(ship))
+            if (_currentMovementState.MayAdvance())
             {
+                this._currentMovementState.Advance();
                 ship.Advance();
-                this._destinationsSoFar.Add(ship.gridPosition);
                 return true;
             }
 
             return false;
         }
 
-
-        public bool MayAdvance(Ship ship)
+        public ShipMovementState getMovementState()
         {
-            return MovesRemaining(ship) > 0;
-        }
-
-        public int MovesRemaining(Ship ship)
-        {
-            return Math.Max(0, ship.speed - this._destinationsSoFar.Count);
-        }
-
-        public int MovesUntilNextTurn(Ship ship)
-        {
-            Maneuverability maneuverability = ship.maneuverability;
-            if (maneuverability == Maneuverability.Perfect)
-            {
-                return _turnsSoFar.Count < 2 ||
-                       _turnsSoFar[_turnsSoFar.Count - 2] != ship.gridPosition ||
-                       _turnsSoFar[_turnsSoFar.Count - 1] != ship.gridPosition
-                    ? 0
-                    : 1;
-            }
-            else
-            {
-                return Math.Max(0, (_turnsSoFar.Count + 1) * (int) maneuverability - _destinationsSoFar.Count);
-            }
-        }
-
-        public bool MayTurn(Ship ship)
-        {
-            return MovesUntilNextTurn(ship) == 0;
+            return this._currentMovementState;
         }
     }
 }
