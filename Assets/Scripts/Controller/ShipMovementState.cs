@@ -23,6 +23,15 @@ namespace Controller
             _initialFacing = mover.facing;
         }
 
+        public ShipMovementState(ShipMovementState other)
+        {
+            mover = other.mover;
+            _turnsSoFar = new List<Tuple<Vector3Int, WeaponFiringArc>>(other._turnsSoFar);
+            _destinationsSoFar = new List<Vector3Int>(other._destinationsSoFar);
+            _initialFacing = other._initialFacing;
+            _initialPosition = other._initialPosition;
+        }
+
         public void Reset()
         {
             mover.gridPosition = _initialPosition;

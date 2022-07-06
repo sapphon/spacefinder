@@ -51,6 +51,7 @@ namespace AI
                 if (isAnyUnoccupied(Crew.Role.Pilot))
                 {
                     moveTowardsOpponentNearestFrontArc();
+                    
                 }
             }
 
@@ -106,39 +107,45 @@ namespace AI
             
             return toReturn;
         }
-        
-        //ze rules: once you can no longer turn nor advance, return
-        //if you can turn, turn and recurse
-        //if you can turn the other direction, turn and recurse
-        //if you can advance, advance and recurse
+
+        private List<Tuple<Vector3Int, Facing>> findValidDispositions(ShipMovementState state,
+            List<Tuple<Vector3Int, Facing>> dispositions)
+        {
+            Tuple<Vector3Int,Facing> current = new Tuple<Vector3Int, Facing>(state.GetCurrentPosition(), state.GetCurrentFacing());
+            if (!dispositions.Contains(current))
+            {
+                dispositions.Add(current);
+            }
+            
+            if (state.MayTurn())
+            {
+                ShipMovementState portTurnState = new ShipMovementState(state);
+                portTurnState.Turn(WeaponFiringArc.Port);
+                dispositions.AddRange(findValidDispositions(portTurnState, dispositions));
+                ShipMovementState starboardTurnState = new ShipMovementState(state);
+                starboardTurnState.Turn(WeaponFiringArc.Port);
+                dispositions.AddRange(findValidDispositions(starboardTurnState, dispositions));                
+            }
+            if (state.MayAdvance())
+            {
+                ShipMovementState advanceState = new ShipMovementState(state);
+                advanceState.Advance();
+                dispositions.AddRange(findValidDispositions(advanceState, dispositions));
+            }
+
+            return dispositions;
+        }
 
         private bool pathTowards(Ship destination)
         {
             phaseManager.ToggleShipAction(controlledShip, getUnoccupied(Crew.Role.Pilot), "Maneuver");
-            while (helmController.getMovementState().MayAdvance())
-            {
-                while (Mathf.Abs(Util.getAngleBetweenShips(controlledShip, destination)) >= 30 &&
-                       helmController.getMovementState().MayTurn())
-                {
-                    if (Util.getAngleBetweenShips(controlledShip, destination) < 0)
-                    {
-                        helmController.TryStarboardTurn(controlledShip);
-                    }
-                    else
-                    {
-                        helmController.TryPortTurn(controlledShip);
-                    }
-                }
-
-                if (isInIdealRangeForArc(destination, WeaponFiringArc.Fore))
-                {
-                    return true;
-                }
-                else
-                {
-                    helmController.TryAdvance(controlledShip);
-                }
-            }
+            List<Tuple<Vector3Int,Facing>> dispositions = this.findValidDispositions(new ShipMovementState(this.controlledShip),
+                new List<Tuple<Vector3Int, Facing>>());
+            Tuple<Vector3Int, Facing> bestDisposition = dispositions.FirstOrDefault(disposition =>
+                isInIdealRangeForArc(disposition.Item1, this.faceEnemyWithArc) &&
+                
+                gunneryController.isInArc(disposition.Item1, disposition.Item2, destination.gridPosition,
+                    this.faceEnemyWithArc));
 
             return isInIdealRangeForArc(destination, WeaponFiringArc.Fore);
         }

@@ -135,35 +135,7 @@ namespace Model
             return this.weapons.FindAll(weapon => weapon.arc == arc).OrderBy(weapon => weapon.range).FirstOrDefault();
         }
 
-        public Vector3 getForwardVectorInWorld()
-        {
-            if (facing == Facing.N)
-            {
-                return Vector3.up;
-            }
-            else if (facing == Facing.NW)
-            {
-                return new Vector3(-Mathf.Sqrt(3)/2f, 0.5f);
-            }
-            else if (facing == Facing.SW)
-            {
-                return new Vector3(-Mathf.Sqrt(3)/2f, -0.5f);
-            }
-            else if (facing == Facing.S)
-            {
-                return Vector3.down;
-            }
-            else if (facing == Facing.SE)
-            {
-                return new Vector3(Mathf.Sqrt(3)/2f, -0.5f);
-            }
-            else if (facing == Facing.NE)
-            {
-                return new Vector3(Mathf.Sqrt(3)/2f, 0.5f);
-            }
 
-            return Vector3.up;
-        }
 
         public bool isWeaponsSystemWrecked()
         {

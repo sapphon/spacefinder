@@ -101,8 +101,13 @@ namespace Controller.PhaseControllers
 
         public bool isInArc(FiringSolution solution)
         {
+            return isInArc(solution.attacker.gridPosition, solution.attacker.facing, solution.target.gridPosition, solution.weapon.arc);
+        }
+        
+        public bool isInArc(Vector3Int origin, Facing facing, Vector3Int target, WeaponFiringArc arc)
+        {
             bool toReturn = false;
-            if (solution.weapon.arc == WeaponFiringArc.Turret)
+            if (arc == WeaponFiringArc.Turret)
             {
                 toReturn = true;
                 Util.logIfDebugging("Attack is in arc, because the weapon is turreted.");
@@ -110,34 +115,34 @@ namespace Controller.PhaseControllers
             }
             else
             {
-                var angleBetween = Util.getAngleBetweenShips(solution.attacker, solution.target);
+                var angleBetween = Util.getAngleBetween(origin, facing, target);
 
-                if (solution.weapon.arc == WeaponFiringArc.Fore)
+                if (arc == WeaponFiringArc.Fore)
                 {
                     if (Mathf.Abs(angleBetween) <= 30f || Mathf.Approximately(Mathf.Abs(angleBetween), 30f))
                         toReturn = true;
                 }
-                else if (solution.weapon.arc == WeaponFiringArc.Aft)
+                else if (arc == WeaponFiringArc.Aft)
                 {
                     if (Mathf.Abs(angleBetween) >= 150f || Mathf.Approximately(Mathf.Abs(angleBetween), 150f))
                         toReturn = true;
                 }
-                else if (solution.weapon.arc == WeaponFiringArc.Port)
+                else if (arc == WeaponFiringArc.Port)
                 {
                     if (angleBetween > 30f && angleBetween < 150f) toReturn = true;
                 }
-                else if (solution.weapon.arc == WeaponFiringArc.Starboard)
+                else if (arc == WeaponFiringArc.Starboard)
                 {
                     if (angleBetween < -30f && angleBetween > -150f) toReturn = true;
                 }
 
                 Util.logIfDebugging("Attack " + (toReturn
                                         ? " is "
-                                        : " is not ") + " in the " + solution.weapon.arc +
+                                        : " is not ") + " in the " + arc +
                                     " arc, according with an angle of incidence of " + angleBetween + ".");
 
             }
-                return toReturn;
+            return toReturn;
         }
 
         public bool isInRange(FiringSolution solution)
