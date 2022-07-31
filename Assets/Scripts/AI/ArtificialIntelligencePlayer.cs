@@ -71,11 +71,20 @@ namespace AI
 
         private bool isInIdealRangeForArc(Ship target, WeaponFiringArc arc)
         {
+            return isInIdealRangeForArc(getCurrentDisposition(), target, arc);
+        }
+
+        private Tuple<Vector3Int, Facing> getCurrentDisposition()
+        {
+            return new Tuple<Vector3Int, Facing>(controlledShip.gridPosition, controlledShip.facing);
+        }
+        
+        private bool isInIdealRangeForArc(Tuple<Vector3Int, Facing> disposition, Ship target, WeaponFiringArc arc)
+        {
             Weapon shortestRangeWeaponInArc = controlledShip.getShortestRangeWeaponInArc(arc);
-            return gunneryController.IsInRangeAndArc(controlledShip, target,
-                       shortestRangeWeaponInArc) &&
-                   Util.DistanceBetween(controlledShip.gridPosition, target.gridPosition) <=
-                   (int) shortestRangeWeaponInArc.range;
+            FiringSolution potentialSolution = new FiringSolution(disposition.Item1, disposition.Item2, target,
+                shortestRangeWeaponInArc);
+            return potentialSolution.isInArc() && potentialSolution.isWithinOneRangeBand();
         }
 
         private void moveTowardsOpponentNearestFrontArc()
@@ -142,13 +151,12 @@ namespace AI
             List<Tuple<Vector3Int,Facing>> dispositions = this.findValidDispositions(new ShipMovementState(this.controlledShip),
                 new List<Tuple<Vector3Int, Facing>>());
             Tuple<Vector3Int, Facing> bestDisposition = dispositions.FirstOrDefault(disposition =>
-                isInIdealRangeForArc(disposition.Item1, this.faceEnemyWithArc) &&
-                
-                gunneryController.isInArc(disposition.Item1, disposition.Item2, destination.gridPosition,
-                    this.faceEnemyWithArc));
+                isInIdealRangeForArc(disposition, destination, this.faceEnemyWithArc));
 
-            return isInIdealRangeForArc(destination, WeaponFiringArc.Fore);
+            return bestDisposition != null;
         }
+
+
 
         private void fireAllWeaponsAtRandomOpponents()
         {
@@ -158,7 +166,11 @@ namespace AI
                 CrewMember crewpersonActing = getUnoccupied(Crew.Role.Gunner);
                 phaseManager.ToggleShipAction(controlledShip, crewpersonActing, "Shoot");
                 Ship toTarget = Ship.getAllShips().Where(ship => ship.affiliation != controlledShip.affiliation)
-                    .FirstOrDefault(ship => gunneryController.IsInRangeAndArc(this.controlledShip, ship, toShoot));
+                    .FirstOrDefault(ship =>
+                    {
+                        FiringSolution solution = new FiringSolution(this.controlledShip, ship, toShoot);
+                        return solution.isInArc() && solution.isInRange();
+                    });
                 if (toTarget != null)
                 {
                     Util.logIfDebugging("AI player controlling ship " + this.controlledShip.displayName +

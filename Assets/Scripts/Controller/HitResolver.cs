@@ -9,10 +9,10 @@ namespace Controller
 {
     public class HitResolver
     {
-        private readonly FiringSolution _solution;
+        private readonly FiringSolutionStruct _solution;
         private readonly DiceRoller _random;
 
-        public HitResolver(FiringSolution solution, DiceRoller random)
+        public HitResolver(FiringSolutionStruct solution, DiceRoller random)
         {
             _solution = solution;
             _random = random;

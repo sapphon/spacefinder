@@ -29,7 +29,7 @@ public class Util
 
     public static float getAngleBetweenShips(Ship observer, Ship observed)
     {
-        getAngleBetween(observer.gridPosition, observer.facing, observed.gridPosition);
+        return getAngleBetween(observer.gridPosition, observer.facing, observed.gridPosition);
     }
 
     public static float getAngleBetween(Vector3Int origin, Facing facing, Vector3Int destination)

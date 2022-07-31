@@ -11,13 +11,13 @@ namespace Controller.PhaseControllers
     {
         private ShipUIManager _shipUiManager;
         private InitiativeController _initiativeUIController;
-        private HashSet<FiringSolution> firingSolutions;
+        private HashSet<FiringSolutionStruct> firingSolutions;
 
         void Awake()
         {
             _initiativeUIController = FindObjectOfType<InitiativeController>();
             _shipUiManager = FindObjectOfType<ShipUIManager>();
-            this.firingSolutions = new HashSet<FiringSolution>();
+            this.firingSolutions = new HashSet<FiringSolutionStruct>();
         }
 
 
@@ -44,7 +44,7 @@ namespace Controller.PhaseControllers
         public void FireOnAllSolutions()
         {
             DiceRoller rnJesus = new DiceRoller();
-            foreach (FiringSolution solution in this.firingSolutions)
+            foreach (FiringSolutionStruct solution in this.firingSolutions)
             {
                 int toHitRoll = rnJesus.rollAndTotal(1, Die.D20);
                 int gunneryBonus = (solution.gunner != null ? solution.gunner.gunneryBonus : 0);
@@ -71,21 +71,11 @@ namespace Controller.PhaseControllers
             }
         }
 
-        public bool IsInRangeAndArc(Ship attacker, Ship target, Weapon weapon)
-        {
-            FiringSolution potentialSolution = new FiringSolution(attacker, target, weapon);
-            if (isInRange(potentialSolution) && isInArc(potentialSolution))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         public bool TryTarget(Ship attacker, Ship target, Weapon weapon, CrewMember gunner)
         {
             Util.logIfDebugging("Attempting targeting of " + target.name + " by " + attacker.name + " with " + weapon.name);
-            if (IsInRangeAndArc(attacker, target, weapon))
+            FiringSolution potentialSolution = new FiringSolution(attacker.gridPosition, attacker.facing, target, weapon, gunner);
+            if (potentialSolution.isInArc() && potentialSolution.isInRange())
             {
                 ClearPreviousTargetForWeapon(attacker, weapon);
                 ClearPreviousSolutionsFor(gunner);
@@ -98,64 +88,9 @@ namespace Controller.PhaseControllers
             return false;
         }
 
-
-        public bool isInArc(FiringSolution solution)
-        {
-            return isInArc(solution.attacker.gridPosition, solution.attacker.facing, solution.target.gridPosition, solution.weapon.arc);
-        }
-        
-        public bool isInArc(Vector3Int origin, Facing facing, Vector3Int target, WeaponFiringArc arc)
-        {
-            bool toReturn = false;
-            if (arc == WeaponFiringArc.Turret)
-            {
-                toReturn = true;
-                Util.logIfDebugging("Attack is in arc, because the weapon is turreted.");
-
-            }
-            else
-            {
-                var angleBetween = Util.getAngleBetween(origin, facing, target);
-
-                if (arc == WeaponFiringArc.Fore)
-                {
-                    if (Mathf.Abs(angleBetween) <= 30f || Mathf.Approximately(Mathf.Abs(angleBetween), 30f))
-                        toReturn = true;
-                }
-                else if (arc == WeaponFiringArc.Aft)
-                {
-                    if (Mathf.Abs(angleBetween) >= 150f || Mathf.Approximately(Mathf.Abs(angleBetween), 150f))
-                        toReturn = true;
-                }
-                else if (arc == WeaponFiringArc.Port)
-                {
-                    if (angleBetween > 30f && angleBetween < 150f) toReturn = true;
-                }
-                else if (arc == WeaponFiringArc.Starboard)
-                {
-                    if (angleBetween < -30f && angleBetween > -150f) toReturn = true;
-                }
-
-                Util.logIfDebugging("Attack " + (toReturn
-                                        ? " is "
-                                        : " is not ") + " in the " + arc +
-                                    " arc, according with an angle of incidence of " + angleBetween + ".");
-
-            }
-            return toReturn;
-        }
-
-        public bool isInRange(FiringSolution solution)
-        {
-            var distanceBetween = Util.DistanceBetween(solution.attacker.gridPosition, solution.target.gridPosition);
-            var maxRange = (int) solution.weapon.range * 10;
-            Util.logIfDebugging("Range calculation: maximum " + maxRange + ", actual " + distanceBetween);
-            return distanceBetween <= maxRange;
-        }
-
         private void DoTarget(Ship attacker, Ship target, Weapon weapon, CrewMember gunner)
         {
-            this.firingSolutions.Add(new FiringSolution(attacker, target, weapon, gunner));
+            this.firingSolutions.Add(new FiringSolutionStruct(attacker, target, weapon, gunner));
             this._shipUiManager.UpdateAttackMarkers(this.firingSolutions);
         }
 
@@ -176,14 +111,14 @@ namespace Controller.PhaseControllers
     }
     
 
-    public struct FiringSolution
+    public struct FiringSolutionStruct
     {
         public Ship attacker;
         public Ship target;
         public Weapon weapon;
         public CrewMember gunner;
 
-        public FiringSolution(Ship attacker, Ship target, Weapon weapon, CrewMember gunner)
+        public FiringSolutionStruct(Ship attacker, Ship target, Weapon weapon, CrewMember gunner)
         {
             this.attacker = attacker;
             this.target = target;
@@ -191,7 +126,7 @@ namespace Controller.PhaseControllers
             this.gunner = gunner;
         }
 
-        public FiringSolution(Ship attacker, Ship target, Weapon weapon)
+        public FiringSolutionStruct(Ship attacker, Ship target, Weapon weapon)
         {
             this.attacker = attacker;
             this.target = target;

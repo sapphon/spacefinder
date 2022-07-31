@@ -161,11 +161,11 @@ public class ShipUIManager : AShipSelectionObservable
         this.showingRange = toSet;
     }
 
-    public void UpdateAttackMarkers(HashSet<FiringSolution> solutions)
+    public void UpdateAttackMarkers(HashSet<FiringSolutionStruct> solutions)
 
     {
         ClearAttackMarkers();
-        foreach(FiringSolution solution in solutions)
+        foreach(FiringSolutionStruct solution in solutions)
         {
             GameObject attackMarkerObject = Instantiate(attackMarkerPrefab, this._attackMarkerParent.transform);
             LineRenderer attackMarker = attackMarkerObject.GetComponent<LineRenderer>();
