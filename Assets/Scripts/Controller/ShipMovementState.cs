@@ -36,6 +36,8 @@ namespace Controller
         {
             mover.gridPosition = _initialPosition;
             mover.facing = _initialFacing;
+            _destinationsSoFar.Clear();
+            _turnsSoFar.Clear();
         }
         
         public bool MayAdvance()
@@ -86,10 +88,11 @@ namespace Controller
 
         public Facing GetCurrentFacing()
         {
-            return this._initialFacing +
-                   (60 * this._turnsSoFar.Count(turn => turn.Item2.Equals(WeaponFiringArc.Port)) +
-                    300 * (this._turnsSoFar.Count(turn => turn.Item2.Equals(WeaponFiringArc.Starboard)))
-                   ) % 360;
+            int facingNumeric = ((int) this._initialFacing +
+                   (60 * this._turnsSoFar.Count(turn => turn.Item2.Equals(WeaponFiringArc.Port))) +
+                    (300 * this._turnsSoFar.Count(turn => turn.Item2.Equals(WeaponFiringArc.Starboard))));
+            int facingClamped = facingNumeric % 360;
+            return (Facing) facingClamped;
         }
 
         public Vector3Int GetCurrentPosition()
@@ -103,7 +106,7 @@ namespace Controller
 
         public void Advance()
         {
-            Facing currentFacing = GetCurrentFacing();
+            Facing currentFacing = GetCurrentFacing();    //here be the problem, no guarantee it's any of the directions
             Vector3Int gridPosition = GetCurrentPosition();
             if (currentFacing == Facing.N)
             {
