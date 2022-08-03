@@ -51,7 +51,6 @@ namespace AI
                 if (isAnyUnoccupied(Crew.Role.Pilot))
                 {
                     moveTowardsOpponentNearestFrontArc();
-                    
                 }
             }
 
@@ -78,7 +77,7 @@ namespace AI
         {
             return new Tuple<Vector3Int, Facing>(controlledShip.gridPosition, controlledShip.facing);
         }
-        
+
         private bool isInIdealRangeForArc(Tuple<Vector3Int, Facing> disposition, Ship target, WeaponFiringArc arc)
         {
             Weapon shortestRangeWeaponInArc = controlledShip.getShortestRangeWeaponInArc(arc);
@@ -100,62 +99,74 @@ namespace AI
 
             foreach (var candidate in followCandidates)
             {
-                if (pathTowards(candidate)) return;
-                else phaseManager.ResetAction(controlledShip);
+                if (pathTowards(candidate))
+                {
+                    phaseManager.SignalComplete(controlledShip);
+                    return;
+                }
+
+                else
+                {
+                    phaseManager.ResetAction(controlledShip);
+                    Util.logIfDebugging("AI controlling ship " + controlledShip.displayName +
+                                        "could not move optimally; you can still move it manually");
+                }
             }
-
-            Util.logIfDebugging("AI Player for ship " + controlledShip.displayName +
-                                " cannot find a way to put any opponents in its Front arc at shortest range!");
         }
 
-        private List<Tuple<Vector3Int, Facing>> findAllValidEndStates(Ship target)
+        private HashSet<Tuple<Vector3Int, Facing>> findValidDispositions(ShipMovementState state,
+            HashSet<Tuple<Vector3Int, Facing>> dispositions)
         {
-            //the current disposition is an entry
-            List<Tuple<Vector3Int, Facing>> toReturn = new List<Tuple<Vector3Int, Facing>>();
-            toReturn.Add(new Tuple<Vector3Int, Facing>(this.controlledShip.gridPosition, this.controlledShip.facing));
-            
-            return toReturn;
-        }
-
-        private List<Tuple<Vector3Int, Facing>> findValidDispositions(ShipMovementState state,
-            List<Tuple<Vector3Int, Facing>> dispositions)
-        {
-            Tuple<Vector3Int,Facing> current = new Tuple<Vector3Int, Facing>(state.GetCurrentPosition(), state.GetCurrentFacing());
+            Tuple<Vector3Int, Facing> current =
+                new Tuple<Vector3Int, Facing>(state.GetCurrentPosition(), state.GetCurrentFacing());
             if (!dispositions.Contains(current))
             {
                 dispositions.Add(current);
+                Util.logIfDebugging("Dispo count: " + dispositions.Count);
             }
-            
+
             if (state.MayTurn())
             {
                 ShipMovementState portTurnState = new ShipMovementState(state);
                 portTurnState.Turn(WeaponFiringArc.Port);
-                dispositions.AddRange(findValidDispositions(portTurnState, dispositions));
+                dispositions.UnionWith(findValidDispositions(portTurnState, dispositions));
                 ShipMovementState starboardTurnState = new ShipMovementState(state);
-                starboardTurnState.Turn(WeaponFiringArc.Port);
-                dispositions.AddRange(findValidDispositions(starboardTurnState, dispositions));                
+                starboardTurnState.Turn(WeaponFiringArc.Starboard);
+                dispositions.UnionWith(findValidDispositions(starboardTurnState, dispositions));
+                Util.logIfDebugging("Dispo count: " + dispositions.Count);
             }
+
             if (state.MayAdvance())
             {
                 ShipMovementState advanceState = new ShipMovementState(state);
                 advanceState.Advance();
-                dispositions.AddRange(findValidDispositions(advanceState, dispositions));
+                dispositions.UnionWith(findValidDispositions(advanceState, dispositions));
+                Util.logIfDebugging("Dispo count: " + dispositions.Count);
             }
 
+            Util.logIfDebugging("Dispo count: " + dispositions.Count);
             return dispositions;
         }
 
         private bool pathTowards(Ship destination)
         {
             phaseManager.ToggleShipAction(controlledShip, getUnoccupied(Crew.Role.Pilot), "Maneuver");
-            List<Tuple<Vector3Int,Facing>> dispositions = this.findValidDispositions(new ShipMovementState(this.controlledShip),
-                new List<Tuple<Vector3Int, Facing>>());
+            HashSet<Tuple<Vector3Int, Facing>> dispositions = this.findValidDispositions(
+                new ShipMovementState(this.controlledShip),
+                new HashSet<Tuple<Vector3Int, Facing>>());
             Tuple<Vector3Int, Facing> bestDisposition = dispositions.FirstOrDefault(disposition =>
                 isInIdealRangeForArc(disposition, destination, this.faceEnemyWithArc));
 
-            return bestDisposition != null;
+            if (bestDisposition == null) return false;
+            positionControlledShip(bestDisposition);
+            return true;
         }
 
+        private void positionControlledShip(Tuple<Vector3Int, Facing> bestDisposition)
+        {
+            controlledShip.gridPosition = bestDisposition.Item1;
+            controlledShip.facing = bestDisposition.Item2;
+        }
 
 
         private void fireAllWeaponsAtRandomOpponents()
