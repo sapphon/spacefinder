@@ -188,6 +188,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Cycle Background",
+                    "type": "Button",
+                    "id": "cf1326b2-499b-4bec-b1c0-9e82d603d90f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -441,6 +449,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Secondary Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "688b557a-ad2f-4608-b408-15e19658e819",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Background",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -113825,6 +113825,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1262349616}
   - component: {fileID: 1262349615}
+  - component: {fileID: 1262349617}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -113877,7 +113878,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 648, y: 700}
+  m_Size: {x: 81, y: 87.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -113897,6 +113898,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1262349617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262349614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d5085c9bb9a174ead0846f3a62158a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgrounds:
+  - {fileID: 21300000, guid: 8aed6fe7621ac78469015a2d58acb257, type: 3}
+  - {fileID: 21300000, guid: dc60478cc3617a04cadb22a552de3044, type: 3}
 --- !u!1 &1270021016
 GameObject:
   m_ObjectHideFlags: 0
@@ -114992,6 +115008,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5dafbf86-eb4b-4755-a3ab-9b24b2f83660
     m_ActionName: Default/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cf1326b2-499b-4bec-b1c0-9e82d603d90f
+    m_ActionName: Default/Cycle Background[/Keyboard/b]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Default

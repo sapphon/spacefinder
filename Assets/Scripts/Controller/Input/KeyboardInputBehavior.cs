@@ -2,6 +2,7 @@
 using System.Linq;
 using Controller.PhaseControllers;
 using Model;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Controller.Input
@@ -27,6 +28,7 @@ namespace Controller.Input
             getResetActionAction().performed += resetAction;
             getToggleBandsAction().performed += toggleRangeBands;
             getEndShipPhaseAction().performed += endShipPhase;
+            getCycleBackgroundAction().performed += tryCycleBackground;
             for (int i = 1; i <= 12; i++)
             {
                 getSelectWeaponAction(i).performed += trySelectWeapon;
@@ -40,6 +42,11 @@ namespace Controller.Input
                 int weaponOrdinal = getWeaponNumberFromActionName(obj.action);
                 _shipsUI.TrySelectWeapon(weaponOrdinal);
             }
+        }
+        
+        private void tryCycleBackground(InputAction.CallbackContext obj)
+        {
+            FindObjectOfType<Backgrounds>().next();
         }
 
         private static int getWeaponNumberFromActionName(InputAction action)
@@ -103,6 +110,11 @@ namespace Controller.Input
         {
             return _input.actions["Advance"];
         }
+        
+        private InputAction getCycleBackgroundAction()
+        {
+            return _input.actions["Cycle Background"];
+        }
 
         private InputAction getPortTurnAction()
         {
@@ -147,6 +159,7 @@ namespace Controller.Input
             getToggleArcsAction().performed -= toggleArcs;
             getResetActionAction().performed -= resetAction;
             getEndShipPhaseAction().performed -= endShipPhase;
+            getCycleBackgroundAction().performed -= tryCycleBackground;
             for (int i = 1; i <= 12; i++)
             {
                 getSelectWeaponAction(i).performed -= trySelectWeapon;
